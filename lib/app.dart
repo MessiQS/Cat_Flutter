@@ -1,24 +1,9 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 
-class Account {
-  Account({
-    this.email,
-    this.password,
-  });
-  // 邮箱
-  final String email;
-  // 密码
-  final String password;
-}
+class CatApp extends StatelessWidget {
 
-///
-/// 登录页面
-///
-class SignIn extends StatelessWidget {
-  // 账号
-  // final Account account = Account();
-
-  @override
+ @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title:"title",
@@ -34,3 +19,4 @@ class SignIn extends StatelessWidget {
     );
   }
 }
+

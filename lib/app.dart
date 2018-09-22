@@ -1,21 +1,28 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 
+// pages
+import 'package:cat/pages/sign_in.dart';
+import 'package:cat/pages/welcome.dart';
+
+///
+/// 判断登录前还是登录后
+/// 
 class CatApp extends StatelessWidget {
 
  @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title:"title",
-      home:Scaffold(
-        appBar: new AppBar(
-          // Here we take the value from the MyHomePage object that was created by
-          // the App.build method, and use it to set our appbar title.
-          title: new Text("title"),
-          elevation: 4.0,
-        ),
-        body: new ListBody(),
-      )
+      title:"SIGNUP",
+      home:Welcome(),
+      // 设置路由
+      routes: <String, WidgetBuilder> {
+        SIGN_IN_ROUTE: (BuildContext context) => SignIn(),
+        WELCOME_ROUTE: (BuildContext context) => Welcome(),
+      },
+      supportedLocales: [
+        const Locale('en'),
+        const Locale('cn'),
+      ],
     );
   }
 }

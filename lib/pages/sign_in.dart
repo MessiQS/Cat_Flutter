@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+const String SIGN_IN_ROUTE = "cat://sign_in";
+
 class Account {
   Account({
     this.email,
@@ -10,8 +12,6 @@ class Account {
   // 密码
   String password;
 }
-
-const String SIGN_IN_ROUTE = "cat://sign_in";
 
 ///
 /// 登录页面

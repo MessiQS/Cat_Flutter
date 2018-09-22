@@ -33,23 +33,17 @@ class Welcome extends StatelessWidget {
         /// SIGNIN 按钮
         new Container(
           margin: const EdgeInsets.fromLTRB(.0, 63.0, .0, .0),
-            child: new FlatButton(
-          child: new Image.asset(
-            'images/welcome_sign_in_button.png',
-            width: 231.0,
-            fit: BoxFit.cover,
-          ),
-          onPressed: () {
-            // Perform some action
-          },
-        )),
-
-        // new Container(
-        //   margin: const EdgeInsets.fromLTRB(10.0, 63.0, 20.0, 20.0),
-        //   child: 
-        // )
-        new CatBaseButton(onPressed: () => {}, text:"SIGNUP", height: 40.0, width: 230.0),
+          // margin: const EdgeInsets.only(bottom:20.0),
+          height: 40.0,
+          width: 230.0,
+          child: new CatBaseButton(
+              onPressed: this.routeToSignIn(context), text: "SIGNUP"),
+        ),
       ],
     )));
+  }
+
+  routeToSignIn(BuildContext context) {
+    Navigator.of(context).pushNamed('cat://sign_in');
   }
 }

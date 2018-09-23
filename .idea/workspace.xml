@@ -7,7 +7,7 @@
       <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" />
       <change beforePath="" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change beforePath="$PROJECT_DIR$/lib/cats/cat_base_button.dart" afterPath="$PROJECT_DIR$/lib/cats/cat_base_button.dart" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/sign_in.dart" afterPath="$PROJECT_DIR$/lib/pages/sign_in.dart" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/sign_up.dart" afterPath="$PROJECT_DIR$/lib/pages/sign_up.dart" />
       <change beforePath="$PROJECT_DIR$/lib/pages/welcome.dart" afterPath="$PROJECT_DIR$/lib/pages/welcome.dart" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />

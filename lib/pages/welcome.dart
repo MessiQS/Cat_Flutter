@@ -37,13 +37,10 @@ class Welcome extends StatelessWidget {
           height: 40.0,
           width: 230.0,
           child: new CatBaseButton(
-              onPressed: this.routeToSignIn(context), text: "SIGNUP"),
+              onPressed: () => Navigator.of(context).pushNamed('cat://sign_up'),
+              text: "SIGNUP"),
         ),
       ],
     )));
-  }
-
-  routeToSignIn(BuildContext context) {
-    Navigator.of(context).pushNamed('cat://sign_in');
   }
 }

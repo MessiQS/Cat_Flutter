@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 // pages
-import 'package:cat/pages/sign_in.dart';
+import 'package:cat/pages/sign_up.dart';
 import 'package:cat/pages/welcome.dart';
 
 ///
@@ -16,12 +16,12 @@ class CatApp extends StatelessWidget {
       home:Welcome(),
       // 设置路由
       routes: <String, WidgetBuilder> {
-        SIGN_IN_ROUTE: (BuildContext context) => SignIn(),
         WELCOME_ROUTE: (BuildContext context) => Welcome(),
+        SIGN_UP_ROUTE: (BuildContext context) => SignIn(),
       },
       supportedLocales: [
         const Locale('en'),
-        const Locale('cn'),
+        const Locale('zh'),
       ],
     );
   }

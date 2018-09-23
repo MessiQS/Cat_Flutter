@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
-const String SIGN_IN_ROUTE = "cat://sign_in";
+const String SIGN_UP_ROUTE = "cat://sign_up";
 
-class Account {
-  Account({
-    this.email,
-    this.password,
-  });
-  // 邮箱
-  String email;
-  // 密码
-  String password;
-}
+// class Account {
+//   Account({
+//     this.email,
+//     this.password,
+//   });
+//   // 邮箱
+//   String email;
+//   // 密码
+//   String password;
+// }
 
 ///
 /// 登录页面
@@ -20,9 +20,10 @@ class SignIn extends StatelessWidget {
   // 账号
   // final Account account = Account();
 
-  final Account account = (Account()
-    ..email = ''
-    ..password = '');
+  // final Account account = (Account()
+  //   ..email = ''
+  //   ..password = '');
+
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +31,7 @@ class SignIn extends StatelessWidget {
       appBar: new AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: new Text("SignIn"),
+        title: new Text("SIGNUP"),
         elevation: 4.0,
       ),
       body: new ListBody(),

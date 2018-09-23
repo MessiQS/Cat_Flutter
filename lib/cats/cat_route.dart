@@ -1,2 +1,2 @@
 const String WELCOME_ROUTE = "cat://welcome";
-const String SIGN_IN_ROUTE = "cat://sign_in";
+const String SIGN_UP_ROUTE = "cat://sign_up";

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 // pages
 import 'package:cat/pages/sign_up.dart';
 import 'package:cat/pages/welcome.dart';
+import 'package:cat/cats/cat_route.dart';
 
 ///
 /// 判断登录前还是登录后

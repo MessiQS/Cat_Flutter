@@ -18,4 +18,7 @@ class CatColors {
 
   /// TextField TextFromField 占位符的颜色
   static const Color textFieldPalceHolderColor = Color(0xFFB9B9B9);
+
+  /// TextField TextFromField 光标颜色
+  static const Color textFieldCursorColor = Color(0x88FF7B46);
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cat/cats/cats.dart';
-import 'package:cat/cats/cat_route.dart';
-// const String WELCOME_ROUTE = "cat://welcome";
+import 'package:cat/router/cat_route.dart';
 
 ///
 /// 欢迎页

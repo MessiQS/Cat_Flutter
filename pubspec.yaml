@@ -42,6 +42,7 @@ flutter:
    - images/welcome_text.png
    - images/welcome_sign_up_button.png
    - images/sign_up_background.png
+   - images/login_background.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

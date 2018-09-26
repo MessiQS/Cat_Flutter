@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:cat/cats/cats.dart';
-import 'dart:math' as math;
+import 'package:cat/widgets/AccountMenu.dart';
+import 'package:cat/router/cat_route.dart';
 
 ///
 /// 登录页面
@@ -10,8 +11,18 @@ class SignIn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double bgHeight = MediaQuery.of(context).size.height * (11.0 / 26.8);
-    final double menuMarginTop = bgHeight - 81.0;
+    AppBar appBar = AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: .0,
+        title: Text("SIGNUP"));
+
     final double menuWidth = MediaQuery.of(context).size.width - 48.0;
+    final double menuHeight = 162.0;
+
+    /// 菜单栏位置 = 顶部视图背景高度 - AppBar高度 - 菜单栏高度的二分之一 - status高度
+    final double menuMarginTop =
+        bgHeight - appBar.preferredSize.height - (menuHeight / 2.0) - 20;
+
     EdgeInsets edge = EdgeInsets.fromLTRB(24.0, menuMarginTop, 24.0, .0);
 
     return Scaffold(
@@ -28,11 +39,12 @@ class SignIn extends StatelessWidget {
           ),
           Column(
             children: <Widget>[
+              appBar,
               // 输入框菜单栏
               Container(
                   margin: edge,
                   width: menuWidth,
-                  height: 162.0,
+                  height: menuHeight,
                   child: AccountMenuStatefulWidget()),
               // "SIGNUP" 按钮
               Container(
@@ -49,7 +61,10 @@ class SignIn extends StatelessWidget {
                     new TextSpan(
                         text: ' Login',
                         style: TextStyle(color: CatColors.globalTintColor),
-                        recognizer: new TapGestureRecognizer()..onTap = () {}),
+                        recognizer: new TapGestureRecognizer()
+                          ..onTap = () {
+                            Navigator.of(context).pushNamed(LOGIN_ROUTE);
+                          }),
                   ],
                 ),
               ))
@@ -58,82 +73,5 @@ class SignIn extends StatelessWidget {
         ],
       ),
     );
-  }
-}
-
-class AccountMenuStatefulWidget extends StatefulWidget {
-  AccountMenuStatefulWidget({Key key, this.email, this.password})
-      : super(key: key);
-  // 邮箱
-  String email;
-  // 密码
-  String password;
-
-  @override
-  _AccountMenuStatefulWidget createState() => _AccountMenuStatefulWidget();
-}
-
-class _AccountMenuStatefulWidget extends State<AccountMenuStatefulWidget> {
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-        elevation: 8.0,
-        color: Colors.white,
-        borderRadius: new BorderRadius.all(new Radius.circular(5.0)),
-        child: Container(
-            padding: EdgeInsets.fromLTRB(32.0, 12.0, 32.0, .0),
-            child: Column(
-              children: <Widget>[
-                /// E-mail
-                TextFormField(
-                  decoration: const InputDecoration(
-                    hintText: 'Your email address',
-                    hintStyle: const TextStyle(
-                        color: CatColors.textFieldPalceHolderColor,
-                        fontSize: 14.0),
-                    labelText: 'E-mail',
-                    labelStyle:
-                        const TextStyle(color: CatColors.textFieldLabelColor),
-                    focusedBorder: const UnderlineInputBorder(
-                      borderSide: const BorderSide(
-                        color: CatColors.globalTintColor,
-                      ),
-                    ),
-                    enabledBorder: const UnderlineInputBorder(
-                      borderSide: const BorderSide(
-                        color: CatColors.textFieldUnderLineEnableColor,
-                      ),
-                    ),
-                  ),
-                  keyboardType: TextInputType.emailAddress,
-                ),
-
-                /// Password
-                TextFormField(
-                  decoration: const InputDecoration(
-                    hintText: 'Your Password',
-                    hintStyle: const TextStyle(
-                        color: CatColors.textFieldPalceHolderColor,
-                        fontSize: 14.0),
-                    labelText: 'Password',
-                    labelStyle:
-                        const TextStyle(color: CatColors.textFieldLabelColor),
-                    focusedBorder: const UnderlineInputBorder(
-                      borderSide: const BorderSide(
-                        color: CatColors.globalTintColor,
-                      ),
-                    ),
-                    enabledBorder: const UnderlineInputBorder(
-                      borderSide: const BorderSide(
-                        color: CatColors.textFieldUnderLineEnableColor,
-                      ),
-                    ),
-                  ),
-                  keyboardType: TextInputType.text,
-                  obscureText: true,
-                  maxLength: 16,
-                ),
-              ],
-            )));
   }
 }

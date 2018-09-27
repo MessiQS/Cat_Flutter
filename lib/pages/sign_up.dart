@@ -50,7 +50,7 @@ class SignIn extends StatelessWidget {
               Container(
                   margin: EdgeInsets.all(24.0),
                   height: 50.0,
-                  child: CatBaseButton(onPressed: () => {}, text: "SIGNUP")),
+                  child: CatBaseButton("SIGNUP", onPressed: () => {})),
               // "Allready have an account? Login"
               Container(
                   child: new RichText(

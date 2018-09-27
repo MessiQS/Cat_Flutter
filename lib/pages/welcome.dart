@@ -36,8 +36,9 @@ class Welcome extends StatelessWidget {
           height: 40.0,
           width: 230.0,
           child: CatBaseButton(
-              onPressed: () => Navigator.of(context).pushNamed(SIGN_UP_ROUTE),
-              text: "SIGNUP"),
+            "SIGNUP",
+            onPressed: () => Navigator.of(context).pushNamed(SIGN_UP_ROUTE),
+          ),
         ),
       ],
     )));

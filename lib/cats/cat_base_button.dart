@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 
 class CatBaseButton extends StatelessWidget {
   final GestureTapCallback onPressed;
-  final String text;
-  final double fontSize;
+  final TextStyle textStyle;
+  final String data;
 
-  CatBaseButton({@required this.onPressed, this.text, this.fontSize})
-      : assert(onPressed != null);
+  CatBaseButton(
+    this.data, {
+    @required this.onPressed,
+    this.textStyle = const TextStyle(
+        color: Colors.white, fontWeight: FontWeight.normal, fontSize: 14.0),
+  }) : assert(onPressed != null);
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +19,7 @@ class CatBaseButton extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         onTap: onPressed,
-        splashColor: Colors.amber,
+        splashColor: Colors.accents.first,
         child: Ink(
           decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -34,15 +38,11 @@ class CatBaseButton extends StatelessWidget {
             ],
           ),
           child: Center(
-            child: Text(
-              text,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.normal,
-                  fontSize: fontSize == null ? 14.0 : fontSize),
-            ),
-          ),
+              child: Text(
+            data,
+            textAlign: TextAlign.center,
+            style: textStyle,
+          )),
         ),
       ),
     );

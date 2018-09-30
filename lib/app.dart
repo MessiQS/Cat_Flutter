@@ -14,8 +14,12 @@ import 'package:cat/pages/select_subject.dart';
 /// 判断登录前还是登录后
 ///
 class CatApp extends StatelessWidget {
+
+  BuildContext context;
+
   @override
   Widget build(BuildContext context) {
+    this.context = context;
     return MaterialApp(
       theme: ThemeData(textSelectionColor: CatColors.globalTintColor),
       title: "SIGNUP",

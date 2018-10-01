@@ -53,11 +53,10 @@ class _SelectSubjectState extends State<SelectSubject> {
         count,
         (int index) => ListItem(
               title: models[index].title,
-              onPressed: (){},
+              onPressed: () {},
             ));
   }
 }
-
 
 ///
 /// 网络请求

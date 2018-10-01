@@ -7,7 +7,7 @@ enum Method { Post, Get, Put, Delete }
 /// 网络请求
 ///
 class HttpManager {
-  static const token = "5c5c784bfd065f766165c32615a390d8";
+  static const token = "a8b0610e1db18f9deaee9c49910dcb9e";
   static const user_id = "SS00000656";
 
   static request(Method method, url, {params}) {
@@ -51,7 +51,6 @@ class HttpManager {
   static componentsSeparatedByParam(Map<String, dynamic> map) {
     List<String> list = new List<String>();
     void iterateMapEntry(key, value) {
-      print('$key=$value');
       // value 是 String 类型
       if (value != null && value is String) {
         String tranferValues = "$key=$value";

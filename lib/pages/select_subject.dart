@@ -16,32 +16,43 @@ class _SelectSubjectState extends State<SelectSubject> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
         appBar: AppBar(
           title: Text("Select Subject"),
           backgroundColor: CatColors.globalTintColor,
         ),
-        body: new ListView(children: <Widget>[
-          const ListTile(title: Text('Top')),
-          new ExpansionTile(
-              title: const Text('梅西语录'),
-              backgroundColor: Theme.of(context).accentColor.withOpacity(0.025),
-              children: const <Widget>[
-                ListTile(title: Text('生命的意义')),
-                ListTile(title: Text('历史赋予我们的责任')),
-                // https://en.wikipedia.org/wiki/Free_Four
-                ListTile(title: Text('活在当下')),
-                ListTile(title: Text('创业维艰')),
-              ]),
-          const ListTile(title: Text('精致生活')),
-          Center(
-              child: FutureBuilder<SelectSubjectGet>(
-                  future: fetchData(),
-                  builder: (context, snapshot) {
-                    return CircularProgressIndicator();
-                  }))
-        ]));
+        body: FutureBuilder<SelectSubjectGet>(
+            future: fetchData(),
+            builder: (context, snapshot) {
+              /// 分组Model
+              if (snapshot.hasData) {
+                var models = snapshot.data.models;
+                return ListView.builder(
+                    itemCount: models.length,
+                    itemBuilder: (context, int index) {
+                      return ExpansionTile(
+                          title: Text(models[index].title),
+                          backgroundColor:
+                              Theme.of(context).accentColor.withOpacity(0.025),
+                          children: _buildTileList(models[index].subModels));
+                    });
+              } else if (snapshot.hasError) {
+                return Text("${snapshot.error}");
+              }
+              return Center(
+                  child: CircularProgressIndicator(
+                      valueColor: new AlwaysStoppedAnimation<Color>(
+                          CatColors.globalTintColor)));
+            }));
+  }
+
+  List<ListItem> _buildTileList(List<SecondarySubjectModel> models) {
+    int count = models.length;
+    return List<ListItem>.generate(
+        count,
+        (int index) => ListItem(
+              title: models[index].title,
+            ));
   }
 }
 
@@ -55,13 +66,28 @@ class ListItem extends StatelessWidget {
   });
 
   /// 标题
-  final Widget title;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: <Widget>[],
-    );
+    return Container(
+        height: 72.0,
+        child: Row(
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.only(left: 16.0),
+              width: MediaQuery.of(context).size.width * 0.7,
+              child: Text(
+                title,
+                style: TextStyle(fontSize: 14.0),
+              ),
+            ),
+            Container(
+                height: 25.0,
+                width: 69.0,
+                child: CatBaseButton("SELECT", onPressed: () {}))
+          ],
+        ));
   }
 }
 
@@ -70,8 +96,8 @@ class ListItem extends StatelessWidget {
 ///
 Future<SelectSubjectGet> fetchData() async {
   String url = Address.getSecondType();
-  Map<String, dynamic> params = {'one': "1", 'two': "2", 'twelve': 2};
   final response = await HttpManager.request(Method.Get, url);
+  print(StackTrace.current.toString() + "response.body" + response.body);
   if (response.statusCode == 200) {
     // If the call to the server was successful, parse the JSON
     return SelectSubjectGet.fromJson(json.decode(response.body));
@@ -82,16 +108,58 @@ Future<SelectSubjectGet> fetchData() async {
 }
 
 class SelectSubjectGet {
+  final bool type;
+  final List<SubjectModel> models;
 
-  final bool success;
-  final List<Map> data;
-
-  SelectSubjectGet({this.success, this.data});
+  SelectSubjectGet({this.type, this.models});
 
   factory SelectSubjectGet.fromJson(Map<String, dynamic> json) {
+    var list = json['data'];
+    var newModels = new List<SubjectModel>();
+
+    for (Map<String, dynamic> map in list) {
+      SubjectModel model = SubjectModel.fromMap(map);
+      newModels.add(model);
+    }
     return SelectSubjectGet(
-      success: json['type'],
-      data: json['data'],
+      type: json['type'],
+      models: newModels,
     );
+  }
+}
+
+///
+/// 主标题
+///
+class SubjectModel {
+  final String title;
+  final List<SecondarySubjectModel> subModels;
+
+  SubjectModel({this.title, this.subModels});
+
+  factory SubjectModel.fromMap(Map jsonMap) {
+    var title = jsonMap['type'] as String ?? "";
+    var list = jsonMap['content'] as List;
+    var subModels = list.map((i) => SecondarySubjectModel.fromMap(i)).toList();
+
+    return new SubjectModel(title: title, subModels: subModels);
+  }
+}
+
+///
+/// 副标题
+///
+class SecondarySubjectModel {
+  final String title;
+  final List<String> list;
+
+  SecondarySubjectModel({this.title, this.list});
+
+  factory SecondarySubjectModel.fromMap(Map<String, dynamic> jsonMap) {
+    var title = jsonMap['secondType'] as String;
+    var subtitleFromJson = jsonMap['content'];
+    List<String> list = new List<String>.from(subtitleFromJson);
+
+    return SecondarySubjectModel(title: title, list: list);
   }
 }

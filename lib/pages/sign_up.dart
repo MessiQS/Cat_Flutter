@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:cat/cats/cats.dart';
-import 'package:cat/widgets/AccountMenu.dart';
+import 'package:cat/widgets/account_menu.dart';
 import 'package:cat/router/cat_route.dart';
 
 ///

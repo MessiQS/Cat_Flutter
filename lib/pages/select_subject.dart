@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:cat/cats/cats.dart';
 import 'package:cat/common/net/net.dart';
+import 'package:cat/widgets/subject_list_item.dart';
 
 class SelectSubject extends StatefulWidget {
   @override
@@ -52,44 +53,11 @@ class _SelectSubjectState extends State<SelectSubject> {
         count,
         (int index) => ListItem(
               title: models[index].title,
+              onPressed: (){},
             ));
   }
 }
 
-///
-/// 选项
-///
-class ListItem extends StatelessWidget {
-  const ListItem({
-    Key key,
-    this.title,
-  });
-
-  /// 标题
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        height: 72.0,
-        child: Row(
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.only(left: 16.0),
-              width: MediaQuery.of(context).size.width * 0.7,
-              child: Text(
-                title,
-                style: TextStyle(fontSize: 14.0),
-              ),
-            ),
-            Container(
-                height: 25.0,
-                width: 69.0,
-                child: CatBaseButton("SELECT", onPressed: () {}))
-          ],
-        ));
-  }
-}
 
 ///
 /// 网络请求

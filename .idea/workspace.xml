@@ -2,13 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8935f2dd-26c4-4cde-ad5c-bb2fe2d05f7c" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/lib/app.dart" afterPath="$PROJECT_DIR$/lib/app.dart" />
-      <change beforePath="$PROJECT_DIR$/lib/common/net/api.dart" afterPath="$PROJECT_DIR$/lib/common/net/api.dart" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/select_subject.dart" afterPath="$PROJECT_DIR$/lib/pages/select_subject.dart" />
+      <change beforePath="$PROJECT_DIR$/lib/common/net/address.dart" afterPath="$PROJECT_DIR$/lib/common/net/address.dart" />
+      <change beforePath="$PROJECT_DIR$/lib/models/subject.dart" afterPath="$PROJECT_DIR$/lib/models/subject.dart" />
       <change beforePath="$PROJECT_DIR$/lib/pages/select_subject_second.dart" afterPath="$PROJECT_DIR$/lib/pages/select_subject_second.dart" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/statistics.dart" afterPath="$PROJECT_DIR$/lib/pages/statistics.dart" />
-      <change beforePath="$PROJECT_DIR$/lib/router/cat_route.dart" afterPath="$PROJECT_DIR$/lib/router/cat_route.dart" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/select_subject_third.dart" afterPath="$PROJECT_DIR$/lib/pages/select_subject_third.dart" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -55,9 +52,11 @@
       <file leaf-file-name="select_subject.dart" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/lib/pages/select_subject.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="258">
-              <caret line="52" column="15" lean-forward="false" selection-start-line="52" selection-start-column="7" selection-end-line="52" selection-end-column="15" />
-              <folding />
+            <state relative-caret-position="502">
+              <caret line="48" column="55" lean-forward="false" selection-start-line="42" selection-start-column="16" selection-end-line="48" selection-end-column="55" />
+              <folding>
+                <element signature="e#0#20#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -104,18 +103,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="net.dart" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lib/common/net/net.dart">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="logger.dart" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/common/net/logger.dart">
           <provider selected="true" editor-type-id="text-editor">
@@ -149,14 +136,29 @@
       <file leaf-file-name="address.dart" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/common/net/address.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="13" lean-forward="false" selection-start-line="0" selection-start-column="6" selection-end-line="0" selection-end-column="13" />
+            <state relative-caret-position="180">
+              <caret line="12" column="47" lean-forward="false" selection-start-line="12" selection-start-column="47" selection-end-line="12" selection-end-column="47" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="subject.dart" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lib/models/subject.dart">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="330">
+              <caret line="22" column="21" lean-forward="true" selection-start-line="22" selection-start-column="21" selection-end-line="22" selection-end-column="21" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>ListItem</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -178,6 +180,7 @@
         <option value="$PROJECT_DIR$/lib/common/net/api.dart" />
         <option value="$PROJECT_DIR$/lib/pages/select_subject.dart" />
         <option value="$PROJECT_DIR$/lib/pages/statistics.dart" />
+        <option value="$PROJECT_DIR$/lib/models/subject.dart" />
       </list>
     </option>
   </component>
@@ -270,6 +273,25 @@
               <item name="cat" type="b2602c69:ProjectViewProjectNode" />
               <item name="cat" type="462c0819:PsiDirectoryNode" />
               <item name="lib" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cat" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cat" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="common" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cat" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cat" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="common" type="462c0819:PsiDirectoryNode" />
+              <item name="net" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cat" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cat" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="models" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="cat" type="b2602c69:ProjectViewProjectNode" />
@@ -489,7 +511,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
           <caret line="24" column="22" lean-forward="false" selection-start-line="24" selection-start-column="22" selection-end-line="24" selection-end-column="22" />
-          <folding />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -571,7 +595,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="330">
           <caret line="25" column="22" lean-forward="false" selection-start-line="25" selection-start-column="22" selection-end-line="25" selection-end-column="22" />
-          <folding />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -771,14 +797,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/common/net/address.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="13" lean-forward="false" selection-start-line="0" selection-start-column="6" selection-end-line="0" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lib/pages/sign_up.dart">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="810">
@@ -837,11 +855,29 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/lib/common/net/address.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="47" lean-forward="false" selection-start-line="12" selection-start-column="47" selection-end-line="12" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/models/subject.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="22" column="21" lean-forward="true" selection-start-line="22" selection-start-column="21" selection-end-line="22" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/lib/pages/select_subject.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="258">
-          <caret line="52" column="15" lean-forward="false" selection-start-line="52" selection-start-column="7" selection-end-line="52" selection-end-column="15" />
-          <folding />
+        <state relative-caret-position="502">
+          <caret line="48" column="55" lean-forward="false" selection-start-line="42" selection-start-column="16" selection-end-line="48" selection-end-column="55" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

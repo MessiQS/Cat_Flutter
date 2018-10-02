@@ -16,4 +16,8 @@ class Address {
   static getSecondType() {
     return "${host}api/getSecondType";
   }
+  
+  static getTitleByProvince() {
+    return "${host}api/getTitleByProvince";
+  }
 }

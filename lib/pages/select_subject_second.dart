@@ -31,21 +31,14 @@ class _SelectSubjectSecondState extends State<SelectSubjectSecond> {
             itemBuilder: (context, int index) {
               return ListItem(
                 title: widget.model.list[index],
-                onPressed: () {},
+                onPressed: () => Navigator.of(context)
+                        .push(new MaterialPageRoute(builder: (_) {
+                      return SelectSubjectThird(
+                        title: widget.model.title,
+                        subtitle: widget.model.list[index],
+                      );
+                    })),
               );
             }));
-  }
-
-  List<ListItem> _buildTileList(List<String> titles, BuildContext context) {
-    int count = titles.length;
-    return List<ListItem>.generate(
-        count,
-        (int index) => ListItem(
-              title: titles[index],
-              onPressed: () => Navigator.of(context)
-                      .push(new MaterialPageRoute(builder: (_) {
-                    return SelectSubjectThird();
-                  })),
-            ));
   }
 }

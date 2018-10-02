@@ -33,3 +33,20 @@ class SecondarySubjectModel {
     return SecondarySubjectModel(title: title, list: list);
   }
 }
+
+///
+/// 试卷选项
+///
+class ExamPaperModel {
+  final String title;
+  final String paperId;
+
+  ExamPaperModel({this.title, this.paperId});
+
+  factory ExamPaperModel.fromMap(Map<String, dynamic> jsonMap) {
+    var title = jsonMap['title'] as String;
+    var paperId = jsonMap['paper_id'] as String;
+
+    return ExamPaperModel(title: title, paperId: paperId);
+  }
+}

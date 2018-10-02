@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8935f2dd-26c4-4cde-ad5c-bb2fe2d05f7c" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/lib/common/net/address.dart" afterPath="$PROJECT_DIR$/lib/common/net/address.dart" />
-      <change beforePath="$PROJECT_DIR$/lib/models/subject.dart" afterPath="$PROJECT_DIR$/lib/models/subject.dart" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/select_subject_second.dart" afterPath="$PROJECT_DIR$/lib/pages/select_subject_second.dart" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/select_subject_third.dart" afterPath="$PROJECT_DIR$/lib/pages/select_subject_third.dart" />
-    </list>
+    <list default="true" id="8935f2dd-26c4-4cde-ad5c-bb2fe2d05f7c" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -49,11 +44,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="select_subject.dart" pinned="false" current-in-tab="true">
+      <file leaf-file-name="select_subject.dart" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/pages/select_subject.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="502">
+            <state relative-caret-position="720">
               <caret line="48" column="55" lean-forward="false" selection-start-line="42" selection-start-column="16" selection-end-line="48" selection-end-column="55" />
+              <folding>
+                <element signature="e#0#20#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="select_subject_third.dart" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/lib/pages/select_subject_third.dart">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="574">
+              <caret line="50" column="45" lean-forward="false" selection-start-line="50" selection-start-column="45" selection-end-line="50" selection-end-column="45" />
               <folding>
                 <element signature="e#0#20#0" expanded="true" />
               </folding>
@@ -95,16 +102,6 @@
       </file>
       <file leaf-file-name="select_subject_second.dart" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/pages/select_subject_second.dart">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="logger.dart" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lib/common/net/logger.dart">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
               <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -873,8 +870,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/pages/select_subject.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="502">
+        <state relative-caret-position="720">
           <caret line="48" column="55" lean-forward="false" selection-start-line="42" selection-start-column="16" selection-end-line="48" selection-end-column="55" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/pages/select_subject_third.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="574">
+          <caret line="50" column="45" lean-forward="false" selection-start-line="50" selection-start-column="45" selection-end-line="50" selection-end-column="45" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
           </folding>

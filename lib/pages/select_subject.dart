@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:cat/cats/cats.dart';
 import 'package:cat/common/net/net.dart';
 import 'package:cat/widgets/subject_list_item.dart';
+import 'package:cat/models/subject.dart';
+import 'package:cat/pages/select_subject_second.dart';
+
 
 class SelectSubject extends StatefulWidget {
   @override
@@ -35,7 +38,7 @@ class _SelectSubjectState extends State<SelectSubject> {
                           title: Text(models[index].title),
                           backgroundColor:
                               Theme.of(context).accentColor.withOpacity(0.025),
-                          children: _buildTileList(models[index].subModels));
+                          children: _buildTileList(models[index].subModels, context));
                     });
               } else if (snapshot.hasError) {
                 return Text("${snapshot.error}");
@@ -47,13 +50,15 @@ class _SelectSubjectState extends State<SelectSubject> {
             }));
   }
 
-  List<ListItem> _buildTileList(List<SecondarySubjectModel> models) {
+  List<ListItem> _buildTileList(List<SecondarySubjectModel> models, BuildContext context) {
     int count = models.length;
     return List<ListItem>.generate(
         count,
         (int index) => ListItem(
               title: models[index].title,
-              onPressed: () {},
+              onPressed: () => Navigator.of(context).push(new MaterialPageRoute(builder:(_) {
+                return new SelectSubjectSecond(model: models[index],);
+              })),
             ));
   }
 }
@@ -92,41 +97,5 @@ class SelectSubjectGet {
       type: json['type'],
       models: newModels,
     );
-  }
-}
-
-///
-/// 主标题
-///
-class SubjectModel {
-  final String title;
-  final List<SecondarySubjectModel> subModels;
-
-  SubjectModel({this.title, this.subModels});
-
-  factory SubjectModel.fromMap(Map jsonMap) {
-    var title = jsonMap['type'] as String ?? "";
-    var list = jsonMap['content'] as List;
-    var subModels = list.map((i) => SecondarySubjectModel.fromMap(i)).toList();
-
-    return new SubjectModel(title: title, subModels: subModels);
-  }
-}
-
-///
-/// 副标题
-///
-class SecondarySubjectModel {
-  final String title;
-  final List<String> list;
-
-  SecondarySubjectModel({this.title, this.list});
-
-  factory SecondarySubjectModel.fromMap(Map<String, dynamic> jsonMap) {
-    var title = jsonMap['secondType'] as String;
-    var subtitleFromJson = jsonMap['content'];
-    List<String> list = new List<String>.from(subtitleFromJson);
-
-    return SecondarySubjectModel(title: title, list: list);
   }
 }

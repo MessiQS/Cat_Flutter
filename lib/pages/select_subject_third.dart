@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:cat/cats/cats.dart';
 import 'package:cat/widgets/subject_list_item.dart';
-import 'package:cat/models/subject.dart';
-import 'package:cat/pages/select_subject_third.dart';
 
-class SelectSubjectSecond extends StatefulWidget {
-  const SelectSubjectSecond({Key key, this.model}) : super(key: key);
-
-  final SecondarySubjectModel model;
+class SelectSubjectThird extends StatefulWidget {
+  const SelectSubjectThird({Key key}) : super(key: key);
 
   @override
-  createState() => new _SelectSubjectSecondState();
+  createState() => new _SelectSubjectThirdState();
 }
 
-class _SelectSubjectSecondState extends State<SelectSubjectSecond> {
+class _SelectSubjectThirdState extends State<SelectSubjectThird> {
   @override
   void initState() {
     super.initState();
@@ -23,14 +19,14 @@ class _SelectSubjectSecondState extends State<SelectSubjectSecond> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(widget.model.title.toString()),
+          title: Text(""),
           backgroundColor: CatColors.globalTintColor,
         ),
         body: ListView.builder(
-            itemCount: widget.model.list.length,
+            itemCount: 1,
             itemBuilder: (context, int index) {
               return ListItem(
-                title: widget.model.list[index],
+                title: "",
                 onPressed: () {},
               );
             }));
@@ -44,7 +40,7 @@ class _SelectSubjectSecondState extends State<SelectSubjectSecond> {
               title: titles[index],
               onPressed: () => Navigator.of(context)
                       .push(new MaterialPageRoute(builder: (_) {
-                    return SelectSubjectThird();
+                    return null;
                   })),
             ));
   }

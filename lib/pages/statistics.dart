@@ -40,8 +40,9 @@ class _StatisticsState extends State<Statistics> {
 ///
 /// You haven’t choose
 ///    anything yet
-///  ---------------
-///    Begin Study
+///  +--------------+
+///  |  Begin Study |
+///  +--------------+
 ///
 class BeginStudy extends StatelessWidget {
   @override

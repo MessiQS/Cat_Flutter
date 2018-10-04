@@ -23,7 +23,7 @@ class HttpManager {
 
     Map<String, String> headers = {
       'Content-Type': 'application/x-www-form-urlencoded',
-      'meta':configureMetaWithMeta()
+      'meta': configureMetaWithMeta()
     };
 
     if (token != null) {
@@ -42,8 +42,17 @@ class HttpManager {
       if (param != null && param.isEmpty == false) {
         newURL = url + "?" + param;
       }
-      print("newURL: " + newURL);
       return http.get(newURL, headers: headers);
+    }
+
+    /// Put
+    if (method == Method.Put) {
+      return http.put(url, body: params, headers: headers);
+    }
+
+    /// Delete
+    if (method == Method.Delete) {
+      return http.delete(url, headers: headers);
     }
   }
 
@@ -83,13 +92,12 @@ class HttpManager {
   }
 
   static configureMetaWithMeta() {
-    DateTime now = new DateTime.now();
     Map meta = {
       "platform": SystemClobal.platform,
       "locale_name": SystemClobal.localeName,
       "operating_system_version": SystemClobal.operatingSystemVersion,
       "number_of_processors": SystemClobal.numberOfProcessors,
-      "current_req_time_ms":now.millisecondsSinceEpoch.toString(),
+      "current_req_time_ms": DateTime.now().millisecondsSinceEpoch.toString(),
     };
 
     return meta.toString();

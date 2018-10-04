@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
-import './base_provider.dart';
+import 'package:cat/common/db/base_provider.dart';
+
 /// 表名字
 final String tableQuestion = "question";
 
@@ -54,10 +55,6 @@ final String columnHideTag = "hideTag";
 /// 题目类型: "资料分析"  "常识判断" "言语理解与表达"  "数量关系" "判断推理" etc.
 final String columnCategory = "category";
 
-class Question {
+class Question {}
 
-}
-
-class QuestionProvider extends BaseDbProvider {
-  
-}
+class QuestionProvider extends BaseDbProvider {}

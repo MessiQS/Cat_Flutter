@@ -7,8 +7,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8935f2dd-26c4-4cde-ad5c-bb2fe2d05f7c" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/lib/common/db/base_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common/db/base_provider.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/common/db/manager.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common/db/manager.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/common/db/provider/question.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common/db/provider/question.dart" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -83,8 +81,8 @@
       <file leaf-file-name="question.dart" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/lib/common/db/provider/question.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1237">
-              <caret line="91" column="22" lean-forward="true" selection-start-line="91" selection-start-column="22" selection-end-line="91" selection-end-column="22" />
+            <state relative-caret-position="422">
+              <caret line="103" column="22" lean-forward="true" selection-start-line="103" selection-start-column="22" selection-end-line="103" selection-end-column="22" />
               <folding>
                 <element signature="e#0#20#0" expanded="true" />
               </folding>
@@ -816,8 +814,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/common/db/provider/question.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1237">
-          <caret line="91" column="22" lean-forward="true" selection-start-line="91" selection-start-column="22" selection-end-line="91" selection-end-column="22" />
+        <state relative-caret-position="422">
+          <caret line="103" column="22" lean-forward="true" selection-start-line="103" selection-start-column="22" selection-end-line="103" selection-end-column="22" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
           </folding>

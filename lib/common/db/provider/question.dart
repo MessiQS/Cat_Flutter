@@ -73,7 +73,6 @@ class Question {
   String material;
   String hideTag;
   String category;
-  Question();
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
@@ -82,11 +81,44 @@ class Question {
       columnUpdateTime: updatedTime,
       columnNumber: number,
       columnA: optionA,
+      columnB: optionB,
+      columnC: optionC,
+      columnD: optionD,
+      columnAnswer: answer,
+      columnContent: content,
+      columnType: type,
+      columnTitle: title,
+      columnPoint: point,
+      columnMaterial: material,
+      columnHideTag: hideTag,
+      columnCategory: category,
     };
     if (id != null) {
       map[columnId] = id;
     }
     return map;
+  }
+
+  Question();
+
+  Question.fromMap(Map<String, dynamic> map) {
+    id = map[columnId];
+    title = map[columnTitle];
+    createdTime = map[columnCreatedTime];
+    updatedTime = map[columnUpdateTime];
+    number = map[columnNumber];
+    optionA = map[columnA];
+    optionB = map[columnB];
+    optionC = map[columnC];
+    optionD = map[columnD];
+    answer = map[columnAnswer];
+    content = map[columnContent];
+    type = map[columnType];
+    title = map[columnTitle];
+    point = map[columnPoint];
+    material = map[columnMaterial];
+    hideTag = map[columnHideTag];
+    category = map[columnCategory];
   }
 }
 
@@ -109,10 +141,46 @@ class QuestionProvider extends BaseDBProvider {
   Future<Question> getQuestion(int id) async {
     Database db = await getDataBase();
 
-    List<Map> map = await db.query(tableName(),
-        columns: [columnId, columnTitle],
+    List<Map> maps = await db.query(tableName(),
+        columns: [
+          columnId,
+          columnTitle,
+          columnCreatedTime,
+          columnUpdateTime,
+          columnNumber,
+          columnA,
+          columnB,
+          columnC,
+          columnD,
+          columnAnswer,
+          columnContent,
+          columnType,
+          columnTitle,
+          columnPoint,
+          columnMaterial,
+          columnHideTag,
+          columnCategory
+        ],
         where: "$columnId = ?",
         whereArgs: [id]);
+
+    if (maps.length > 0) {
+      return new Question.fromMap(maps.first);
+    }
     return null;
+  }
+
+  Future<int> delete(int id) async {
+    Database db = await getDataBase();
+
+    return await db
+        .delete(tableQuestion, where: "$columnId = ?", whereArgs: [id]);
+  }
+
+  Future<int> update(Question question) async {
+    Database db = await getDataBase();
+
+    return await db.update(tableQuestion, question.toMap(),
+        where: "$columnId = ?", whereArgs: [question.id]);
   }
 }

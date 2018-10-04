@@ -1,4 +1,5 @@
 import 'package:http/http.dart' as http;
+import 'package:cat/common/utils/system_global.dart';
 import 'dart:core';
 
 enum Method { Post, Get, Put, Delete }
@@ -21,7 +22,8 @@ class HttpManager {
     }
 
     Map<String, String> headers = {
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'meta':configureMetaWithMeta()
     };
 
     if (token != null) {
@@ -78,5 +80,18 @@ class HttpManager {
     map.forEach(iterateMapEntry);
 
     return list.join("&");
+  }
+
+  static configureMetaWithMeta() {
+    DateTime now = new DateTime.now();
+    Map meta = {
+      "platform": SystemClobal.platform,
+      "locale_name": SystemClobal.localeName,
+      "operating_system_version": SystemClobal.operatingSystemVersion,
+      "number_of_processors": SystemClobal.numberOfProcessors,
+      "current_req_time_ms":now.millisecondsSinceEpoch.toString(),
+    };
+
+    return meta.toString();
   }
 }

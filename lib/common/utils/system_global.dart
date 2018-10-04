@@ -12,5 +12,6 @@ class SystemClobal {
 
   /// 处理器数量
   static String get numberOfProcessors =>
-      Platform.numberOfProcessors.toString();
+      Platform.numberOfProcessors.toString();  
+  
 }

@@ -19,7 +19,7 @@ class SignIn extends StatelessWidget {
     final double menuWidth = MediaQuery.of(context).size.width - 48.0;
     final double menuHeight = 162.0;
 
-    /// 菜单栏位置 = 顶部视图背景高度 - AppBar高度 - 菜单栏高度的二分之一 - status高度
+    /// 菜单栏位置 = 顶部视图背景高度 - AppBar高度 - 菜单栏高度的二分之一 - StatusBar高度
     final double menuMarginTop =
         bgHeight - appBar.preferredSize.height - (menuHeight / 2.0) - 20;
 

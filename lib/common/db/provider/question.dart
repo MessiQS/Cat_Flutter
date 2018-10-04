@@ -55,6 +55,54 @@ final String columnHideTag = "hideTag";
 /// 题目类型: "资料分析"  "常识判断" "言语理解与表达"  "数量关系" "判断推理" etc.
 final String columnCategory = "category";
 
-class Question {}
+class Question {
+  int id;
+  String createdTime;
+  String updatedTime;
+  String number;
+  String optionA;
+  String optionB;
+  String optionC;
+  String optionD;
+  String answer;
+  String content;
+  String type;
+  String title;
+  String point;
+  String material;
+  String hideTag;
+  String category;
+  Question();
 
-class QuestionProvider extends BaseDbProvider {}
+  Map<String, dynamic> toMap() {
+    var map = <String, dynamic>{
+      columnTitle: title,
+      columnCreatedTime: createdTime,
+      columnUpdateTime: updatedTime,
+      columnNumber: number,
+      columnA: optionA,
+    };
+    if (id != null) {
+      map[columnId] = id;
+    }
+    return map;
+  }
+}
+
+class QuestionProvider extends BaseDbProvider {
+  @override
+  tableName() {
+    return tableQuestion;
+  }
+
+  Future<Question> insert(Question question) async {
+    question.id = await db.insert(tableName(), question.toMap());
+    return question;
+  }
+
+  Future<Question> getQuestion(int id) async {
+    List<Map> masp = await db.query(tableName(),
+        columns: [columnTitle], where: "$columnId = ?", whereArgs: [id]);
+    return null;
+  }
+}

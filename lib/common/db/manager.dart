@@ -5,33 +5,34 @@ import 'package:sqflite/sqflite.dart';
 
 class DBManager {
   /// 数据库版本，迭代用
-  final _VERSION = 1;
+  static const _VERSION = 1;
 
   /// 数据库名称
-  final _NAME = "samso.cat_app_flutter.db";
+  static const _NAME = "samso_cat_app_flutter.db";
 
   /// 数据库
-  Database _database;
-
-  /// 单例
-  static final DBManager _singleton = new DBManager._internal();
-
-  factory DBManager() {
-    return _singleton;
-  }
-
-  DBManager._internal();
+  static Database _database;
 
   /// 初始化
-  init() async {
+  static init() async {
     var databasesPath = await getDatabasesPath();
     String dbName = _NAME;
+
+    /// 配置数据库路径
+    String path = databasesPath + dbName;
+    if (Platform.isIOS) {
+      path = databasesPath + "/" + dbName;
+    }
+
+    _database = await openDatabase(path, version: _VERSION,
+        onCreate: (Database db, int version) async {
+      // When creating the db, create the table
+      //await db.execute("CREATE TABLE Test (id INTEGER PRIMARY KEY, name TEXT, value INTEGER, num REAL)");
+    });
   }
 
-  ///
   /// 表是否存在
-  ///
-  isTableExits(String tableName) async {
+  static isTableExits(String tableName) async {
     await getCurrentDatabase();
     var res = await _database.rawQuery(
         "SELECT * FROM Sqlite_master WHERE type = 'table' AND name = '$tableName'");
@@ -39,7 +40,7 @@ class DBManager {
   }
 
   /// 获取当前数据库对象
-  Future<Database> getCurrentDatabase() async {
+  static Future<Database> getCurrentDatabase() async {
     if (_database == null) {
       await init();
     }
@@ -47,7 +48,7 @@ class DBManager {
   }
 
   /// 关闭数据库
-  close() {
+  static close() {
     _database?.close();
     _database = null;
   }

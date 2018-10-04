@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:cat/common/db/base_provider.dart';
+import 'package:sqflite/sqflite.dart';
 
 /// 表名字
 final String tableQuestion = "question";
@@ -89,20 +90,29 @@ class Question {
   }
 }
 
-class QuestionProvider extends BaseDbProvider {
+class QuestionProvider extends BaseDBProvider {
+  @override
+  tableSqlString() {}
+
   @override
   tableName() {
     return tableQuestion;
   }
 
   Future<Question> insert(Question question) async {
+    Database db = await getDataBase();
+
     question.id = await db.insert(tableName(), question.toMap());
     return question;
   }
 
   Future<Question> getQuestion(int id) async {
-    List<Map> masp = await db.query(tableName(),
-        columns: [columnTitle], where: "$columnId = ?", whereArgs: [id]);
+    Database db = await getDataBase();
+
+    List<Map> map = await db.query(tableName(),
+        columns: [columnId, columnTitle],
+        where: "$columnId = ?",
+        whereArgs: [id]);
     return null;
   }
 }

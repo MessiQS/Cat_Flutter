@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:cat/widgets/account_menu.dart';
 import 'package:cat/router/cat_route.dart';
 
-
 ///
 /// 登录页面
 ///
@@ -48,7 +47,8 @@ class _LoginState extends State<Login> {
           Container(
             margin: EdgeInsets.only(top: 32.0),
             child: FlatButton(
-              onPressed: () => Navigator.of(context).pushNamed(STATISTICS_ROUTE),
+              onPressed: () =>
+                  Navigator.of(context).pushNamed(STATISTICS_ROUTE),
               child: const Text(
                 'LOGIN',
                 style: TextStyle(fontSize: 14.0, color: Colors.white),

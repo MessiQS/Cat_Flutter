@@ -38,10 +38,8 @@ class _SelectSubjectThirdState extends State<SelectSubjectThird> {
                   itemBuilder: (context, int index) {
                     return ListItem(
                         title: models[index].title,
-                        onPressed: () => Navigator.of(context)
-                                .push(new MaterialPageRoute(builder: (_) {
-                              return null;
-                            })));
+                        onPressed: () =>
+                            selectExamClick(models[index].paperId));
                   });
             } else if (snapshot.hasError) {
               return Text("${snapshot.error}");
@@ -53,6 +51,23 @@ class _SelectSubjectThirdState extends State<SelectSubjectThird> {
           },
         ));
   }
+
+  selectExamClick(String examId) async {
+    print("selectExamClick:" + examId);
+    await dwonloadExam(examId);
+  }
+
+  dwonloadExam(String examId) async {
+    String url = Address.getQuestionInfoByPaperid();
+    Map<String, String> params = {"paper_id": examId};
+
+    final response = await HttpManager.request(Method.Get, url, params: params);
+    if (response.statusCode == 200) {
+      print(url + " response.body " + response.body);
+    } else {
+      throw Exception('Failed to load post');
+    }
+  }
 }
 
 ///
@@ -63,7 +78,6 @@ Future<ExamPaperGet> fetchData(title, subtitle) async {
   Map<String, String> params = {"sendType": title, "province": subtitle};
 
   final response = await HttpManager.request(Method.Get, url, params: params);
-  print(StackTrace.current.toString() + "response.body" + response.body);
   if (response.statusCode == 200) {
     // If the call to the server was successful, parse the JSON
     return ExamPaperGet.fromJson(json.decode(response.body));

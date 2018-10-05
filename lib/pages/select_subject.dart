@@ -69,7 +69,7 @@ class _SelectSubjectState extends State<SelectSubject> {
 Future<SelectSubjectGet> fetchData() async {
   String url = Address.getSecondType();
   final response = await HttpManager.request(Method.Get, url);
-  print(StackTrace.current.toString() + "response.body" + response.body);
+  print("response.body" + response.body);
   if (response.statusCode == 200) {
     // If the call to the server was successful, parse the JSON
     return SelectSubjectGet.fromJson(json.decode(response.body));
@@ -86,6 +86,8 @@ class SelectSubjectGet {
   SelectSubjectGet({this.type, this.models});
 
   factory SelectSubjectGet.fromJson(Map<String, dynamic> json) {
+    var type = json['type'];
+    if (type == false) return null;
     var list = json['data'];
     var newModels = new List<SubjectModel>();
 
@@ -94,7 +96,7 @@ class SelectSubjectGet {
       newModels.add(model);
     }
     return SelectSubjectGet(
-      type: json['type'],
+      type: type,
       models: newModels,
     );
   }

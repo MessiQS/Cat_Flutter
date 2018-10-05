@@ -8,9 +8,10 @@
   <component name="ChangeListManager">
     <list default="true" id="8935f2dd-26c4-4cde-ad5c-bb2fe2d05f7c" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/common/db/base_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common/db/base_provider.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/common/db/provider/question.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common/db/provider/question.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/common/db/provider/user.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common/db/provider/user.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/common/net/api.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common/net/api.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/login.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/login.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/select_subject.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/select_subject.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/select_subject_third.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/select_subject_third.dart" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -63,14 +64,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="question.dart" pinned="false" current-in-tab="true">
+      <file leaf-file-name="question.dart" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/common/db/provider/question.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="180" selection-start-line="180" selection-end-line="181" />
+            <state relative-caret-position="585">
+              <caret line="201" column="10" lean-forward="true" selection-start-line="201" selection-start-column="10" selection-end-line="201" selection-end-column="10" />
               <folding>
                 <element signature="e#0#20#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="address.dart" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/lib/common/net/address.dart">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="345">
+              <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
             </state>
           </provider>
         </entry>
@@ -730,13 +740,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/common/net/address.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="23" selection-start-line="23" selection-end-line="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lib/common/db/provider/record.dart">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
@@ -746,11 +749,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/common/db/provider/question.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="180" selection-start-line="180" selection-end-line="181" />
+        <state relative-caret-position="585">
+          <caret line="201" column="10" lean-forward="true" selection-start-line="201" selection-start-column="10" selection-end-line="201" selection-end-column="10" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/common/net/address.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
         </state>
       </provider>
     </entry>

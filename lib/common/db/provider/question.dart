@@ -1,65 +1,74 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:cat/common/db/base_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
-/// 表名字
-final String tableQuestion = "question";
+///
+/// QuestionConstants
+///
+class QC {
+  /// 表名字
+  static const String tableName = "question";
 
-/// id
-final String columnId = "_id";
+  /// id
+  static const String columnId = "_id";
 
-/// 试题创建时间
-final String columnCreatedTime = "createdTime";
+  /// 试题创建时间
+  /// 时间戳
+  static const String columnCreatedTime = "createdTime";
 
-/// 试题更新时间
-final String columnUpdateTime = "updatedTime";
+  /// 试题更新时间
+  /// 时间戳
+  static const String columnUpdateTime = "updatedTime";
 
-/// 当前题数
-final String columnNumber = "number";
+  /// 当前题数
+  static const String columnNumber = "number";
 
-/// 选项 A
-final String columnA = "A";
+  /// 选项 A
+  static const String columnA = "A";
 
-/// 选项 B
-final String columnB = "B";
+  /// 选项 B
+  static const String columnB = "B";
 
-/// 选项 C
-final String columnC = "C";
+  /// 选项 C
+  static const String columnC = "C";
 
-/// 选项 D
-final String columnD = "D";
+  /// 选项 D
+  static const String columnD = "D";
 
-/// 答案
-/// 单选 "A"、"B"、"C"、"D"、
-/// 多选 “A,B,C";
-final String columnAnswer = "answer";
+  /// 答案
+  /// 单选 "A"、"B"、"C"、"D"、
+  /// 多选 “A,B,C";
+  static const String columnAnswer = "answer";
 
-/// 试题内容
-final String columnContent = "content";
+  /// 试题内容
+  static const String columnContent = "content";
 
-/// ”多选“、“不定项”、“单选”
-final String columnType = "type";
+  /// ”多选“、“不定项”、“单选”
+  static const String columnType = "type";
 
-/// 标题
-final String columnTitle = "title";
+  /// 标题
+  static const String columnTitle = "title";
 
-/// 考点
-final String columnPoint = "point";
+  /// 考点
+  static const String columnPoint = "point";
 
-/// 材料
-final String columnMaterial = "material";
+  /// 材料
+  static const String columnMaterial = "material";
 
-/// 是否忽略 正常 错误 选项提示
-final String columnHideTag = "hideTag";
+  /// 是否忽略 正常 错误 选项提示
+  static const String columnHideTag = "hideTag";
 
-/// 题目类型: "资料分析"  "常识判断" "言语理解与表达"  "数量关系" "判断推理" etc.
-final String columnCategory = "category";
+  /// 题目类型: "资料分析"  "常识判断" "言语理解与表达"  "数量关系" "判断推理" etc.
+  static const String columnCategory = "category";
+}
 
 class Question {
   int id;
-  String createdTime;
-  String updatedTime;
+
+  /// 时间戳
+  double createdTime;
+  double updatedTime;
+
   String number;
   String optionA;
   String optionB;
@@ -76,25 +85,24 @@ class Question {
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
-      columnTitle: title,
-      columnCreatedTime: createdTime,
-      columnUpdateTime: updatedTime,
-      columnNumber: number,
-      columnA: optionA,
-      columnB: optionB,
-      columnC: optionC,
-      columnD: optionD,
-      columnAnswer: answer,
-      columnContent: content,
-      columnType: type,
-      columnTitle: title,
-      columnPoint: point,
-      columnMaterial: material,
-      columnHideTag: hideTag,
-      columnCategory: category,
+      QC.columnTitle: title,
+      QC.columnCreatedTime: createdTime,
+      QC.columnUpdateTime: updatedTime,
+      QC.columnNumber: number,
+      QC.columnA: optionA,
+      QC.columnB: optionB,
+      QC.columnC: optionC,
+      QC.columnD: optionD,
+      QC.columnAnswer: answer,
+      QC.columnContent: content,
+      QC.columnType: type,
+      QC.columnPoint: point,
+      QC.columnMaterial: material,
+      QC.columnHideTag: hideTag,
+      QC.columnCategory: category,
     };
     if (id != null) {
-      map[columnId] = id;
+      map[QC.columnId] = id;
     }
     return map;
   }
@@ -102,85 +110,102 @@ class Question {
   Question();
 
   Question.fromMap(Map<String, dynamic> map) {
-    id = map[columnId];
-    title = map[columnTitle];
-    createdTime = map[columnCreatedTime];
-    updatedTime = map[columnUpdateTime];
-    number = map[columnNumber];
-    optionA = map[columnA];
-    optionB = map[columnB];
-    optionC = map[columnC];
-    optionD = map[columnD];
-    answer = map[columnAnswer];
-    content = map[columnContent];
-    type = map[columnType];
-    title = map[columnTitle];
-    point = map[columnPoint];
-    material = map[columnMaterial];
-    hideTag = map[columnHideTag];
-    category = map[columnCategory];
+    id = map[QC.columnId];
+    title = map[QC.columnTitle];
+    createdTime = map[QC.columnCreatedTime];
+    updatedTime = map[QC.columnUpdateTime];
+    number = map[QC.columnNumber];
+    optionA = map[QC.columnA];
+    optionB = map[QC.columnB];
+    optionC = map[QC.columnC];
+    optionD = map[QC.columnD];
+    answer = map[QC.columnAnswer];
+    content = map[QC.columnContent];
+    type = map[QC.columnType];
+    point = map[QC.columnPoint];
+    material = map[QC.columnMaterial];
+    hideTag = map[QC.columnHideTag];
+    category = map[QC.columnCategory];
   }
 }
 
 class QuestionProvider extends BaseDBProvider {
   @override
-  tableSqlString() {}
+  tableSqlString() {
+    return tableBaseString(QC.tableName, QC.columnId) +
+        '''
+        ${QC.columnTitle} text not null,
+        ${QC.columnCreatedTime} double,
+        ${QC.columnUpdateTime} double,
+        ${QC.columnNumber} text,
+        ${QC.columnA} text,
+        ${QC.columnB} text,
+        ${QC.columnC} text,
+        ${QC.columnD} text,
+        ${QC.columnAnswer} text not null,
+        ${QC.columnContent} text not null,
+        ${QC.columnType} text not null,
+        ${QC.columnPoint} text,
+        ${QC.columnMaterial} text,
+        ${QC.columnHideTag} text,
+        ${QC.columnCategory} text not null),
+      ''';
+  }
 
   @override
   tableName() {
-    return tableQuestion;
+    return QC.tableName;
   }
 
   Future<Question> insert(Question question) async {
     Database db = await getDataBase();
-
     question.id = await db.insert(tableName(), question.toMap());
     return question;
-  }
-
-  Future<Question> getQuestion(int id) async {
-    Database db = await getDataBase();
-
-    List<Map> maps = await db.query(tableName(),
-        columns: [
-          columnId,
-          columnTitle,
-          columnCreatedTime,
-          columnUpdateTime,
-          columnNumber,
-          columnA,
-          columnB,
-          columnC,
-          columnD,
-          columnAnswer,
-          columnContent,
-          columnType,
-          columnTitle,
-          columnPoint,
-          columnMaterial,
-          columnHideTag,
-          columnCategory
-        ],
-        where: "$columnId = ?",
-        whereArgs: [id]);
-
-    if (maps.length > 0) {
-      return new Question.fromMap(maps.first);
-    }
-    return null;
   }
 
   Future<int> delete(int id) async {
     Database db = await getDataBase();
 
     return await db
-        .delete(tableQuestion, where: "$columnId = ?", whereArgs: [id]);
+        .delete(tableName(), where: "${QC.columnId} = ?", whereArgs: [id]);
   }
 
   Future<int> update(Question question) async {
     Database db = await getDataBase();
 
-    return await db.update(tableQuestion, question.toMap(),
-        where: "$columnId = ?", whereArgs: [question.id]);
+    return await db.update(tableName(), question.toMap(),
+        where: "${QC.columnId} = ?", whereArgs: [question.id]);
+  }
+
+  Future<Question> get(int id) async {
+    Database db = await getDataBase();
+
+    List<Map> maps = await db.query(tableName(),
+        columns: [
+          QC.columnId,
+          QC.columnTitle,
+          QC.columnCreatedTime,
+          QC.columnUpdateTime,
+          QC.columnNumber,
+          QC.columnA,
+          QC.columnB,
+          QC.columnC,
+          QC.columnD,
+          QC.columnAnswer,
+          QC.columnContent,
+          QC.columnType,
+          QC.columnTitle,
+          QC.columnPoint,
+          QC.columnMaterial,
+          QC.columnHideTag,
+          QC.columnCategory
+        ],
+        where: "${QC.columnId} = ?",
+        whereArgs: [id]);
+
+    if (maps.length > 0) {
+      return new Question.fromMap(maps.first);
+    }
+    return null;
   }
 }

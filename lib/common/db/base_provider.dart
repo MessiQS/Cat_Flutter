@@ -3,7 +3,6 @@ import 'package:sqflite/sqflite.dart';
 import 'package:cat/common/db/manager.dart';
 import 'package:meta/meta.dart';
 
-
 /// 基类
 abstract class BaseDBProvider {
   bool isTableExits = false;

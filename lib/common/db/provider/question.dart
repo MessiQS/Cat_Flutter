@@ -58,8 +58,12 @@ class QC {
   /// 是否忽略 正常 错误 选项提示
   static const String columnHideTag = "hideTag";
 
-  /// 题目类型: "资料分析"  "常识判断" "言语理解与表达"  "数量关系" "判断推理" etc.
+  /// 题目类型
+  /// "资料分析"  "常识判断" "言语理解与表达"  "数量关系" "判断推理" etc.
   static const String columnCategory = "category";
+
+  /// 来源 "省份" "经济法" etc.
+  static const String columnSource = "source";
 }
 
 class Question {
@@ -82,6 +86,7 @@ class Question {
   String material;
   String hideTag;
   String category;
+  String source;
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
@@ -100,6 +105,7 @@ class Question {
       QC.columnMaterial: material,
       QC.columnHideTag: hideTag,
       QC.columnCategory: category,
+      QC.columnSource: source,
     };
     if (id != null) {
       map[QC.columnId] = id;
@@ -126,6 +132,7 @@ class Question {
     material = map[QC.columnMaterial];
     hideTag = map[QC.columnHideTag];
     category = map[QC.columnCategory];
+    source = map[QC.columnSource];
   }
 }
 
@@ -148,7 +155,8 @@ class QuestionProvider extends BaseDBProvider {
         ${QC.columnPoint} text,
         ${QC.columnMaterial} text,
         ${QC.columnHideTag} text,
-        ${QC.columnCategory} text not null),
+        ${QC.columnCategory} text not null,
+        ${QC.columnSource} text),
       ''';
   }
 
@@ -198,7 +206,8 @@ class QuestionProvider extends BaseDBProvider {
           QC.columnPoint,
           QC.columnMaterial,
           QC.columnHideTag,
-          QC.columnCategory
+          QC.columnCategory,
+          QC.columnSource,
         ],
         where: "${QC.columnId} = ?",
         whereArgs: [id]);

@@ -4,3 +4,4 @@ const String LOGIN_ROUTE = "cat://login";
 const String STATISTICS_ROUTE = "cat://Statistics";
 const String SElECT_SUBJECT_ROUTE = "cat://SelectSubject";
 const String SElECT_SUBJECT_SECOND_ROUTE = "cat://SelectSubjectSecond";
+const String SElECT_SUBJECT_THIRD_ROUTE = "cat://SelectSubjectThird";

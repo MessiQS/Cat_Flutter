@@ -69,7 +69,6 @@ class _SelectSubjectState extends State<SelectSubject> {
 Future<SelectSubjectGet> fetchData() async {
   String url = Address.getSecondType();
   final response = await HttpManager.request(Method.Get, url);
-  print("response.body" + response.body);
   if (response.statusCode == 200) {
     // If the call to the server was successful, parse the JSON
     return SelectSubjectGet.fromJson(json.decode(response.body));

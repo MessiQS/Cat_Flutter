@@ -10,6 +10,7 @@ import 'package:cat/pages/login.dart';
 import 'package:cat/pages/statistics.dart';
 import 'package:cat/pages/select_subject.dart';
 import 'package:cat/pages/select_subject_second.dart';
+import 'package:cat/pages/select_subject_third.dart';
 
 ///
 /// 判断登录前还是登录后
@@ -33,6 +34,8 @@ class CatApp extends StatelessWidget {
         SElECT_SUBJECT_ROUTE: (BuildContext context) => SelectSubject(),
         SElECT_SUBJECT_SECOND_ROUTE: (BuildContext context) =>
             SelectSubjectSecond(),
+        SElECT_SUBJECT_THIRD_ROUTE: (BuildContext context) =>
+            SelectSubjectThird(),
       },
       supportedLocales: [
         const Locale('en'),

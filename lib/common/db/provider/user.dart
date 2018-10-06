@@ -3,7 +3,7 @@ import 'package:cat/common/db/base_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 ///
-/// UC
+/// UserConstants
 ///
 class UC {
   /// 表名称
@@ -15,7 +15,7 @@ class UC {
   /// 用户ID 服务端返回
   static const String columnUserId = "userId";
 
-  /// token
+  /// token 标识
   static const String columnToken = "token";
 
   /// 当前试卷Id

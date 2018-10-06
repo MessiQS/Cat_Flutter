@@ -64,6 +64,12 @@ class QC {
 
   /// 来源 "省份" "经济法" etc.
   static const String columnSource = "source";
+
+  /// 试题的年份
+  static const String columnYear = "year";
+
+  /// 试卷ID
+  static const String columnExamID = "examID";
 }
 
 class Question {
@@ -87,6 +93,8 @@ class Question {
   String hideTag;
   String category;
   String source;
+  String year;
+  String examID;
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
@@ -106,6 +114,8 @@ class Question {
       QC.columnHideTag: hideTag,
       QC.columnCategory: category,
       QC.columnSource: source,
+      QC.columnYear: year,
+      QC.columnExamID: examID,
     };
     if (id != null) {
       map[QC.columnId] = id;
@@ -133,6 +143,8 @@ class Question {
     hideTag = map[QC.columnHideTag];
     category = map[QC.columnCategory];
     source = map[QC.columnSource];
+    year = map[QC.columnYear];
+    examID = map[QC.columnExamID];
   }
 }
 
@@ -141,7 +153,7 @@ class QuestionProvider extends BaseDBProvider {
   tableSqlString() {
     return tableBaseString(QC.tableName, QC.columnId) +
         '''
-        ${QC.columnTitle} text not null,
+        ${QC.columnTitle} text,
         ${QC.columnCreatedTime} double,
         ${QC.columnUpdateTime} double,
         ${QC.columnNumber} text,
@@ -149,14 +161,16 @@ class QuestionProvider extends BaseDBProvider {
         ${QC.columnB} text,
         ${QC.columnC} text,
         ${QC.columnD} text,
-        ${QC.columnAnswer} text not null,
-        ${QC.columnContent} text not null,
-        ${QC.columnType} text not null,
+        ${QC.columnAnswer} text,
+        ${QC.columnContent} text,
+        ${QC.columnType} text,
         ${QC.columnPoint} text,
         ${QC.columnMaterial} text,
         ${QC.columnHideTag} text,
-        ${QC.columnCategory} text not null,
-        ${QC.columnSource} text),
+        ${QC.columnCategory} text,
+        ${QC.columnSource} text, 
+        ${QC.columnYear} text, 
+        ${QC.columnExamID} text),
       ''';
   }
 
@@ -208,6 +222,8 @@ class QuestionProvider extends BaseDBProvider {
           QC.columnHideTag,
           QC.columnCategory,
           QC.columnSource,
+          QC.columnYear,
+          QC.columnExamID,
         ],
         where: "${QC.columnId} = ?",
         whereArgs: [id]);

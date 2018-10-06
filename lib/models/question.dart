@@ -1,3 +1,5 @@
+import 'package:cat/common/db/provider/question.dart';
+
 ///
 /// 试题的中间模型
 ///
@@ -44,6 +46,30 @@ class QuestionModel {
       this.createdTime,
       this.updatedTime,
       this.source});
+
+  Map<String, dynamic> toMap() {
+    var map = <String, dynamic>{
+      QC.columnTitle: title,
+      QC.columnCreatedTime: createdTime,
+      QC.columnUpdateTime: updatedTime,
+      QC.columnNumber: number,
+      QC.columnA: optionA,
+      QC.columnB: optionB,
+      QC.columnC: optionC,
+      QC.columnD: optionD,
+      QC.columnAnswer: answer,
+      QC.columnContent: content,
+      QC.columnType: type,
+      QC.columnPoint: point,
+      QC.columnMaterial: material,
+      QC.columnHideTag: hideTag,
+      QC.columnCategory: category,
+      QC.columnSource: source,
+      QC.columnYear: year,
+    };
+
+    return map;
+  }
 
   factory QuestionModel.fromMap(Map<String, dynamic> map) {
     var number = map["question_number"] as int;

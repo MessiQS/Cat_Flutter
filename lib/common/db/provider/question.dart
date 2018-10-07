@@ -185,6 +185,14 @@ class QuestionProvider extends BaseDBProvider {
     return question;
   }
 
+  Future<List<Question>> insertList(List<Question> list) async {
+    Database db = await getDataBase();
+    for (Question question in list) {
+      question.id = await db.insert(tableName(), question.toMap());
+    }
+    return list;
+  }
+
   Future<int> delete(int id) async {
     Database db = await getDataBase();
 

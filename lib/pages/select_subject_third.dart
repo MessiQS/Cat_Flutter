@@ -55,8 +55,8 @@ class _SelectSubjectThirdState extends State<SelectSubjectThird> {
   }
 
   selectExamClick(String examId) async {
-    print("selectExamClick:" + examId);
-    await dwonloadExam(examId);
+    QuestionResponse questionResponse = await dwonloadExam(examId);
+
     // await downloadExamRecord(examId);
   }
 

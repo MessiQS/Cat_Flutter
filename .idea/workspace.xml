@@ -7,14 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8935f2dd-26c4-4cde-ad5c-bb2fe2d05f7c" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/lib/common/db/base_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common/db/base_provider.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/common/db/db.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common/db/db.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/common/db/provider/question.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common/db/provider/question.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/common/db/provider/record.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common/db/provider/record.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/common/db/provider/user.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common/db/provider/user.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/common/net/api.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common/net/api.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/common/net/logger.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common/net/logger.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/select_subject_third.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/select_subject_third.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/pages/statistics.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/statistics.dart" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />

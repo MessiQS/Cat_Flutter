@@ -18,7 +18,6 @@ class _StatisticsState extends State<Statistics> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
         appBar: AppBar(
             backgroundColor: CatColors.globalTintColor,
@@ -39,7 +38,10 @@ class _StatisticsState extends State<Statistics> {
           future: fetchUser(),
           builder: (context, snapshot) {
             if (snapshot.hasData && snapshot.data.currentExamTitle != "") {
-              return ChartTable();
+              return ChartTable(
+                title: snapshot.data.currentExamTitle,
+                examID: snapshot.data.currentExamID,
+              );
             }
             return BeginStudy();
           },
@@ -94,6 +96,12 @@ class BeginStudy extends StatelessWidget {
 }
 
 class ChartTable extends StatefulWidget {
+  const ChartTable({Key key, this.title = "", this.examID = ""})
+      : super(key: key);
+
+  final String title;
+  final String examID;
+
   @override
   createState() => new _ChartTableState();
 }
@@ -108,17 +116,27 @@ class _ChartTableState extends State<ChartTable> {
   Widget build(BuildContext context) {
     return ListView(
       children: <Widget>[
-        Row(
-          children: <Widget>[
-            Text(""),
-            Container(
-              child: CatBaseButton(
-                "SELECT",
-                onPressed: () {},
-              ),
-            )
-          ],
-        )
+        Container(
+            height: 45.0,
+            width: MediaQuery.of(context).size.width,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(left: 24.0),
+                  child: Text(widget.title),
+                ),
+                Container(
+                  margin: EdgeInsets.only(right: 16.0),
+                  width: 69.0,
+                  height: 25.0,
+                  child: CatBaseButton(
+                    "SELECT",
+                    onPressed: () {},
+                  ),
+                )
+              ],
+            ))
       ],
     );
   }

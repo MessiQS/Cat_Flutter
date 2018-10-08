@@ -42,7 +42,6 @@ class HttpManager {
       if (param != null && param.isEmpty == false) {
         newURL = url + "?" + param;
       }
-      print("get url: " + newURL);
       return http.get(newURL, headers: headers);
     }
 

@@ -23,6 +23,53 @@ class _SelectSubjectThirdState extends State<SelectSubjectThird> {
     super.initState();
   }
 
+  selectExamClick(String examID, String title) async {
+    QuestionProvider provider = new QuestionProvider();
+
+    /// 下载试题
+    QuestionResponse questionResponse = await dwonloadExam(examID);
+    List<Question> list = new List<Question>();
+    for (QuestionModel model in questionResponse.models) {
+      Question question = Question.fromMap(model.toMap());
+      question.examID = examID;
+      list.add(question);
+    }
+    provider.insertList(list);
+
+    /// 下载选题记录
+    await downloadExamRecord(examID);
+
+    User user = new User();
+    user.currentExamID = examID;
+    user.currentExamTitle = title;
+
+    UserProvider userProvider  = new UserProvider();
+    userProvider.insert(user);
+  }
+
+  dwonloadExam(String examID) async {
+    String url = Address.getpaper();
+    Map<String, String> params = {"paperId": examID};
+    final response = await HttpManager.request(Method.Get, url, params: params);
+    if (response.statusCode == 200) {
+      return QuestionResponse.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load post');
+    }
+  }
+
+  downloadExamRecord(String examID) async {
+    String url = Address.getQuestionInfoByPaperid();
+    Map<String, String> params = {"paper_id": examID};
+
+    final response = await HttpManager.request(Method.Get, url, params: params);
+    if (response.statusCode == 200) {
+      print(url + " response.body  + ${response.body}");
+    } else {
+      throw Exception('Failed to load post');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +88,7 @@ class _SelectSubjectThirdState extends State<SelectSubjectThird> {
                     return ListItem(
                         title: models[index].title,
                         onPressed: () =>
-                            selectExamClick(models[index].paperId));
+                            selectExamClick(models[index].paperId, models[index].title));
                   });
             } else if (snapshot.hasError) {
               return Text("${snapshot.error}");
@@ -52,35 +99,6 @@ class _SelectSubjectThirdState extends State<SelectSubjectThird> {
                         CatColors.globalTintColor)));
           },
         ));
-  }
-
-  selectExamClick(String examId) async {
-    QuestionResponse questionResponse = await dwonloadExam(examId);
-
-    // await downloadExamRecord(examId);
-  }
-
-  dwonloadExam(String examId) async {
-    String url = Address.getpaper();
-    Map<String, String> params = {"paperId": examId};
-    final response = await HttpManager.request(Method.Get, url, params: params);
-    if (response.statusCode == 200) {
-      return QuestionResponse.fromJson(json.decode(response.body));
-    } else {
-      throw Exception('Failed to load post');
-    }
-  }
-
-  downloadExamRecord(String examId) async {
-    String url = Address.getQuestionInfoByPaperid();
-    Map<String, String> params = {"paper_id": examId};
-
-    final response = await HttpManager.request(Method.Get, url, params: params);
-    if (response.statusCode == 200) {
-      print(url + " response.body " + response.body);
-    } else {
-      throw Exception('Failed to load post');
-    }
   }
 }
 

@@ -10,7 +10,7 @@ class RC {
   static const String tableName = "record";
 
   /// id
-  static const String columnId = "_id";
+  static const String columnID = "_id";
 
   /// 创建时间
   static const String columnCreatedTime = "createdTime";
@@ -19,7 +19,7 @@ class RC {
   static const String columnSelectedOption = "selectedOption";
 
   /// 试卷的id
-  static const String columnExamId = "examID";
+  static const String columnExamID = "examID";
 
   /// 试题的id
   static const String columnQuestionId = "questionID";
@@ -39,11 +39,11 @@ class Record {
     var map = <String, dynamic>{
       RC.columnCreatedTime: createdTime,
       RC.columnSelectedOption: selectedOption,
-      RC.columnExamId: examId,
+      RC.columnExamID: examId,
       RC.columnQuestionId: questionId,
     };
     if (id != null) {
-      map[RC.columnId] = id;
+      map[RC.columnID] = id;
     }
     return map;
   }
@@ -51,10 +51,10 @@ class Record {
   Record();
 
   Record.fromMap(Map<String, dynamic> map) {
-    id = map[RC.columnId];
+    id = map[RC.columnID];
     createdTime = map[RC.columnCreatedTime];
     selectedOption = map[RC.columnSelectedOption];
-    examId = map[RC.columnExamId];
+    examId = map[RC.columnExamID];
     questionId = map[RC.columnQuestionId];
   }
 }
@@ -62,11 +62,11 @@ class Record {
 class RecordProvider extends BaseDBProvider {
   @override
   tableSqlString() {
-    return tableBaseString(RC.tableName, RC.columnId) +
+    return tableBaseString(RC.tableName, RC.columnID) +
         '''
         ${RC.columnCreatedTime} double,
         ${RC.columnSelectedOption} text,
-        ${RC.columnExamId} text,
+        ${RC.columnExamID} text,
         ${RC.columnQuestionId} text,
       ''';
   }
@@ -86,28 +86,28 @@ class RecordProvider extends BaseDBProvider {
     Database db = await getDataBase();
 
     return await db
-        .delete(tableName(), where: "${RC.columnId} = ?", whereArgs: [id]);
+        .delete(tableName(), where: "${RC.columnID} = ?", whereArgs: [id]);
   }
 
   Future<int> update(Record question) async {
     Database db = await getDataBase();
 
     return await db.update(tableName(), question.toMap(),
-        where: "${RC.columnId} = ?", whereArgs: [question.id]);
+        where: "${RC.columnID} = ?", whereArgs: [question.id]);
   }
 
-  Future<Record> get(int id) async {
+  Future<Record> getRecords(int id) async {
     Database db = await getDataBase();
 
     List<Map> maps = await db.query(tableName(),
         columns: [
-          RC.columnId,
+          RC.columnID,
           RC.columnCreatedTime,
           RC.columnSelectedOption,
-          RC.columnExamId,
+          RC.columnExamID,
           RC.columnQuestionId,
         ],
-        where: "${RC.columnId} = ?",
+        where: "${RC.columnID} = ?",
         whereArgs: [id]);
 
     if (maps.length > 0) {

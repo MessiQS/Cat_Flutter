@@ -10,7 +10,7 @@ class QC {
   static const String tableName = "question";
 
   /// id
-  static const String columnId = "_id";
+  static const String columnID = "_id";
 
   /// 试题创建时间
   /// 时间戳
@@ -76,10 +76,10 @@ class Question {
   int id;
 
   /// 时间戳
-  double createdTime;
-  double updatedTime;
+  String createdTime;
+  String updatedTime;
 
-  String number;
+  int number;
   String optionA;
   String optionB;
   String optionC;
@@ -90,7 +90,7 @@ class Question {
   String title;
   String point;
   String material;
-  String hideTag;
+  bool hideTag;
   String category;
   String source;
   String year;
@@ -118,7 +118,7 @@ class Question {
       QC.columnExamID: examID,
     };
     if (id != null) {
-      map[QC.columnId] = id;
+      map[QC.columnID] = id;
     }
     return map;
   }
@@ -126,7 +126,7 @@ class Question {
   Question();
 
   Question.fromMap(Map<String, dynamic> map) {
-    id = map[QC.columnId];
+    id = map[QC.columnID];
     title = map[QC.columnTitle];
     createdTime = map[QC.columnCreatedTime];
     updatedTime = map[QC.columnUpdateTime];
@@ -151,12 +151,12 @@ class Question {
 class QuestionProvider extends BaseDBProvider {
   @override
   tableSqlString() {
-    return tableBaseString(QC.tableName, QC.columnId) +
+    return tableBaseString(QC.tableName, QC.columnID) +
         '''
         ${QC.columnTitle} text,
-        ${QC.columnCreatedTime} double,
-        ${QC.columnUpdateTime} double,
-        ${QC.columnNumber} text,
+        ${QC.columnCreatedTime} text,
+        ${QC.columnUpdateTime} text,
+        ${QC.columnNumber} int,
         ${QC.columnA} text,
         ${QC.columnB} text,
         ${QC.columnC} text,
@@ -166,11 +166,11 @@ class QuestionProvider extends BaseDBProvider {
         ${QC.columnType} text,
         ${QC.columnPoint} text,
         ${QC.columnMaterial} text,
-        ${QC.columnHideTag} text,
+        ${QC.columnHideTag} bool,
         ${QC.columnCategory} text,
         ${QC.columnSource} text, 
         ${QC.columnYear} text, 
-        ${QC.columnExamID} text),
+        ${QC.columnExamID} text)
       ''';
   }
 
@@ -185,6 +185,9 @@ class QuestionProvider extends BaseDBProvider {
     return question;
   }
 
+  ///
+  /// 批量插入数据
+  /// [list] 试题数组
   Future<List<Question>> insertList(List<Question> list) async {
     Database db = await getDataBase();
     for (Question question in list) {
@@ -197,22 +200,22 @@ class QuestionProvider extends BaseDBProvider {
     Database db = await getDataBase();
 
     return await db
-        .delete(tableName(), where: "${QC.columnId} = ?", whereArgs: [id]);
+        .delete(tableName(), where: "${QC.columnID} = ?", whereArgs: [id]);
   }
 
   Future<int> update(Question question) async {
     Database db = await getDataBase();
 
     return await db.update(tableName(), question.toMap(),
-        where: "${QC.columnId} = ?", whereArgs: [question.id]);
+        where: "${QC.columnID} = ?", whereArgs: [question.id]);
   }
 
-  Future<Question> get(int id) async {
+  Future<List<Question>> getQuestions(String examID) async {
     Database db = await getDataBase();
 
     List<Map> maps = await db.query(tableName(),
         columns: [
-          QC.columnId,
+          QC.columnID,
           QC.columnTitle,
           QC.columnCreatedTime,
           QC.columnUpdateTime,
@@ -233,12 +236,15 @@ class QuestionProvider extends BaseDBProvider {
           QC.columnYear,
           QC.columnExamID,
         ],
-        where: "${QC.columnId} = ?",
-        whereArgs: [id]);
+        where: "${QC.columnExamID} = ?",
+        whereArgs: [examID]);
 
-    if (maps.length > 0) {
-      return new Question.fromMap(maps.first);
+    List<Question> list = List<Question>();
+    for (Map<String, dynamic> map in maps) {
+      Question question = Question.fromMap(map);
+      list.add(question);
     }
-    return null;
+
+    return list;
   }
 }

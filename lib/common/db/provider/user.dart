@@ -10,16 +10,16 @@ class UC {
   static const String tableName = "user";
 
   /// id
-  static const String columnId = "_id";
+  static const String columnID = "_id";
 
   /// 用户ID 服务端返回
-  static const String columnUserId = "userId";
+  static const String columnUserId = "userID";
 
   /// token 标识
   static const String columnToken = "token";
 
   /// 当前试卷Id
-  static const String columnCurrentExamId = "currentExamId";
+  static const String columnCurrentExamID = "currentExamID";
 
   /// 当前试卷title
   static const String columnCurrentExamTitle = "currentExamTitle";
@@ -27,44 +27,65 @@ class UC {
 
 class User {
   int id;
-  String userId;
+  String userID;
   String token;
-  String currentExamId;
+  String currentExamID;
   String currentExamTitle;
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
-      UC.columnUserId: userId,
+      UC.columnUserId: userID,
       UC.columnToken: token,
-      UC.columnCurrentExamId: currentExamId,
+      UC.columnCurrentExamID: currentExamID,
       UC.columnCurrentExamTitle: currentExamTitle,
     };
     if (id != null) {
-      map[UC.columnId] = id;
+      map[UC.columnID] = id;
     }
     return map;
   }
 
-  User();
+  User(
+      {this.userID = "",
+      this.token = "",
+      this.currentExamTitle = "",
+      this.currentExamID = ""});
 
   User.fromMap(Map<String, dynamic> map) {
-    id = map[UC.columnId];
-    userId = map[UC.columnUserId];
+    id = map[UC.columnID];
+    userID = map[UC.columnUserId];
     token = map[UC.columnToken];
-    currentExamId = map[UC.columnCurrentExamId];
+    currentExamID = map[UC.columnCurrentExamID];
     currentExamTitle = map[UC.columnCurrentExamTitle];
+  }
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    if (id != null) {
+      return '''
+        user:
+        id: ${this.id}
+        userID: ${this.userID} 
+        token: ${this.token} 
+        currentExamID: ${this.currentExamID} 
+        urrentExamTitle: ${this.currentExamTitle}
+      ''';
+    } else {
+      return "User 表中无数据";
+    }
   }
 }
 
 class UserProvider extends BaseDBProvider {
   @override
   tableSqlString() {
-    return tableBaseString(UC.tableName, UC.columnId) +
+    return tableBaseString(UC.tableName, UC.columnID) +
         '''
-        ${UC.columnUserId} text,
-        ${UC.columnToken} text,
-        ${UC.columnCurrentExamId} text,
-        ${UC.columnCurrentExamTitle} text,
+        ${UC.columnUserId} text NULL,
+        ${UC.columnToken} text NULL,
+        ${UC.columnCurrentExamID} text NULL,
+        ${UC.columnCurrentExamTitle} text NULL)
       ''';
   }
 
@@ -83,28 +104,30 @@ class UserProvider extends BaseDBProvider {
     Database db = await getDataBase();
 
     return await db
-        .delete(tableName(), where: "${UC.columnId} = ?", whereArgs: [id]);
+        .delete(tableName(), where: "${UC.columnID} = ?", whereArgs: [id]);
   }
 
   Future<int> update(User user) async {
     Database db = await getDataBase();
 
     return await db.update(tableName(), user.toMap(),
-        where: "${UC.columnId} = ?", whereArgs: [user.id]);
+        where: "${UC.columnID} = ?", whereArgs: [user.id]);
   }
 
-  Future<User> get(int id) async {
+  Future<User> getUser(int id) async {
     Database db = await getDataBase();
 
-    List<Map> maps = await db.query(tableName(),
-        columns: [
-          UC.columnUserId,
-          UC.columnToken,
-          UC.columnCurrentExamId,
-          UC.columnCurrentExamTitle,
-        ],
-        where: "${UC.columnId} = ?",
-        whereArgs: [id]);
+    List<Map> maps = await db.query(
+      tableName(),
+      columns: [
+        UC.columnUserId,
+        UC.columnToken,
+        UC.columnCurrentExamID,
+        UC.columnCurrentExamTitle,
+      ],
+      // where: "${UC.columnID} = ?",
+      // whereArgs: [id]
+    );
 
     if (maps.length > 0) {
       return new User.fromMap(maps.first);

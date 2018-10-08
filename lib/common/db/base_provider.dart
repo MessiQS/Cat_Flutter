@@ -11,10 +11,10 @@ abstract class BaseDBProvider {
 
   tableName();
 
-  tableBaseString(String name, String columnId) {
+  tableBaseString(String name, String columnID) {
     return '''
         create table $name (
-        $columnId integer primary key autoincrement,
+        $columnID integer primary key autoincrement,
       ''';
   }
 

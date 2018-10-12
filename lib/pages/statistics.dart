@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:cat/cats/cats.dart';
 import 'package:cat/router/cat_route.dart';
 import 'package:cat/common/db/db.dart';
+import 'package:cat/pages/answer.dart';
 
 class Statistics extends StatefulWidget {
   @override
@@ -95,6 +96,9 @@ class BeginStudy extends StatelessWidget {
   }
 }
 
+///
+/// 折线图 表单
+///
 class ChartTable extends StatefulWidget {
   const ChartTable({Key key, this.title = "", this.examID = ""})
       : super(key: key);
@@ -117,27 +121,71 @@ class _ChartTableState extends State<ChartTable> {
     return ListView(
       children: <Widget>[
         Container(
-            height: 45.0,
-            width: MediaQuery.of(context).size.width,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.only(left: 24.0),
-                  child: Text(widget.title),
+          height: 45.0,
+          width: MediaQuery.of(context).size.width,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(left: 24.0),
+                child: Text(widget.title),
+              ),
+              Container(
+                margin: EdgeInsets.only(right: 16.0),
+                width: 69.0,
+                height: 25.0,
+                child: CatBaseButton(
+                  "SELECT",
+                  onPressed: () =>
+                      Navigator.of(context).pushNamed(SElECT_SUBJECT_ROUTE),
                 ),
-                Container(
-                  margin: EdgeInsets.only(right: 16.0),
-                  width: 69.0,
-                  height: 25.0,
-                  child: CatBaseButton(
-                    "SELECT",
-                    onPressed: () {},
-                  ),
-                )
-              ],
-            ))
+              ),
+            ],
+          ),
+        ),
+        ChartListItem()
       ],
     );
+  }
+}
+
+///
+/// 单个选项
+///
+class ChartListItem extends StatefulWidget {
+  @override
+  createState() => new _ChartListItemState();
+}
+
+class _ChartListItemState extends State<ChartListItem> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Container(
+          margin: EdgeInsets.only(left: 24.0),
+          child: Text("123"),
+        ),
+        Container(
+          margin: EdgeInsets.only(right: 16.0),
+          width: 69.0,
+          height: 25.0,
+          child: CatBaseButton(
+            "STUDY",
+            onPressed: () =>
+                Navigator.of(context).push(new MaterialPageRoute(builder: (_) {
+                  return Answer();
+                })),
+          ),
+        )
+      ],
+    ));
   }
 }

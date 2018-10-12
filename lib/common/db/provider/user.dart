@@ -62,8 +62,7 @@ class User {
   @override
   String toString() {
     // TODO: implement toString
-    if (id != null) {
-      return '''
+    return '''
         user:
         id: ${this.id}
         userID: ${this.userID} 
@@ -71,9 +70,6 @@ class User {
         currentExamID: ${this.currentExamID} 
         urrentExamTitle: ${this.currentExamTitle}
       ''';
-    } else {
-      return "User 表中无数据";
-    }
   }
 }
 

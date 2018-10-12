@@ -96,7 +96,7 @@ class RecordProvider extends BaseDBProvider {
         where: "${RC.columnID} = ?", whereArgs: [question.id]);
   }
 
-  Future<Record> getRecords(int id) async {
+  Future<List<Record>> getRecords(String examID) async {
     Database db = await getDataBase();
 
     List<Map> maps = await db.query(tableName(),
@@ -107,12 +107,15 @@ class RecordProvider extends BaseDBProvider {
           RC.columnExamID,
           RC.columnQuestionId,
         ],
-        where: "${RC.columnID} = ?",
-        whereArgs: [id]);
+        where: "${RC.columnExamID} = ?",
+        whereArgs: [examID]);
 
-    if (maps.length > 0) {
-      return new Record.fromMap(maps.first);
+    List<Record> list = List<Record>();
+    for (Map<String, dynamic> map in maps) {
+      Record record = Record.fromMap(map);
+      list.add(record);
     }
-    return null;
+
+    return list;
   }
 }

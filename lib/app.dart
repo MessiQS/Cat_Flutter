@@ -11,6 +11,7 @@ import 'package:cat/pages/statistics.dart';
 import 'package:cat/pages/select_subject.dart';
 import 'package:cat/pages/select_subject_second.dart';
 import 'package:cat/pages/select_subject_third.dart';
+import 'package:cat/pages/answer.dart';
 
 ///
 /// 判断登录前还是登录后
@@ -22,7 +23,10 @@ class CatApp extends StatelessWidget {
   Widget build(BuildContext context) {
     this.context = context;
     return MaterialApp(
-      theme: ThemeData(textSelectionColor: CatColors.globalTintColor),
+      theme: ThemeData(
+        textSelectionColor: CatColors.globalTintColor,
+        cursorColor: CatColors.globalTintColor,
+      ),
       title: "SIGNUP",
       home: Welcome(),
       // 设置路由
@@ -36,6 +40,7 @@ class CatApp extends StatelessWidget {
             SelectSubjectSecond(),
         SElECT_SUBJECT_THIRD_ROUTE: (BuildContext context) =>
             SelectSubjectThird(),
+        ANSWER_ROUTE: (BuildContext context) => Answer(),
       },
       supportedLocales: [
         const Locale('en'),

@@ -126,25 +126,51 @@ class Question {
   Question();
 
   Question.fromMap(Map<String, dynamic> map) {
-    id = map[QC.columnID];
-    title = map[QC.columnTitle];
-    createdTime = map[QC.columnCreatedTime];
-    updatedTime = map[QC.columnUpdateTime];
-    number = map[QC.columnNumber];
-    optionA = map[QC.columnA];
-    optionB = map[QC.columnB];
-    optionC = map[QC.columnC];
-    optionD = map[QC.columnD];
-    answer = map[QC.columnAnswer];
-    content = map[QC.columnContent];
-    type = map[QC.columnType];
-    point = map[QC.columnPoint];
-    material = map[QC.columnMaterial];
-    hideTag = map[QC.columnHideTag];
-    category = map[QC.columnCategory];
-    source = map[QC.columnSource];
-    year = map[QC.columnYear];
-    examID = map[QC.columnExamID];
+    id = map[QC.columnID] ?? 0;
+    title = map[QC.columnTitle] ?? "";
+    createdTime = map[QC.columnCreatedTime] ?? "";
+    updatedTime = map[QC.columnUpdateTime] ?? "";
+    number = map[QC.columnNumber] ?? 0;
+    optionA = map[QC.columnA] ?? "";
+    optionB = map[QC.columnB] ?? "";
+    optionC = map[QC.columnC] ?? "";
+    optionD = map[QC.columnD] ?? "";
+    answer = map[QC.columnAnswer] ?? "";
+    content = map[QC.columnContent] ?? "";
+    type = map[QC.columnType] ?? "";
+    point = map[QC.columnPoint] ?? "";
+    material = map[QC.columnMaterial] ?? "";
+    hideTag = map[QC.columnHideTag] == 0 ? false : true;
+    category = map[QC.columnCategory] ?? "";
+    source = map[QC.columnSource] ?? "";
+    year = map[QC.columnYear] ?? "";
+    examID = map[QC.columnExamID] ?? "";
+  }
+
+  @override
+  String toString() {
+    return '''
+        question:
+        ID : ${this.id}
+        Title : ${this.title}
+        CreatedTime : ${this.createdTime}
+        UpdateTime : ${this.updatedTime}
+        Number : ${this.number}
+        A : ${this.optionA}
+        B : ${this.optionB}
+        C : ${this.optionC}
+        D : ${this.optionD}
+        Answer : ${this.answer}
+        Content : ${this.content}
+        Type : ${this.type}
+        Point : ${this.point}
+        Material : ${this.material}
+        HideTag : ${this.hideTag}
+        Category : ${this.category}
+        Source : ${this.source}
+        Year : ${this.year}
+        ExamID : ${this.examID}
+      ''';
   }
 }
 
@@ -244,7 +270,6 @@ class QuestionProvider extends BaseDBProvider {
       Question question = Question.fromMap(map);
       list.add(question);
     }
-
     return list;
   }
 }

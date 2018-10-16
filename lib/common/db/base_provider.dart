@@ -27,6 +27,7 @@ abstract class BaseDBProvider {
     isTableExits = await DBManager.isTableExits(name);
     if (!isTableExits) {
       Database db = await DBManager.getCurrentDatabase();
+      print("db " + db.toString());
       return await db.execute(createSql);
     }
   }

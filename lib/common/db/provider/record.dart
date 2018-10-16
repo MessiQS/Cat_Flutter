@@ -67,7 +67,7 @@ class RecordProvider extends BaseDBProvider {
         ${RC.columnCreatedTime} double,
         ${RC.columnSelectedOption} text,
         ${RC.columnExamID} text,
-        ${RC.columnQuestionId} text,
+        ${RC.columnQuestionId} text)
       ''';
   }
 
@@ -98,7 +98,6 @@ class RecordProvider extends BaseDBProvider {
 
   Future<List<Record>> getRecords(String examID) async {
     Database db = await getDataBase();
-
     List<Map> maps = await db.query(tableName(),
         columns: [
           RC.columnID,

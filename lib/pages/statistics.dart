@@ -39,10 +39,7 @@ class _StatisticsState extends State<Statistics> {
           future: fetchUser(),
           builder: (context, snapshot) {
             if (snapshot.hasData && snapshot.data.currentExamTitle != "") {
-              return ChartTable(
-                title: snapshot.data.currentExamTitle,
-                examID: snapshot.data.currentExamID,
-              );
+              return ChartTable(user: snapshot.data);
             }
             return BeginStudy();
           },
@@ -52,9 +49,7 @@ class _StatisticsState extends State<Statistics> {
 
 Future<User> fetchUser() async {
   UserProvider userProvider = new UserProvider();
-  User user = await userProvider.getUser(1);
-
-  print(user);
+  User user = await userProvider.getUser();
 
   if (user == null) {
     print("user is null");
@@ -100,11 +95,9 @@ class BeginStudy extends StatelessWidget {
 /// 折线图 表单
 ///
 class ChartTable extends StatefulWidget {
-  const ChartTable({Key key, this.title = "", this.examID = ""})
-      : super(key: key);
+  const ChartTable({Key key, this.user}) : super(key: key);
 
-  final String title;
-  final String examID;
+  final User user;
 
   @override
   createState() => new _ChartTableState();
@@ -128,7 +121,7 @@ class _ChartTableState extends State<ChartTable> {
             children: <Widget>[
               Container(
                 margin: EdgeInsets.only(left: 24.0),
-                child: Text(widget.title),
+                child: Text(widget.user.currentExamTitle),
               ),
               Container(
                 margin: EdgeInsets.only(right: 16.0),
@@ -143,7 +136,9 @@ class _ChartTableState extends State<ChartTable> {
             ],
           ),
         ),
-        ChartListItem()
+        ChartListItem(
+          user: widget.user,
+        )
       ],
     );
   }
@@ -153,6 +148,10 @@ class _ChartTableState extends State<ChartTable> {
 /// 单个选项
 ///
 class ChartListItem extends StatefulWidget {
+  final User user;
+
+  const ChartListItem({this.user});
+
   @override
   createState() => new _ChartListItemState();
 }
@@ -181,7 +180,9 @@ class _ChartListItemState extends State<ChartListItem> {
             "STUDY",
             onPressed: () =>
                 Navigator.of(context).push(new MaterialPageRoute(builder: (_) {
-                  return Answer();
+                  return Answer(
+                    user: widget.user,
+                  );
                 })),
           ),
         )

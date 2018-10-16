@@ -2,10 +2,10 @@ import 'dart:ui' show Color;
 
 ///
 /// 调色板
-/// 
+///
 class CatColors {
   CatColors._();
-  
+
   /// 全局主色调
   /// RGB FF7B46
   static const Color globalTintColor = Color(0xFFFF7B46);
@@ -21,4 +21,10 @@ class CatColors {
 
   /// TextField TextFromField 光标颜色
   static const Color textFieldCursorColor = Color(0x88FF7B46);
+
+  /// 文本默认颜色
+  static const Color textDefaultColor = Color(0xFF272727);
+
+  /// 答案Section页面颜色
+  static const Color answerSectionColor = Color(0xFFFAFAFA);
 }

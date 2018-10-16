@@ -61,7 +61,6 @@ class User {
 
   @override
   String toString() {
-    // TODO: implement toString
     return '''
         user:
         id: ${this.id}
@@ -110,7 +109,7 @@ class UserProvider extends BaseDBProvider {
         where: "${UC.columnID} = ?", whereArgs: [user.id]);
   }
 
-  Future<User> getUser(int id) async {
+  Future<User> getUser() async {
     Database db = await getDataBase();
 
     List<Map> maps = await db.query(
@@ -121,8 +120,6 @@ class UserProvider extends BaseDBProvider {
         UC.columnCurrentExamID,
         UC.columnCurrentExamTitle,
       ],
-      // where: "${UC.columnID} = ?",
-      // whereArgs: [id]
     );
 
     if (maps.length > 0) {

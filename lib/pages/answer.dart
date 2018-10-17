@@ -63,6 +63,7 @@ class _AnswerState extends State<Answer> {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     QuestionArea(question: snapshot.data),
                     OptionsArea(
@@ -156,9 +157,12 @@ class _QuestionAreaState extends State<QuestionArea> {
 
   @override
   Widget build(BuildContext context) {
+    double height =
+        (MediaQuery.of(context).size.height - AppBar().preferredSize.height) /
+            2;
     return Container(
         width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height / 2,
+        height: height,
         child: FutureBuilder(
             future: splitQuestion(widget.question),
             builder: (context, snapshot) {
@@ -226,21 +230,62 @@ class OptionsArea extends StatefulWidget {
 }
 
 class _OptionsAreaState extends State<OptionsArea> {
+  selectOptionOnPressed() {
+    print("selectOptionOnPressed");
+  }
+
+  List<AnswerOptionItem> optionsList() {
+    List<AnswerOptionItem> list = List<AnswerOptionItem>();
+    if (widget.question.optionA.isNotEmpty) {
+      list.add(AnswerOptionItem(
+        option: "A",
+        content: widget.question.optionA,
+        onPressed: () => selectOptionOnPressed,
+      ));
+    }
+    if (widget.question.optionB.isNotEmpty) {
+      list.add(AnswerOptionItem(
+        option: "B",
+        content: widget.question.optionB,
+        onPressed: () => selectOptionOnPressed,
+      ));
+    }
+    if (widget.question.optionC.isNotEmpty) {
+      list.add(AnswerOptionItem(
+        option: "C",
+        content: widget.question.optionC,
+        onPressed: () => selectOptionOnPressed(),
+      ));
+    }
+    if (widget.question.optionD.isNotEmpty) {
+      list.add(AnswerOptionItem(
+        option: "D",
+        content: widget.question.optionD,
+        onPressed: () => selectOptionOnPressed(),
+      ));
+    }
+    return list;
+  }
+
+  /// 获取选项
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        /// Options
-        Container(
-            height: 58.0,
-            width: MediaQuery.of(context).size.width,
-            child: AnswerSection("Options")),
+    double height =
+        (MediaQuery.of(context).size.height - AppBar().preferredSize.height) /
+            2;
 
-        /// 选项
-        // ListView.builder(
-        //   itemCount: 4,
-        // )
-      ],
+    return Container(
+      height: 250.0,
+      width: MediaQuery.of(context).size.width,
+      child: ListView(
+        children: <Widget>[
+          AnswerSection("Options"),
+          Column(
+            children: optionsList(),
+          ),
+          AnswerSection("Answer Analysis"),
+        ],
+      ),
     );
   }
 }
@@ -250,29 +295,35 @@ class _OptionsAreaState extends State<OptionsArea> {
 ///
 class AnswerSection extends StatelessWidget {
   final String text;
+  final bool hasButton;
 
-  const AnswerSection(this.text);
+  const AnswerSection(
+    this.text, {
+    this.hasButton = false,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return new Stack(
-      children: <Widget>[
-        Image.asset(
-          'images/answer_section_background.png',
-          fit: BoxFit.fill,
-        ),
-        Padding(
-          padding: EdgeInsets.fromLTRB(24.0, 17.0, 24.0, 17.0),
-          child: Text(
-            text,
-            style: new TextStyle(
-              fontSize: 16.0,
-              fontWeight: FontWeight.bold,
-              color: CatColors.textDefaultColor,
-            ),
+    return new Container(
+      child: Stack(
+        children: <Widget>[
+          Image.asset(
+            'images/answer_section_background.png',
+            fit: BoxFit.fill,
           ),
-        )
-      ],
+          Padding(
+            padding: EdgeInsets.fromLTRB(24.0, 20.0, 24.0, .0),
+            child: Text(
+              text,
+              style: new TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.normal,
+                color: CatColors.textDefaultColor,
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }
@@ -281,28 +332,81 @@ class AnswerSection extends StatelessWidget {
 /// 选项
 ///
 class AnswerOptionItem extends StatefulWidget {
+  final String option;
+  final String content;
+  final GestureTapCallback onPressed;
+
+  const AnswerOptionItem({@required this.option, this.content, this.onPressed});
+
   @override
   _AnswerOptionItemState createState() => _AnswerOptionItemState();
 }
 
-class _AnswerOptionItemState extends State<AnswerOptionItem>
-    with SingleTickerProviderStateMixin {
-  AnimationController _controller;
-
+class _AnswerOptionItemState extends State<AnswerOptionItem> {
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(vsync: this);
   }
 
   @override
   void dispose() {
     super.dispose();
-    _controller.dispose();
+  }
+
+  Widget optionBuild(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.all(10.0),
+      child: Text(
+        widget.content,
+      ),
+    );
+  }
+
+  Widget icon(BuildContext context) {
+    return Stack(
+      children: <Widget>[
+        Container(
+          margin: const EdgeInsets.only(left: 5.0),
+          width: 24.0,
+          height: 24.0,
+          child: Image.asset(
+            "images/answer_default_background.png",
+            fit: BoxFit.fill,
+          ),
+        ),
+        Container(
+          width: 24.0,
+          height: 24.0,
+          margin: const EdgeInsets.only(left: 5.0),
+          child: Text(
+            widget.option,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20.0,
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      child: InkWell(
+        onTap: widget.onPressed,
+        splashColor: Colors.blueGrey,
+        child: Ink(
+          child: Row(
+            children: <Widget>[
+              icon(context),
+              optionBuild(context),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

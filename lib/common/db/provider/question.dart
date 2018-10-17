@@ -70,6 +70,9 @@ class QC {
 
   /// 试卷ID
   static const String columnExamID = "examID";
+
+  /// 分析
+  static const String columnAnalysis = "analysis";
 }
 
 class Question {
@@ -95,6 +98,7 @@ class Question {
   String source;
   String year;
   String examID;
+  String analysis;
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
@@ -116,6 +120,7 @@ class Question {
       QC.columnSource: source,
       QC.columnYear: year,
       QC.columnExamID: examID,
+      QC.columnAnalysis: analysis,
     };
     if (id != null) {
       map[QC.columnID] = id;
@@ -145,6 +150,7 @@ class Question {
     source = map[QC.columnSource] ?? "";
     year = map[QC.columnYear] ?? "";
     examID = map[QC.columnExamID] ?? "";
+    analysis = map[QC.columnAnalysis] ?? "";
   }
 
   @override
@@ -170,6 +176,7 @@ class Question {
         Source : ${this.source}
         Year : ${this.year}
         ExamID : ${this.examID}
+        Analysis: ${this.analysis}
       ''';
   }
 }
@@ -196,7 +203,8 @@ class QuestionProvider extends BaseDBProvider {
         ${QC.columnCategory} text,
         ${QC.columnSource} text, 
         ${QC.columnYear} text, 
-        ${QC.columnExamID} text)
+        ${QC.columnExamID} text,
+        ${QC.columnAnalysis} text)
       ''';
   }
 
@@ -261,6 +269,7 @@ class QuestionProvider extends BaseDBProvider {
           QC.columnSource,
           QC.columnYear,
           QC.columnExamID,
+          QC.columnAnalysis,
         ],
         where: "${QC.columnExamID} = ?",
         whereArgs: [examID]);

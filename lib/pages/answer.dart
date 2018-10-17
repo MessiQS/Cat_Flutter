@@ -63,7 +63,7 @@ class _AnswerState extends State<Answer> {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     QuestionArea(question: snapshot.data),
                     OptionsArea(
@@ -157,12 +157,9 @@ class _QuestionAreaState extends State<QuestionArea> {
 
   @override
   Widget build(BuildContext context) {
-    double height =
-        (MediaQuery.of(context).size.height - AppBar().preferredSize.height) /
-            2;
     return Container(
         width: MediaQuery.of(context).size.width,
-        height: height,
+        // height: height,
         child: FutureBuilder(
             future: splitQuestion(widget.question),
             builder: (context, snapshot) {
@@ -270,12 +267,7 @@ class _OptionsAreaState extends State<OptionsArea> {
   /// 获取选项
   @override
   Widget build(BuildContext context) {
-    double height =
-        (MediaQuery.of(context).size.height - AppBar().preferredSize.height) /
-            2;
-
     return Container(
-      height: 250.0,
       width: MediaQuery.of(context).size.width,
       child: ListView(
         children: <Widget>[
@@ -284,6 +276,7 @@ class _OptionsAreaState extends State<OptionsArea> {
             children: optionsList(),
           ),
           AnswerSection("Answer Analysis"),
+          AnswerAnalysis(question:widget.question),
         ],
       ),
     );
@@ -407,6 +400,36 @@ class _AnswerOptionItemState extends State<AnswerOptionItem> {
           ),
         ),
       ),
+    );
+  }
+}
+
+///
+/// 分析 （Answer Analysis)
+///
+class AnswerAnalysis extends StatefulWidget {
+  final Question question;
+
+  const AnswerAnalysis({this.question});
+  @override
+  _AnswerAnalysisState createState() => _AnswerAnalysisState();
+}
+
+class _AnswerAnalysisState extends State<AnswerAnalysis> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Text(widget.question.category),
     );
   }
 }

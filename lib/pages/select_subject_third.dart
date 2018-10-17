@@ -43,7 +43,7 @@ class _SelectSubjectThirdState extends State<SelectSubjectThird> {
     user.currentExamID = examID;
     user.currentExamTitle = title;
 
-    UserProvider userProvider  = new UserProvider();
+    UserProvider userProvider = new UserProvider();
     userProvider.insert(user);
   }
 
@@ -87,8 +87,8 @@ class _SelectSubjectThirdState extends State<SelectSubjectThird> {
                   itemBuilder: (context, int index) {
                     return ListItem(
                         title: models[index].title,
-                        onPressed: () =>
-                            selectExamClick(models[index].paperId, models[index].title));
+                        onPressed: () => selectExamClick(
+                            models[index].paperId, models[index].title));
                   });
             } else if (snapshot.hasError) {
               return Text("${snapshot.error}");
@@ -104,6 +104,7 @@ class _SelectSubjectThirdState extends State<SelectSubjectThird> {
 
 ///
 /// 网络请求
+/// 批量获取试卷
 ///
 Future<ExamPaperResponse> fetchData(title, subtitle) async {
   String url = Address.getTitleByProvince();
@@ -133,6 +134,8 @@ class ExamPaperResponse {
       ExamPaperModel model = ExamPaperModel.fromMap(map);
       newModels.add(model);
     }
+    newModels
+        .sort((a, b) => b.title.toUpperCase().compareTo(a.title.toUpperCase()));
     return ExamPaperResponse(
       type: json['type'],
       models: newModels,

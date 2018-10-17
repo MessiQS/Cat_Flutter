@@ -25,6 +25,7 @@ class QuestionModel {
   final String createdTime;
   final String updatedTime;
   final String source;
+  final String analysis;
 
   const QuestionModel(
       {this.number,
@@ -45,7 +46,8 @@ class QuestionModel {
       this.questionID,
       this.createdTime,
       this.updatedTime,
-      this.source});
+      this.source,
+      this.analysis});
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
@@ -66,6 +68,7 @@ class QuestionModel {
       QC.columnCategory: category,
       QC.columnSource: source,
       QC.columnYear: year,
+      QC.columnAnalysis: analysis,
     };
 
     return map;
@@ -91,6 +94,7 @@ class QuestionModel {
     var createdTime = map["created_at"] as String;
     var updatedTime = map["updated_at"] as String;
     var source = map["province"] as String;
+    var analysis = map["analysis"] as String;
 
     return QuestionModel(
         number: number,
@@ -111,6 +115,7 @@ class QuestionModel {
         questionID: questionID,
         createdTime: createdTime,
         updatedTime: updatedTime,
-        source: source);
+        source: source,
+        analysis: analysis);
   }
 }

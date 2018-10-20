@@ -131,7 +131,7 @@ class Question {
   Question();
 
   Question.fromMap(Map<String, dynamic> map) {
-    id = map[QC.columnID] ?? 0;
+    id = map[QC.columnID];
     title = map[QC.columnTitle] ?? "";
     createdTime = map[QC.columnCreatedTime] ?? "";
     updatedTime = map[QC.columnUpdateTime] ?? "";
@@ -198,13 +198,13 @@ class QuestionProvider extends BaseDBProvider {
         ${QC.columnContent} text,
         ${QC.columnType} text,
         ${QC.columnPoint} text,
-        ${QC.columnMaterial} text,
+        ${QC.columnMaterial} text NULL,
         ${QC.columnHideTag} bool,
-        ${QC.columnCategory} text,
-        ${QC.columnSource} text, 
-        ${QC.columnYear} text, 
-        ${QC.columnExamID} text,
-        ${QC.columnAnalysis} text)
+        ${QC.columnCategory} text NULL,
+        ${QC.columnSource} text NULL, 
+        ${QC.columnYear} text NULL, 
+        ${QC.columnExamID} text NULL,
+        ${QC.columnAnalysis} text NULL)
       ''';
   }
 
@@ -225,7 +225,9 @@ class QuestionProvider extends BaseDBProvider {
   Future<List<Question>> insertList(List<Question> list) async {
     Database db = await getDataBase();
     for (Question question in list) {
+      print("question before\n" + question.toString());
       question.id = await db.insert(tableName(), question.toMap());
+      print("question after\n" + question.toString());
     }
     return list;
   }

@@ -36,16 +36,6 @@ class Answer extends StatefulWidget {
 
 class _AnswerState extends State<Answer> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -66,9 +56,7 @@ class _AnswerState extends State<Answer> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     QuestionArea(question: snapshot.data),
-                    OptionsArea(
-                      question: snapshot.data,
-                    )
+                    OptionsArea(question: snapshot.data)
                   ],
                 );
               }
@@ -99,6 +87,7 @@ Future<Question> fetchData(examID, {AnswerType type}) async {
   if (list.isEmpty == false) {
     Random random = new Random();
     int number = random.nextInt(list.length - 1);
+    print("list[number]" + list[number].toString());
     return list[number];
   }
   return null;
@@ -117,19 +106,6 @@ class QuestionArea extends StatefulWidget {
 }
 
 class _QuestionAreaState extends State<QuestionArea> {
-  AnimationController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _controller.dispose();
-  }
-
   Future<List<ContentParagraphs>> splitQuestion(Question question) async {
     print(question.toString());
     question.content.replaceAll("<br>", "\n\n");
@@ -157,9 +133,7 @@ class _QuestionAreaState extends State<QuestionArea> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        width: MediaQuery.of(context).size.width,
-        // height: height,
+    return Flexible(
         child: FutureBuilder(
             future: splitQuestion(widget.question),
             builder: (context, snapshot) {
@@ -237,28 +211,28 @@ class _OptionsAreaState extends State<OptionsArea> {
       list.add(AnswerOptionItem(
         option: "A",
         content: widget.question.optionA,
-        onPressed: () => selectOptionOnPressed,
+        onPressed: () => {},
       ));
     }
     if (widget.question.optionB.isNotEmpty) {
       list.add(AnswerOptionItem(
         option: "B",
         content: widget.question.optionB,
-        onPressed: () => selectOptionOnPressed,
+        onPressed: () => {},
       ));
     }
     if (widget.question.optionC.isNotEmpty) {
       list.add(AnswerOptionItem(
         option: "C",
         content: widget.question.optionC,
-        onPressed: () => selectOptionOnPressed(),
+        onPressed: () => {},
       ));
     }
     if (widget.question.optionD.isNotEmpty) {
       list.add(AnswerOptionItem(
         option: "D",
         content: widget.question.optionD,
-        onPressed: () => selectOptionOnPressed(),
+        onPressed: () => {},
       ));
     }
     return list;
@@ -267,8 +241,7 @@ class _OptionsAreaState extends State<OptionsArea> {
   /// 获取选项
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
+    return Flexible(
       child: ListView(
         children: <Widget>[
           AnswerSection("Options"),
@@ -276,7 +249,9 @@ class _OptionsAreaState extends State<OptionsArea> {
             children: optionsList(),
           ),
           AnswerSection("Answer Analysis"),
-          AnswerAnalysis(question:widget.question),
+          AnswerAnalysis(question: widget.question),
+          AnswerSection("Content Incorrect?"),
+          Feedback(),
         ],
       ),
     );
@@ -336,25 +311,10 @@ class AnswerOptionItem extends StatefulWidget {
 }
 
 class _AnswerOptionItemState extends State<AnswerOptionItem> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  Widget optionBuild(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.all(10.0),
-      child: Text(
-        widget.content,
-      ),
-    );
-  }
-
+  ///
+  /// 选项图标
+  /// [A][B][C][D]
+  ///
   Widget icon(BuildContext context) {
     return Stack(
       children: <Widget>[
@@ -384,13 +344,27 @@ class _AnswerOptionItemState extends State<AnswerOptionItem> {
     );
   }
 
+  ///
+  /// 选项文字图片部分
+  ///
+  Widget optionBuild(BuildContext context) {
+    return Flexible(
+      child: Container(
+        margin: EdgeInsets.all(10.0),
+        child: Text(
+          widget.content,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
       child: InkWell(
         onTap: widget.onPressed,
-        splashColor: Colors.blueGrey,
+        splashColor: CatColors.cellSplashColor,
         child: Ink(
           child: Row(
             children: <Widget>[
@@ -417,19 +391,32 @@ class AnswerAnalysis extends StatefulWidget {
 
 class _AnswerAnalysisState extends State<AnswerAnalysis> {
   @override
-  void initState() {
-    super.initState();
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.fromLTRB(24.0, 8.0, 24.0, 8.0),
+      child: Text(widget.question.analysis),
+    );
   }
+}
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
+///
+/// 反馈（Content Incorrect?）
+///
+class Feedback extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text(widget.question.category),
+      height: 48.0,
+      width: MediaQuery.of(context).size.width,
+      child: InkWell(
+        onTap: () => {},
+        splashColor: CatColors.cellSplashColor,
+        child: Ink(
+          child: Row(
+            children: <Widget>[],
+          ),
+        ),
+      ),
     );
   }
 }

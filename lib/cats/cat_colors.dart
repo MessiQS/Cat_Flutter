@@ -27,4 +27,7 @@ class CatColors {
 
   /// 答案Section页面颜色
   static const Color answerSectionColor = Color(0xFFFAFAFA);
+
+  /// cell 的 splash颜色
+  static const Color cellSplashColor = Color(0xFF607D8B);
 }

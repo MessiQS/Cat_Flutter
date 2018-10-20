@@ -1,16 +1,16 @@
-class Address {
-  static const String host = "https://shuatiapp.cn/";
+import 'package:cat/common/config/config.dart';
 
+class Address {
   /// 获取试卷数据
   ///
   /// [paperId] 试卷id `SP00638`
   /// [GET] 请求方式
   static getpaper() {
-    return "${host}api/getpaper";
+    return "${Config.host}api/getpaper";
   }
 
   static getUpdate() {
-    return "${host}api/getUpdate"; 
+    return "${Config.host}api/getUpdate";
   }
 
   /// 获取答题记录
@@ -18,14 +18,14 @@ class Address {
   /// [paper_id] 试卷id `SP00638`
   /// [GET] 请求方式
   static getQuestionInfoByPaperid() {
-    return "${host}api/getQuestionInfoByPaperid";
+    return "${Config.host}api/getQuestionInfoByPaperid";
   }
 
   /// 获取试题种类 一二级
   ///
   /// [GET] 请求方式
   static getSecondType() {
-    return "${host}api/getSecondType";
+    return "${Config.host}api/getSecondType";
   }
 
   /// 通过一二级搜索三级内容
@@ -34,6 +34,6 @@ class Address {
   /// [province] 第二级类型 `河南`
   /// [GET] 请求方式
   static getTitleByProvince() {
-    return "${host}api/getTitleByProvince";
+    return "${Config.host}api/getTitleByProvince";
   }
 }

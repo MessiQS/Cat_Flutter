@@ -7,10 +7,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8935f2dd-26c4-4cde-ad5c-bb2fe2d05f7c" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/common/db/base_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common/db/base_provider.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/common/db/provider/question.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common/db/provider/question.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/common/net/api.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common/net/api.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/cats/cat_colors.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/cats/cat_colors.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/common/config/config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common/config/config.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/common/net/address.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common/net/address.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/pages/answer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/answer.dart" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -82,10 +81,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="answer.dart" pinned="false" current-in-tab="false">
+      <file leaf-file-name="answer.dart" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/lib/pages/answer.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state />
+            <state>
+              <folding>
+                <element signature="e#0#19#0" expanded="true" />
+              </folding>
+            </state>
           </provider>
         </entry>
       </file>
@@ -110,11 +113,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="select_subject_second.dart" pinned="false" current-in-tab="true">
+      <file leaf-file-name="select_subject_second.dart" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/pages/select_subject_second.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="465">
-              <caret line="35" column="46" selection-start-line="35" selection-start-column="46" selection-end-line="35" selection-end-column="46" />
+            <state relative-caret-position="165">
+              <caret line="15" column="68" selection-start-line="15" selection-start-column="68" selection-end-line="15" selection-end-column="68" />
             </state>
           </provider>
         </entry>
@@ -134,7 +137,7 @@
       <file leaf-file-name="question.dart" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/common/db/provider/question.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2760">
+            <state relative-caret-position="2790">
               <caret line="186" column="21" selection-start-line="186" selection-start-column="21" selection-end-line="186" selection-end-column="21" />
               <folding>
                 <element signature="e#0#20#0" expanded="true" />
@@ -450,6 +453,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="Android Profiler" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -780,16 +784,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/common/db/provider/question.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2760">
-          <caret line="186" column="21" selection-start-line="186" selection-start-column="21" selection-end-line="186" selection-end-column="21" />
-          <folding>
-            <element signature="e#0#20#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lib/common/db/base_provider.dart">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="330">
@@ -818,11 +812,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/pages/answer.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lib/pages/select_subject_third.dart">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1365">
@@ -849,8 +838,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/pages/select_subject_second.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="35" column="46" selection-start-line="35" selection-start-column="46" selection-end-line="35" selection-end-column="46" />
+        <state relative-caret-position="165">
+          <caret line="15" column="68" selection-start-line="15" selection-start-column="68" selection-end-line="15" selection-end-column="68" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/common/db/provider/question.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2790">
+          <caret line="186" column="21" selection-start-line="186" selection-start-column="21" selection-end-line="186" selection-end-column="21" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/pages/answer.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

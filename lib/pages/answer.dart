@@ -1,8 +1,10 @@
 import 'dart:math';
+import 'package:flutter/rendering.dart';
 
 import 'package:flutter/material.dart';
 import 'package:cat/cats/cats.dart';
 import 'package:cat/common/db/db.dart';
+import 'package:cat/common/config/config.dart';
 
 /// 试题类型
 enum AnswerType {
@@ -87,10 +89,52 @@ Future<Question> fetchData(examID, {AnswerType type}) async {
   if (list.isEmpty == false) {
     Random random = new Random();
     int number = random.nextInt(list.length - 1);
-    print("list[number]" + list[number].toString());
-    return list[number];
+    print("number: $number");
+    // return list[number];
+    return list[17];
   }
   return null;
+}
+
+///
+/// 清洗脏数据
+/// 将文本分割成数据模块
+///
+Future<List<ContentParagraphs>> splitContent(String content) async {
+  // print(content.toString());
+  content = content
+      .replaceAll("<br>", "\n\n")
+      .replaceAll("<br/>", "\n\n")
+      .replaceAll("</br>", "\n\n");
+
+  List<String> newList = List<String>();
+  List<String> list = content.split("<img");
+  for (String str in list) {
+    /// 不包含图片
+    if (str.indexOf("/>") == -1) {
+      newList.add(str);
+    } else {
+      List<String> splitList = str.split("/>");
+      splitList.forEach((s) => newList.add(s));
+    }
+  }
+
+  List<ContentParagraphs> paragraphsList = List<ContentParagraphs>();
+  for (String str in newList) {
+    ContentParagraphs paragraphs;
+
+    /// 不包含图片
+    if (str.indexOf("src=") == -1) {
+      paragraphs =
+          new ContentParagraphs(type: ParagraphsType.text, paragraphs: str);
+    } else {
+      paragraphs =
+          new ContentParagraphs(type: ParagraphsType.image, paragraphs: str);
+    }
+    paragraphsList.add(paragraphs);
+  }
+
+  return paragraphsList;
 }
 
 ///
@@ -106,40 +150,20 @@ class QuestionArea extends StatefulWidget {
 }
 
 class _QuestionAreaState extends State<QuestionArea> {
-  Future<List<ContentParagraphs>> splitQuestion(Question question) async {
-    print(question.toString());
-    question.content.replaceAll("<br>", "\n\n");
-    question.content.replaceAll("<br/>", "\n\n");
-    question.content.replaceAll("</br>", "\n\n");
-
-    List<String> list = question.content.split("<img");
-    List<ContentParagraphs> paragraphsList = List<ContentParagraphs>();
-    for (String str in list) {
-      ContentParagraphs paragraphs;
-
-      /// 不包含图片
-      if (str.indexOf("/>") == -1) {
-        paragraphs =
-            new ContentParagraphs(type: ParagraphsType.text, paragraphs: str);
-      } else {
-        paragraphs =
-            new ContentParagraphs(type: ParagraphsType.image, paragraphs: str);
-      }
-      paragraphsList.add(paragraphs);
-    }
-
-    return paragraphsList;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Flexible(
+        fit: FlexFit.tight,
         child: FutureBuilder(
-            future: splitQuestion(widget.question),
+            future: splitContent(widget.question.content),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return Container(
-                  height: 202.0,
+                  decoration: const BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(width: 1.0, color: Color(0xAADBDBDB)),
+                    ),
+                  ),
                   width: MediaQuery.of(context).size.width,
                   child: ListView.builder(
                       itemCount: snapshot.data.length,
@@ -179,7 +203,81 @@ class ContentParagraphs extends StatelessWidget {
 
     /// 图片
     if (this.type == ParagraphsType.image) {
-      return Image.network(paragraphs);
+      ///
+      /// 到这步获得的字符串样子
+      /// [paragraphs]
+      /// alt="" class=""
+      /// src="./images/56db380cf50180a7/normal_557x558_30fe67d42d27835b8fdc6b883417feff.png"
+      /// width="329" height="330"
+      ///
+      RegExp regExp = new RegExp(
+        r'src\s*=\s*"(.+?)"',
+        caseSensitive: false,
+        multiLine: false,
+      );
+
+      String str = regExp.firstMatch(paragraphs).group(0);
+
+      ///
+      /// 提取完成后的src
+      /// https://shuatiapp.cn/images/56db380cf50180a7/normal_583x673_a768f839ffb619572cc196a2478daff7.png
+      ///
+      String src = str.replaceAll('src="./', Config.host).replaceAll('"', "");
+
+      print("paragraphs" + paragraphs);
+
+      double maxWidth = MediaQuery.of(context).size.width - 48;
+      // double maxHeight = 300.0;
+      double width = 200.0;
+      double height = 200.0;
+
+      ///
+      /// `公务员考试题`
+      RegExp sizeRegExp = new RegExp(
+        r'/(normal|formula)_(.*)x(.*)_',
+        caseSensitive: false,
+        multiLine: false,
+      );
+
+      /// 如果能匹配到相应的格式
+      if (sizeRegExp.hasMatch(src)) {
+        ///
+        /// 截取的字符串
+        /// normal_595x154_ formula_595x154_
+        ///
+        Match match = sizeRegExp.firstMatch(src);
+        String finder = match.group(0);
+
+        ///
+        /// [type]
+        /// `normal` or `formula`
+        String type = finder.split("_").first.replaceAll("/", "");
+
+        /// 595x154
+        String size = finder.split("_")[1];
+        String strWidth = size.split("x").first;
+        String strHeight = size.split("x").last;
+
+        /// 缩放到指定倍数
+        width = double.parse('$strWidth');
+        height = double.parse('$strHeight');
+
+        /// 设置最大尺寸上限
+        width = min(maxWidth, width);
+        // height = min(maxHeight, height);
+      }
+      print('''    
+        width: $width 
+        height: $height
+        maxWidht: $maxWidth
+        ''');
+      return Container(
+          width: width,
+          height: height,
+          child: Image.network(
+            src,
+            fit: BoxFit.contain,
+          ));
     }
 
     /// HTML 富文本，待定
@@ -242,6 +340,7 @@ class _OptionsAreaState extends State<OptionsArea> {
   @override
   Widget build(BuildContext context) {
     return Flexible(
+      fit: FlexFit.tight,
       child: ListView(
         children: <Widget>[
           AnswerSection("Options"),
@@ -252,6 +351,10 @@ class _OptionsAreaState extends State<OptionsArea> {
           AnswerAnalysis(question: widget.question),
           AnswerSection("Content Incorrect?"),
           Feedback(),
+          Container(
+            color: Color(0xFFFAFAFA),
+            height: 16.0,
+          )
         ],
       ),
     );
@@ -412,8 +515,33 @@ class Feedback extends StatelessWidget {
         onTap: () => {},
         splashColor: CatColors.cellSplashColor,
         child: Ink(
+          decoration: const BoxDecoration(
+            border: Border(
+              top: BorderSide(width: 1.0, color: Color(0xAADBDBDB)),
+              bottom: BorderSide(width: 1.0, color: Color(0xAADBDBDB)),
+            ),
+          ),
           child: Row(
-            children: <Widget>[],
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(left: 16.0),
+                child: Image.asset("images/feedback_icon.png"),
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 32.0),
+                child: Text("Send Feedback"),
+              ),
+
+              /// 占位辅图
+              Expanded(
+                child: Container(),
+              ),
+              Container(
+                margin: EdgeInsets.only(right: 16.0),
+                child: Image.asset("images/feedback_send_icon.png"),
+              ),
+            ],
           ),
         ),
       ),

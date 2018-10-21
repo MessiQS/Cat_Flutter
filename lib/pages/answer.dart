@@ -20,16 +20,16 @@ class _AnswerState extends State<Answer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            backgroundColor: CatColors.globalTintColor,
-            title: Text(widget.user.currentExamTitle),
-            actions: <Widget>[
+        appBar: GradientAppBar(
+          title: Text(widget.user.currentExamTitle),
+          actions: <Widget>[
               new IconButton(
                 icon: const Icon(Icons.share),
                 onPressed: () {},
-                tooltip: '更多',
+                tooltip: 'Share',
               ),
-            ]),
+            ]
+        ),
         body: FutureBuilder<Question>(
             future: AnswerService.fetchData(widget.user.currentExamID,
                 type: widget.type),
@@ -39,7 +39,7 @@ class _AnswerState extends State<Answer> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     QuestionArea(question: snapshot.data),
-                    QuestionSolveArea(question: snapshot.data)
+                    BottomArea(question: snapshot.data)
                   ],
                 );
               }
@@ -157,6 +157,27 @@ class ContentParagraphs extends StatelessWidget {
 }
 
 ///
+/// 下方区域，解题区域的容器
+/// 为了解耦，让有材料分析的时候可以变成全局的ListView
+///
+class BottomArea extends StatelessWidget {
+  final Question question;
+
+  const BottomArea({this.question});
+
+  @override
+  Widget build(BuildContext context) {
+    return Flexible(
+        fit: FlexFit.tight,
+        child: ListView(children: <Widget>[
+          QuestionSolveArea(
+            question: this.question,
+          )
+        ]));
+  }
+}
+
+///
 /// 解题区
 ///
 class QuestionSolveArea extends StatefulWidget {
@@ -245,53 +266,35 @@ class _QuestionSolveAreaState extends State<QuestionSolveArea> {
   /// 获取选项
   @override
   Widget build(BuildContext context) {
-    return Flexible(
-      fit: FlexFit.tight,
-      child: ListView(
-        children: <Widget>[
-          /// 选项 Section
-          AnswerSection("Options"),
+    return Column(
+      children: <Widget>[
+        /// 选项 Section
+        AnswerSection("Options"),
 
-          /// 选项
-          Column(
-            children: optionsList(),
-          ),
+        /// 选项
+        Column(
+          children: optionsList(),
+        ),
 
-          /// 答案分析 Section
-          AnswerSection("Answer Analysis"),
+        /// 答案分析 Section
+        AnswerSection("Answer Analysis"),
 
-          /// 答案分析
-          AnswerAnalysis(question: widget.question),
+        /// 答案分析
+        AnswerAnalysis(question: widget.question),
 
-          /// 错题反馈 Section
-          AnswerSection("Content Incorrect?"),
+        /// 错题反馈 Section
+        AnswerSection("Content Incorrect?"),
 
-          /// 错题反馈
-          FeedbackItem(question: widget.question),
+        /// 错题反馈
+        FeedbackItem(question: widget.question),
 
-          /// 底部占位图
-          Container(
-            color: Color(0xFFFAFAFA),
-            height: 16.0,
-          )
-        ],
-      ),
+        /// 底部占位图
+        Container(
+          color: Color(0xFFFAFAFA),
+          height: 16.0,
+        )
+      ],
     );
-  }
-}
-
-///
-/// 选项区
-///
-class OptionsAera extends StatefulWidget {
-  @override
-  _OptionsAeraState createState() => _OptionsAeraState();
-}
-
-class _OptionsAeraState extends State<OptionsAera> {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
   }
 }
 

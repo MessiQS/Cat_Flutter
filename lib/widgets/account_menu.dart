@@ -30,7 +30,7 @@ class _AccountMenuStatefulWidget extends State<AccountMenuStatefulWidget> {
                   decoration: const InputDecoration(
                     hintText: 'Your email address',
                     hintStyle: const TextStyle(
-                        color: CatColors.textFieldPalceHolderColor,
+                        color: CatColors.textFieldPlaceHolderColor,
                         fontSize: 14.0),
                     labelText: 'E-mail',
                     labelStyle:
@@ -55,7 +55,7 @@ class _AccountMenuStatefulWidget extends State<AccountMenuStatefulWidget> {
                   decoration: const InputDecoration(
                     hintText: 'Your Password',
                     hintStyle: const TextStyle(
-                        color: CatColors.textFieldPalceHolderColor,
+                        color: CatColors.textFieldPlaceHolderColor,
                         fontSize: 14.0),
                     labelText: 'Password',
                     labelStyle:

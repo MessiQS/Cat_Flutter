@@ -21,9 +21,8 @@ class _SelectSubjectState extends State<SelectSubject> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
+        appBar: GradientAppBar(
           title: Text("Select Subject"),
-          backgroundColor: CatColors.globalTintColor,
         ),
         body: FutureBuilder<SelectSubjectGet>(
             future: fetchData(),

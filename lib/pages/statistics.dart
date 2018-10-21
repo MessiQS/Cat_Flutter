@@ -20,8 +20,7 @@ class _StatisticsState extends State<Statistics> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            backgroundColor: CatColors.globalTintColor,
+        appBar: GradientAppBar(
             title: Text("Statistics"),
             leading: IconButton(
               tooltip: '菜单栏',

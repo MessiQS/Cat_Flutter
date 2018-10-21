@@ -73,9 +73,8 @@ class _SelectSubjectThirdState extends State<SelectSubjectThird> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
+        appBar: GradientAppBar(
           title: Text(widget.subtitle),
-          backgroundColor: CatColors.globalTintColor,
         ),
         body: FutureBuilder<ExamPaperResponse>(
           future: fetchData(widget.title, widget.subtitle),

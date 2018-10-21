@@ -14,8 +14,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            backgroundColor: CatColors.globalTintColor,
+        appBar: GradientAppBar(
             title: Text("Send Feedback"),
             actions: <Widget>[
               new IconButton(

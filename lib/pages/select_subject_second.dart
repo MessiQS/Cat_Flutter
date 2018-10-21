@@ -22,9 +22,8 @@ class _SelectSubjectSecondState extends State<SelectSubjectSecond> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
+        appBar: GradientAppBar(
           title: Text(widget.model.title.toString()),
-          backgroundColor: CatColors.globalTintColor,
         ),
         body: ListView.builder(
             itemCount: widget.model.list.length,

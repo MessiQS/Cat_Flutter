@@ -53,9 +53,11 @@ class AnswerService {
     if (list.isEmpty == false) {
       Random random = new Random();
       int number = random.nextInt(list.length - 1);
-      print("${list[number]}");
-      return list[number];
-      // return list[17];
+      Question question = list[number];
+      // Question question = list[58];
+
+      print("${question}");
+      return question;
     }
     return null;
   }
@@ -83,6 +85,10 @@ class AnswerService {
     return false;
   }
 
+  ///
+  /// 通过字符串 截取所需要的数据
+  /// 转换成Image模型
+  ///
   static ImageModel getImageModelFromParagraphs(
       String paragraphs, BuildContext context) {
     ///
@@ -143,14 +149,18 @@ class AnswerService {
       width = double.parse('$strWidth');
       height = double.parse('$strHeight');
 
+      if (type == "normal") {
+        width = width * 0.7;
+        height = height * 0.7;
+      }
+      if (type == "formula") {
+        width = width * 0.3;
+        height = height * 0.3;
+      }
+
       /// 设置最大尺寸上限
       width = min(maxWidth, width);
     }
-    print('''    
-        width: $width 
-        height: $height
-        maxWidht: $maxWidth
-        ''');
     return ImageModel(
         height: height, width: width, src: src, type: ImageType.network);
   }

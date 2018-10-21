@@ -1,10 +1,8 @@
-import 'dart:math';
 import 'package:flutter/rendering.dart';
 
 import 'package:flutter/material.dart';
 import 'package:cat/cats/cats.dart';
 import 'package:cat/common/db/db.dart';
-import 'package:cat/common/config/config.dart';
 import 'package:cat/pages/feedback.dart';
 import 'package:cat/common/services/answer.dart';
 import 'package:cat/models/image.dart';
@@ -53,7 +51,7 @@ class _AnswerState extends State<Answer> {
 ///
 /// 将文本分割成数据模块
 ///
-Future<List<ContentParagraphs>> splitContent(String content) async {
+Future<List<ContentParagraphs>> splitWidgets(String content) async {
   /// 清洗脏数据
   List<String> list = AnswerService.splitContent(content);
 
@@ -93,7 +91,7 @@ class _QuestionAreaState extends State<QuestionArea> {
     return Flexible(
         fit: FlexFit.tight,
         child: FutureBuilder(
-            future: splitContent(widget.question.content),
+            future: splitWidgets(widget.question.content),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return Container(
@@ -179,16 +177,36 @@ class _OptionsAreaState extends State<OptionsArea> {
   ///
   selectOptionOnPressed(String option) {
     print("selectOptionOnPressed " + option);
-    selectedOptions.add(option);
-
-    /// 单选
-    // if (widget.question.)s
 
     /// 多选
+    if (AnswerService.isHaveMutilpleAnswer(widget.question)) {
+      /// 如果没有添加过
+      if (selectedOptions.indexOf(option) == -1) {
+        selectedOptions.add(option);
+      } else {
+        selectedOptions.remove(option);
+      }
+      return;
+    }
 
-    /// 模糊 认识
+    /// 单选
+    this.confirmSelection();
   }
 
+  ///
+  /// 点击确认按钮
+  ///
+  doneButtonOnPressed() {}
+
+  ///
+  /// 确认选择
+  ///
+  confirmSelection() {}
+
+  ///
+  /// 有的是两个选项
+  /// 有的是四个选项
+  ///
   List<AnswerOptionItem> optionsList() {
     List<AnswerOptionItem> list = List<AnswerOptionItem>();
     if (widget.question.optionA.isNotEmpty) {
@@ -321,7 +339,7 @@ class _AnswerOptionItemState extends State<AnswerOptionItem> {
     return Stack(
       children: <Widget>[
         Container(
-          margin: const EdgeInsets.only(left: 5.0),
+          margin: const EdgeInsets.only(left: 24.0),
           width: 24.0,
           height: 24.0,
           child: Image.asset(
@@ -332,7 +350,7 @@ class _AnswerOptionItemState extends State<AnswerOptionItem> {
         Container(
           width: 24.0,
           height: 24.0,
-          margin: const EdgeInsets.only(left: 5.0),
+          margin: const EdgeInsets.only(left: 24.0),
           child: Text(
             widget.option,
             textAlign: TextAlign.center,
@@ -352,9 +370,15 @@ class _AnswerOptionItemState extends State<AnswerOptionItem> {
   Widget optionBuild(BuildContext context) {
     return Flexible(
       child: Container(
-        margin: EdgeInsets.all(10.0),
-        child: Text(
-          widget.content,
+        margin: EdgeInsets.fromLTRB(16.0, 10.0, 24.0, 10.0),
+        child: FutureBuilder(
+          future: splitWidgets(widget.content),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Column(children: snapshot.data);
+            }
+            return Container();
+          },
         ),
       ),
     );
@@ -397,7 +421,7 @@ class _AnswerAnalysisState extends State<AnswerAnalysis> {
     return Container(
         margin: EdgeInsets.fromLTRB(24.0, 8.0, 24.0, 8.0),
         child: FutureBuilder(
-          future: splitContent(widget.question.analysis),
+          future: splitWidgets(widget.question.analysis),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return Column(children: snapshot.data);

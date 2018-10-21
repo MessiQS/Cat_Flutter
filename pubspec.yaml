@@ -47,11 +47,11 @@ flutter:
    - images/sign_up_background.png
    - images/login_background.png
    - images/answer_section_background.png
-   - images/answer_default_background.png
-   - images/answer_right_background.png
-   - images/answer_wrong_background.png
    - images/feedback_icon.png
    - images/feedback_send_icon.png
+   - images/option_default_background.png
+   - images/option_right_background.png
+   - images/option_wrong_background.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.

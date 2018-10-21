@@ -1,8 +1,3 @@
-///
-/// 未完待续
-/// https://stackoverflow.com/questions/52753141/flutter-can-anybody-help-making-custom-tabcontroller-in-flutter
-///
-
 import 'package:flutter/material.dart';
 
 class GradientAppBar extends StatefulWidget implements PreferredSizeWidget {

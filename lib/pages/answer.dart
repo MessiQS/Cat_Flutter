@@ -7,6 +7,9 @@ import 'package:cat/pages/feedback.dart';
 import 'package:cat/common/services/answer.dart';
 import 'package:cat/models/image.dart';
 
+/// 
+/// 答题页面
+/// 
 class Answer extends StatefulWidget {
   final User user;
   final AnswerType type;

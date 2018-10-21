@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cat/cats/cats.dart';
 import 'package:cat/widgets/subject_list_item.dart';
-import 'package:cat/common/net/net.dart';
 import 'package:cat/common//db/db.dart';
 import 'package:cat/models/question.dart';
 

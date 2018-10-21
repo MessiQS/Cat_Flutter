@@ -12,6 +12,7 @@ import 'package:cat/pages/select_subject.dart';
 import 'package:cat/pages/select_subject_second.dart';
 import 'package:cat/pages/select_subject_third.dart';
 import 'package:cat/pages/answer.dart';
+import 'package:cat/pages/feedback.dart';
 
 ///
 /// 判断登录前还是登录后
@@ -41,6 +42,7 @@ class CatApp extends StatelessWidget {
         SElECT_SUBJECT_THIRD_ROUTE: (BuildContext context) =>
             SelectSubjectThird(),
         ANSWER_ROUTE: (BuildContext context) => Answer(),
+        FEEDBACK_ROUTE: (BuildContext context) => FeedbackPage(),
       },
       supportedLocales: [
         const Locale('en'),

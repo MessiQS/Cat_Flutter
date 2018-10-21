@@ -62,7 +62,8 @@ class User {
   @override
   String toString() {
     return '''
-        user:
+        =======================  User  =======================
+
         id: ${this.id}
         userID: ${this.userID} 
         token: ${this.token} 

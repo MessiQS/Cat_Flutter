@@ -5,27 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:cat/cats/cats.dart';
 import 'package:cat/common/db/db.dart';
 import 'package:cat/common/config/config.dart';
-
-/// 试题类型
-enum AnswerType {
-  /// 学习过的题
-  studied,
-
-  /// 没有学习过的题
-  neverStudied
-}
-
-/// 段落类型
-enum ParagraphsType {
-  /// 图片
-  image,
-
-  /// 文字
-  text,
-
-  /// HTML格式富文本
-  html,
-}
+import 'package:cat/pages/feedback.dart';
+import 'package:cat/common/services/answer.dart';
+import 'package:cat/models/image.dart';
 
 class Answer extends StatefulWidget {
   final User user;
@@ -51,7 +33,8 @@ class _AnswerState extends State<Answer> {
               ),
             ]),
         body: FutureBuilder<Question>(
-            future: fetchData(widget.user.currentExamID, type: widget.type),
+            future: AnswerService.fetchData(widget.user.currentExamID,
+                type: widget.type),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return Column(
@@ -67,60 +50,15 @@ class _AnswerState extends State<Answer> {
   }
 }
 
-Future<Question> fetchData(examID, {AnswerType type}) async {
-  QuestionProvider questionProvider = new QuestionProvider();
-  RecordProvider recordProvider = new RecordProvider();
-
-  /// 获取对应试卷的所有试题
-  List<Question> list = await questionProvider.getQuestions(examID);
-  List<Record> recordList = await recordProvider.getRecords(examID);
-  List<String> recordExamIds = List<String>();
-  if (recordList.isEmpty == false) {
-    recordExamIds = recordList.map((value) => value.examId);
-  }
-
-  /// 获取所有做过
-  List<String> unique = List<String>();
-  recordExamIds.forEach((str) {
-    if (unique.contains(str) == false) {
-      unique.add(str);
-    }
-  });
-  if (list.isEmpty == false) {
-    Random random = new Random();
-    int number = random.nextInt(list.length - 1);
-    print("number: $number");
-    // return list[number];
-    return list[17];
-  }
-  return null;
-}
-
 ///
-/// 清洗脏数据
 /// 将文本分割成数据模块
 ///
 Future<List<ContentParagraphs>> splitContent(String content) async {
-  // print(content.toString());
-  content = content
-      .replaceAll("<br>", "\n\n")
-      .replaceAll("<br/>", "\n\n")
-      .replaceAll("</br>", "\n\n");
-
-  List<String> newList = List<String>();
-  List<String> list = content.split("<img");
-  for (String str in list) {
-    /// 不包含图片
-    if (str.indexOf("/>") == -1) {
-      newList.add(str);
-    } else {
-      List<String> splitList = str.split("/>");
-      splitList.forEach((s) => newList.add(s));
-    }
-  }
+  /// 清洗脏数据
+  List<String> list = AnswerService.splitContent(content);
 
   List<ContentParagraphs> paragraphsList = List<ContentParagraphs>();
-  for (String str in newList) {
+  for (String str in list) {
     ContentParagraphs paragraphs;
 
     /// 不包含图片
@@ -166,6 +104,7 @@ class _QuestionAreaState extends State<QuestionArea> {
                   ),
                   width: MediaQuery.of(context).size.width,
                   child: ListView.builder(
+                      padding: EdgeInsets.fromLTRB(24.0, 16.0, 24.0, .0),
                       itemCount: snapshot.data.length,
                       itemBuilder: (context, int index) {
                         /// 内部存储的段落
@@ -195,7 +134,6 @@ class ContentParagraphs extends StatelessWidget {
     /// 文本
     if (this.type == ParagraphsType.text) {
       return Container(
-          margin: EdgeInsets.fromLTRB(24.0, 16.0, 24.0, .0),
           child: Text(this.paragraphs,
               style: TextStyle(
                   fontSize: 14.0, color: CatColors.textDefaultColor)));
@@ -203,79 +141,13 @@ class ContentParagraphs extends StatelessWidget {
 
     /// 图片
     if (this.type == ParagraphsType.image) {
-      ///
-      /// 到这步获得的字符串样子
-      /// [paragraphs]
-      /// alt="" class=""
-      /// src="./images/56db380cf50180a7/normal_557x558_30fe67d42d27835b8fdc6b883417feff.png"
-      /// width="329" height="330"
-      ///
-      RegExp regExp = new RegExp(
-        r'src\s*=\s*"(.+?)"',
-        caseSensitive: false,
-        multiLine: false,
-      );
-
-      String str = regExp.firstMatch(paragraphs).group(0);
-
-      ///
-      /// 提取完成后的src
-      /// https://shuatiapp.cn/images/56db380cf50180a7/normal_583x673_a768f839ffb619572cc196a2478daff7.png
-      ///
-      String src = str.replaceAll('src="./', Config.host).replaceAll('"', "");
-
-      print("paragraphs" + paragraphs);
-
-      double maxWidth = MediaQuery.of(context).size.width - 48;
-      // double maxHeight = 300.0;
-      double width = 200.0;
-      double height = 200.0;
-
-      ///
-      /// `公务员考试题`
-      RegExp sizeRegExp = new RegExp(
-        r'/(normal|formula)_(.*)x(.*)_',
-        caseSensitive: false,
-        multiLine: false,
-      );
-
-      /// 如果能匹配到相应的格式
-      if (sizeRegExp.hasMatch(src)) {
-        ///
-        /// 截取的字符串
-        /// normal_595x154_ formula_595x154_
-        ///
-        Match match = sizeRegExp.firstMatch(src);
-        String finder = match.group(0);
-
-        ///
-        /// [type]
-        /// `normal` or `formula`
-        String type = finder.split("_").first.replaceAll("/", "");
-
-        /// 595x154
-        String size = finder.split("_")[1];
-        String strWidth = size.split("x").first;
-        String strHeight = size.split("x").last;
-
-        /// 缩放到指定倍数
-        width = double.parse('$strWidth');
-        height = double.parse('$strHeight');
-
-        /// 设置最大尺寸上限
-        width = min(maxWidth, width);
-        // height = min(maxHeight, height);
-      }
-      print('''    
-        width: $width 
-        height: $height
-        maxWidht: $maxWidth
-        ''');
+      ImageModel imageModel =
+          AnswerService.getImageModelFromParagraphs(paragraphs, context);
       return Container(
-          width: width,
-          height: height,
+          width: imageModel.width,
+          height: imageModel.height,
           child: Image.network(
-            src,
+            imageModel.src,
             fit: BoxFit.contain,
           ));
     }
@@ -299,8 +171,22 @@ class OptionsArea extends StatefulWidget {
 }
 
 class _OptionsAreaState extends State<OptionsArea> {
-  selectOptionOnPressed() {
-    print("selectOptionOnPressed");
+  List<String> selectedOptions = List<String>();
+
+  ///
+  /// 选择试题
+  /// 区分 [多选] [单选] [模糊]
+  ///
+  selectOptionOnPressed(String option) {
+    print("selectOptionOnPressed " + option);
+    selectedOptions.add(option);
+
+    /// 单选
+    // if (widget.question.)s
+
+    /// 多选
+
+    /// 模糊 认识
   }
 
   List<AnswerOptionItem> optionsList() {
@@ -309,28 +195,28 @@ class _OptionsAreaState extends State<OptionsArea> {
       list.add(AnswerOptionItem(
         option: "A",
         content: widget.question.optionA,
-        onPressed: () => {},
+        onPressed: () => selectOptionOnPressed("A"),
       ));
     }
     if (widget.question.optionB.isNotEmpty) {
       list.add(AnswerOptionItem(
         option: "B",
         content: widget.question.optionB,
-        onPressed: () => {},
+        onPressed: () => selectOptionOnPressed("B"),
       ));
     }
     if (widget.question.optionC.isNotEmpty) {
       list.add(AnswerOptionItem(
         option: "C",
         content: widget.question.optionC,
-        onPressed: () => {},
+        onPressed: () => selectOptionOnPressed("C"),
       ));
     }
     if (widget.question.optionD.isNotEmpty) {
       list.add(AnswerOptionItem(
         option: "D",
         content: widget.question.optionD,
-        onPressed: () => {},
+        onPressed: () => selectOptionOnPressed("D"),
       ));
     }
     return list;
@@ -343,14 +229,27 @@ class _OptionsAreaState extends State<OptionsArea> {
       fit: FlexFit.tight,
       child: ListView(
         children: <Widget>[
+          /// 选项 Section
           AnswerSection("Options"),
+
+          /// 选项
           Column(
             children: optionsList(),
           ),
+
+          /// 答案分析 Section
           AnswerSection("Answer Analysis"),
+
+          /// 答案分析
           AnswerAnalysis(question: widget.question),
+
+          /// 错题反馈 Section
           AnswerSection("Content Incorrect?"),
-          Feedback(),
+
+          /// 错题反馈
+          FeedbackItem(question: widget.question),
+
+          /// 底部占位图
           Container(
             color: Color(0xFFFAFAFA),
             height: 16.0,
@@ -496,23 +395,38 @@ class _AnswerAnalysisState extends State<AnswerAnalysis> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.fromLTRB(24.0, 8.0, 24.0, 8.0),
-      child: Text(widget.question.analysis),
-    );
+        margin: EdgeInsets.fromLTRB(24.0, 8.0, 24.0, 8.0),
+        child: FutureBuilder(
+          future: splitContent(widget.question.analysis),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Column(children: snapshot.data);
+            }
+            return Container();
+          },
+        ));
   }
 }
 
 ///
 /// 反馈（Content Incorrect?）
 ///
-class Feedback extends StatelessWidget {
+class FeedbackItem extends StatelessWidget {
+  final Question question;
+  const FeedbackItem({this.question});
+
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 48.0,
       width: MediaQuery.of(context).size.width,
       child: InkWell(
-        onTap: () => {},
+        onTap: () =>
+            Navigator.of(context).push(new MaterialPageRoute(builder: (_) {
+              return FeedbackPage(
+                question: this.question,
+              );
+            })),
         splashColor: CatColors.cellSplashColor,
         child: Ink(
           decoration: const BoxDecoration(

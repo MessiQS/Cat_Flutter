@@ -7,10 +7,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8935f2dd-26c4-4cde-ad5c-bb2fe2d05f7c" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/lib/cats/cat_colors.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/cats/cat_colors.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/common/config/config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common/config/config.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/common/net/address.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common/net/address.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/common/db/provider/question.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common/db/provider/question.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/common/db/provider/user.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common/db/provider/user.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/pages/answer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/answer.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/router/cat_route.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/router/cat_route.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -66,7 +72,7 @@
       <file leaf-file-name="record.dart" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/common/db/provider/record.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="630">
+            <state relative-caret-position="660">
               <caret line="44" column="21" selection-start-line="44" selection-start-column="21" selection-end-line="44" selection-end-column="21" />
             </state>
           </provider>
@@ -81,10 +87,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="answer.dart" pinned="false" current-in-tab="true">
+      <file leaf-file-name="answer.dart" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/pages/answer.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
+            <state relative-caret-position="1620">
+              <caret line="116" column="79" selection-start-line="116" selection-start-column="79" selection-end-line="116" selection-end-column="79" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="answer.dart" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/lib/common/services/answer.dart">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="375">
+              <caret line="25" column="7" lean-forward="true" selection-start-line="25" selection-start-column="7" selection-end-line="25" selection-end-column="7" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -122,23 +138,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="user.dart" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lib/common/db/provider/user.dart">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="26" selection-start-line="26" selection-end-line="26" />
-              <folding>
-                <element signature="e#0#20#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="question.dart" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/common/db/provider/question.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2790">
-              <caret line="186" column="21" selection-start-line="186" selection-start-column="21" selection-end-line="186" selection-end-column="21" />
+            <state relative-caret-position="2775">
+              <caret line="187" column="21" selection-start-line="187" selection-start-column="21" selection-end-line="187" selection-end-column="21" />
               <folding>
                 <element signature="e#0#20#0" expanded="true" />
               </folding>
@@ -163,6 +167,7 @@
       <find>fromMap</find>
       <find>fetchData</find>
       <find>ListView</find>
+      <find>splitContent</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -259,8 +264,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -300,6 +303,13 @@
               <item name="lib" type="462c0819:PsiDirectoryNode" />
               <item name="common" type="462c0819:PsiDirectoryNode" />
               <item name="net" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cat" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cat" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="common" type="462c0819:PsiDirectoryNode" />
+              <item name="services" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="cat" type="b2602c69:ProjectViewProjectNode" />
@@ -345,6 +355,8 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -464,7 +476,7 @@
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" weight="0.32969698" />
       <window_info anchor="bottom" id="Dart Analysis" order="7" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.27690446" />
-      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.0" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.32889965" />
       <window_info anchor="right" id="Flutter Outline" order="3" />
       <window_info anchor="bottom" id="Logcat" order="7" />
@@ -506,13 +518,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/lib/common/net/address.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="13" selection-start-column="6" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lib/common/net/api.dart">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="480">
@@ -807,7 +812,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/common/db/provider/record.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="630">
+        <state relative-caret-position="660">
           <caret line="44" column="21" selection-start-line="44" selection-start-column="21" selection-end-line="44" selection-end-column="21" />
         </state>
       </provider>
@@ -845,8 +850,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/common/db/provider/question.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2790">
-          <caret line="186" column="21" selection-start-line="186" selection-start-column="21" selection-end-line="186" selection-end-column="21" />
+        <state relative-caret-position="2775">
+          <caret line="187" column="21" selection-start-line="187" selection-start-column="21" selection-end-line="187" selection-end-column="21" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
           </folding>
@@ -855,7 +860,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/pages/answer.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
+        <state relative-caret-position="1620">
+          <caret line="116" column="79" selection-start-line="116" selection-start-column="79" selection-end-line="116" selection-end-column="79" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/common/services/answer.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="25" column="7" lean-forward="true" selection-start-line="25" selection-start-column="7" selection-end-line="25" selection-end-column="7" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>

@@ -6,3 +6,4 @@ const String SElECT_SUBJECT_ROUTE = "cat://SelectSubject";
 const String SElECT_SUBJECT_SECOND_ROUTE = "cat://SelectSubjectSecond";
 const String SElECT_SUBJECT_THIRD_ROUTE = "cat://SelectSubjectThird";
 const String ANSWER_ROUTE = "cat://Answer";
+const String FEEDBACK_ROUTE = "cat://Feedback";

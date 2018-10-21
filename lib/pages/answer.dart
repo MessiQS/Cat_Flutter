@@ -39,7 +39,7 @@ class _AnswerState extends State<Answer> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     QuestionArea(question: snapshot.data),
-                    OptionsArea(question: snapshot.data)
+                    QuestionSolveArea(question: snapshot.data)
                   ],
                 );
               }
@@ -157,18 +157,18 @@ class ContentParagraphs extends StatelessWidget {
 }
 
 ///
-/// 选项区
+/// 解题区
 ///
-class OptionsArea extends StatefulWidget {
+class QuestionSolveArea extends StatefulWidget {
   final Question question;
 
-  const OptionsArea({this.question});
+  const QuestionSolveArea({this.question});
 
   @override
-  _OptionsAreaState createState() => _OptionsAreaState();
+  _QuestionSolveAreaState createState() => _QuestionSolveAreaState();
 }
 
-class _OptionsAreaState extends State<OptionsArea> {
+class _QuestionSolveAreaState extends State<QuestionSolveArea> {
   List<String> selectedOptions = List<String>();
 
   ///
@@ -196,7 +196,9 @@ class _OptionsAreaState extends State<OptionsArea> {
   ///
   /// 点击确认按钮
   ///
-  doneButtonOnPressed() {}
+  doneButtonOnPressed() {
+    this.confirmSelection();
+  }
 
   ///
   /// 确认选择
@@ -279,6 +281,21 @@ class _OptionsAreaState extends State<OptionsArea> {
 }
 
 ///
+/// 选项区
+///
+class OptionsAera extends StatefulWidget {
+  @override
+  _OptionsAeraState createState() => _OptionsAeraState();
+}
+
+class _OptionsAeraState extends State<OptionsAera> {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+
+///
 /// 页面之间的Section
 ///
 class AnswerSection extends StatelessWidget {
@@ -343,7 +360,7 @@ class _AnswerOptionItemState extends State<AnswerOptionItem> {
           width: 24.0,
           height: 24.0,
           child: Image.asset(
-            "images/answer_default_background.png",
+            "images/option_default_background.png",
             fit: BoxFit.fill,
           ),
         ),

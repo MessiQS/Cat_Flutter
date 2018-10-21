@@ -8,19 +8,7 @@
   <component name="ChangeListManager">
     <list default="true" id="8935f2dd-26c4-4cde-ad5c-bb2fe2d05f7c" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/2.0x/answer_default_background.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/2.0x/answer_right_background.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/2.0x/answer_wrong_background.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/3.0x/answer_default_background.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/3.0x/answer_right_background.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/3.0x/answer_wrong_background.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/answer_default_background.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/answer_right_background.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/answer_wrong_background.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/common/net/api.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common/net/api.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/common/services/answer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common/services/answer.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/pages/answer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/answer.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />

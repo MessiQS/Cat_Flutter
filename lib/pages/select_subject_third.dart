@@ -27,7 +27,8 @@ class _SelectSubjectThirdState extends State<SelectSubjectThird> {
     QuestionProvider provider = new QuestionProvider();
 
     /// 下载试题
-    QuestionResponse questionResponse = await dwonloadExam(examID);
+    QuestionResponse questionResponse =
+        await SelectSubjectService.dwonloadExam(examID);
     List<Question> list = new List<Question>();
     for (QuestionModel model in questionResponse.models) {
       Question question = Question.fromMap(model.toMap());
@@ -37,7 +38,7 @@ class _SelectSubjectThirdState extends State<SelectSubjectThird> {
     provider.insertList(list);
 
     /// 下载选题记录
-    await downloadExamRecord(examID);
+    await SelectSubjectService.downloadExamRecord(examID);
 
     User user = new User();
     user.currentExamID = examID;
@@ -45,29 +46,6 @@ class _SelectSubjectThirdState extends State<SelectSubjectThird> {
 
     UserProvider userProvider = new UserProvider();
     userProvider.insert(user);
-  }
-
-  dwonloadExam(String examID) async {
-    String url = Address.getpaper();
-    Map<String, String> params = {"paperId": examID};
-    final response = await HttpManager.request(Method.Get, url, params: params);
-    if (response.statusCode == 200) {
-      return QuestionResponse.fromJson(json.decode(response.body));
-    } else {
-      throw Exception('Failed to load post');
-    }
-  }
-
-  downloadExamRecord(String examID) async {
-    String url = Address.getQuestionInfoByPaperid();
-    Map<String, String> params = {"paper_id": examID};
-
-    final response = await HttpManager.request(Method.Get, url, params: params);
-    if (response.statusCode == 200) {
-      print(url + " response.body  + ${response.body}");
-    } else {
-      throw Exception('Failed to load post');
-    }
   }
 
   @override

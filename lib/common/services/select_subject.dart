@@ -101,4 +101,27 @@ class SelectSubjectService {
       throw Exception('Failed to load post');
     }
   }
+
+  static dwonloadExam(String examID) async {
+    String url = Address.getpaper();
+    Map<String, String> params = {"paperId": examID};
+    final response = await HttpManager.request(Method.Get, url, params: params);
+    if (response.statusCode == 200) {
+      return QuestionResponse.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load post');
+    }
+  }
+
+  static downloadExamRecord(String examID) async {
+    String url = Address.getQuestionInfoByPaperid();
+    Map<String, String> params = {"paper_id": examID};
+
+    final response = await HttpManager.request(Method.Get, url, params: params);
+    if (response.statusCode == 200) {
+      print(url + " response.body  + ${response.body}");
+    } else {
+      throw Exception('Failed to load post');
+    }
+  }
 }

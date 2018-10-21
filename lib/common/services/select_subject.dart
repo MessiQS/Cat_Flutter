@@ -45,22 +45,60 @@ class QuestionResponse {
   }
 }
 
-class SelectSubjectService {
-///
-/// 网络请求
-/// 批量获取试卷
-///
-static Future<ExamPaperResponse> fetchData(title, subtitle) async {
-  String url = Address.getTitleByProvince();
-  Map<String, String> params = {"sendType": title, "province": subtitle};
+class SelectSubjectGet {
+  final bool type;
+  final List<SubjectModel> models;
 
-  final response = await HttpManager.request(Method.Get, url, params: params);
-  if (response.statusCode == 200) {
-    // If the call to the server was successful, parse the JSON
-    return ExamPaperResponse.fromJson(json.decode(response.body));
-  } else {
-    // If that call was not successful, throw an error.
-    throw Exception('Failed to load post');
+  SelectSubjectGet({this.type, this.models});
+
+  factory SelectSubjectGet.fromJson(Map<String, dynamic> json) {
+    var type = json['type'];
+    if (type == false) return null;
+    var list = json['data'];
+    var newModels = new List<SubjectModel>();
+
+    for (Map<String, dynamic> map in list) {
+      SubjectModel model = SubjectModel.fromMap(map);
+      newModels.add(model);
+    }
+    return SelectSubjectGet(
+      type: type,
+      models: newModels,
+    );
   }
 }
+
+class SelectSubjectService {
+  ///
+  /// 网络请求
+  /// 批量获取试卷
+  ///
+  static Future<ExamPaperResponse> fetchData(title, subtitle) async {
+    String url = Address.getTitleByProvince();
+    Map<String, String> params = {"sendType": title, "province": subtitle};
+
+    final response = await HttpManager.request(Method.Get, url, params: params);
+    if (response.statusCode == 200) {
+      // If the call to the server was successful, parse the JSON
+      return ExamPaperResponse.fromJson(json.decode(response.body));
+    } else {
+      // If that call was not successful, throw an error.
+      throw Exception('Failed to load post');
+    }
+  }
+
+  ///
+  /// 网络请求
+  ///
+  static Future<SelectSubjectGet> fetchMainData() async {
+    String url = Address.getSecondType();
+    final response = await HttpManager.request(Method.Get, url);
+    if (response.statusCode == 200) {
+      // If the call to the server was successful, parse the JSON
+      return SelectSubjectGet.fromJson(json.decode(response.body));
+    } else {
+      // If that call was not successful, throw an error.
+      throw Exception('Failed to load post');
+    }
+  }
 }

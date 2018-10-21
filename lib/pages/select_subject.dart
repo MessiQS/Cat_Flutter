@@ -1,11 +1,9 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:cat/cats/cats.dart';
-import 'package:cat/common/net/net.dart';
 import 'package:cat/widgets/subject_list_item.dart';
 import 'package:cat/models/subject.dart';
 import 'package:cat/pages/select_subject_second.dart';
-
+import 'package:cat/common/services/select_subject.dart';
 
 class SelectSubject extends StatefulWidget {
   @override
@@ -25,7 +23,7 @@ class _SelectSubjectState extends State<SelectSubject> {
           title: Text("Select Subject"),
         ),
         body: FutureBuilder<SelectSubjectGet>(
-            future: fetchData(),
+            future: SelectSubjectService.fetchMainData(),
             builder: (context, snapshot) {
               /// 分组Model
               if (snapshot.hasData) {
@@ -59,43 +57,5 @@ class _SelectSubjectState extends State<SelectSubject> {
                 return new SelectSubjectSecond(model: models[index],);
               })),
             ));
-  }
-}
-
-///
-/// 网络请求
-///
-Future<SelectSubjectGet> fetchData() async {
-  String url = Address.getSecondType();
-  final response = await HttpManager.request(Method.Get, url);
-  if (response.statusCode == 200) {
-    // If the call to the server was successful, parse the JSON
-    return SelectSubjectGet.fromJson(json.decode(response.body));
-  } else {
-    // If that call was not successful, throw an error.
-    throw Exception('Failed to load post');
-  }
-}
-
-class SelectSubjectGet {
-  final bool type;
-  final List<SubjectModel> models;
-
-  SelectSubjectGet({this.type, this.models});
-
-  factory SelectSubjectGet.fromJson(Map<String, dynamic> json) {
-    var type = json['type'];
-    if (type == false) return null;
-    var list = json['data'];
-    var newModels = new List<SubjectModel>();
-
-    for (Map<String, dynamic> map in list) {
-      SubjectModel model = SubjectModel.fromMap(map);
-      newModels.add(model);
-    }
-    return SelectSubjectGet(
-      type: type,
-      models: newModels,
-    );
   }
 }

@@ -7,9 +7,23 @@ import 'package:cat/pages/feedback.dart';
 import 'package:cat/common/services/answer.dart';
 import 'package:cat/models/image.dart';
 
-/// 
+enum OptionsState {
+  /// 未选择状态
+  unselected,
+
+  /// 选择后的状态（多选题）
+  selected,
+
+  /// 答案正确的状态
+  right,
+
+  /// 答案错误的状态
+  wrong,
+}
+
+///
 /// 答题页面
-/// 
+///
 class Answer extends StatefulWidget {
   final User user;
   final AnswerType type;
@@ -20,31 +34,51 @@ class Answer extends StatefulWidget {
 }
 
 class _AnswerState extends State<Answer> {
+  /// 切换到下一题
+  nextQuestion() {
+    print("nextQuestion");
+  }
+
+  shareButtonOnPressed() {
+    print("shareButtonOnPressed");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: GradientAppBar(
-          title: Text(widget.user.currentExamTitle),
-          actions: <Widget>[
+            title: Text(widget.user.currentExamTitle),
+            actions: <Widget>[
               new IconButton(
                 icon: const Icon(Icons.share),
-                onPressed: () {},
+                onPressed: () => shareButtonOnPressed(),
                 tooltip: 'Share',
               ),
-            ]
+            ]),
+        floatingActionButton: FloatingActionButton(
+          child: Image.asset("images/arrow_right.png"),
+          foregroundColor: CatColors.cellSplashColor,
+          backgroundColor: CatColors.globalTintColor,
+          onPressed: () => nextQuestion(),
         ),
         body: FutureBuilder<Question>(
             future: AnswerService.fetchData(widget.user.currentExamID,
                 type: widget.type),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    QuestionArea(question: snapshot.data),
-                    BottomArea(question: snapshot.data)
-                  ],
-                );
+                /// 非材料题
+                if (snapshot.data.material.isEmpty) {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      QuestionArea(question: snapshot.data),
+                      BottomArea(question: snapshot.data)
+                    ],
+                  );
+                }
+
+                /// 材料题
+
               }
               return Stack();
             }));
@@ -195,6 +229,13 @@ class QuestionSolveArea extends StatefulWidget {
 class _QuestionSolveAreaState extends State<QuestionSolveArea> {
   List<String> selectedOptions = List<String>();
 
+  List<OptionsState> optionsStates = [
+    OptionsState.unselected,
+    OptionsState.unselected,
+    OptionsState.unselected,
+    OptionsState.unselected,
+  ];
+
   ///
   /// 选择试题
   /// 区分 [多选] [单选] [模糊]
@@ -227,7 +268,11 @@ class _QuestionSolveAreaState extends State<QuestionSolveArea> {
   ///
   /// 确认选择
   ///
-  confirmSelection() {}
+  confirmSelection() {
+    setState(() {
+      optionsStates[0] = OptionsState.wrong;
+    });
+  }
 
   ///
   /// 有的是两个选项
@@ -240,6 +285,7 @@ class _QuestionSolveAreaState extends State<QuestionSolveArea> {
         option: "A",
         content: widget.question.optionA,
         onPressed: () => selectOptionOnPressed("A"),
+        state: optionsStates[0],
       ));
     }
     if (widget.question.optionB.isNotEmpty) {
@@ -247,6 +293,7 @@ class _QuestionSolveAreaState extends State<QuestionSolveArea> {
         option: "B",
         content: widget.question.optionB,
         onPressed: () => selectOptionOnPressed("B"),
+        state: optionsStates[1],
       ));
     }
     if (widget.question.optionC.isNotEmpty) {
@@ -254,6 +301,7 @@ class _QuestionSolveAreaState extends State<QuestionSolveArea> {
         option: "C",
         content: widget.question.optionC,
         onPressed: () => selectOptionOnPressed("C"),
+        state: optionsStates[2],
       ));
     }
     if (widget.question.optionD.isNotEmpty) {
@@ -261,6 +309,7 @@ class _QuestionSolveAreaState extends State<QuestionSolveArea> {
         option: "D",
         content: widget.question.optionD,
         onPressed: () => selectOptionOnPressed("D"),
+        state: optionsStates[3],
       ));
     }
     return list;
@@ -346,8 +395,10 @@ class AnswerOptionItem extends StatefulWidget {
   final String option;
   final String content;
   final GestureTapCallback onPressed;
+  final OptionsState state;
 
-  const AnswerOptionItem({@required this.option, this.content, this.onPressed});
+  const AnswerOptionItem(
+      {@required this.option, this.content, this.onPressed, this.state});
 
   @override
   _AnswerOptionItemState createState() => _AnswerOptionItemState();
@@ -359,6 +410,15 @@ class _AnswerOptionItemState extends State<AnswerOptionItem> {
   /// [A][B][C][D]
   ///
   Widget icon(BuildContext context) {
+    String imageURL = "images/option_default_background.png";
+
+    if (widget.state == OptionsState.right) {
+      imageURL = "images/option_right_background.png";
+    }
+    if (widget.state == OptionsState.wrong) {
+      imageURL = "images/option_wrong_background.png";
+    }
+
     return Stack(
       children: <Widget>[
         Container(
@@ -366,7 +426,7 @@ class _AnswerOptionItemState extends State<AnswerOptionItem> {
           width: 24.0,
           height: 24.0,
           child: Image.asset(
-            "images/option_default_background.png",
+            imageURL,
             fit: BoxFit.fill,
           ),
         ),
@@ -409,8 +469,18 @@ class _AnswerOptionItemState extends State<AnswerOptionItem> {
 
   @override
   Widget build(BuildContext context) {
+    Color color = Colors.transparent;
+
+    if (widget.state == OptionsState.right) {
+      color = Color(0xFFDAF6E7);
+    }
+    if (widget.state == OptionsState.wrong) {
+      color = Color(0xFFF9E1E7);
+    }
+
     return Container(
       width: MediaQuery.of(context).size.width,
+      color: color,
       child: InkWell(
         onTap: widget.onPressed,
         splashColor: CatColors.cellSplashColor,

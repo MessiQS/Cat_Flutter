@@ -118,4 +118,31 @@ class QuestionModel {
         source: source,
         analysis: analysis);
   }
+
+  @override
+  String toString() {
+    return '''
+    
+        =======================  Question Model  =======================
+
+        Title : ${this.title}
+        CreatedTime : ${this.createdTime}
+        UpdateTime : ${this.updatedTime}
+        Number : ${this.number}
+        A : ${this.optionA}
+        B : ${this.optionB}
+        C : ${this.optionC}
+        D : ${this.optionD}
+        Answer : ${this.answer}
+        Content : ${this.content}
+        Type : ${this.type}
+        Point : ${this.point}
+        Material : ${this.material}
+        HideTag : ${this.hideTag}
+        Category : ${this.category}
+        Source : ${this.source}
+        Year : ${this.year}
+        Analysis: ${this.analysis}
+      ''';
+  }
 }

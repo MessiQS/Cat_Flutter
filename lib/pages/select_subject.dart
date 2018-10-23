@@ -35,7 +35,8 @@ class _SelectSubjectState extends State<SelectSubject> {
                           title: Text(models[index].title),
                           backgroundColor:
                               Theme.of(context).accentColor.withOpacity(0.025),
-                          children: _buildTileList(models[index].subModels, context));
+                          children:
+                              _buildTileList(models[index].subModels, context));
                     });
               } else if (snapshot.hasError) {
                 return Text("${snapshot.error}");
@@ -47,15 +48,19 @@ class _SelectSubjectState extends State<SelectSubject> {
             }));
   }
 
-  List<ListItem> _buildTileList(List<SecondarySubjectModel> models, BuildContext context) {
+  List<ListItem> _buildTileList(
+      List<SecondarySubjectModel> models, BuildContext context) {
     int count = models.length;
     return List<ListItem>.generate(
         count,
         (int index) => ListItem(
               title: models[index].title,
-              onPressed: () => Navigator.of(context).push(new MaterialPageRoute(builder:(_) {
-                return new SelectSubjectSecond(model: models[index],);
-              })),
+              onPressed: () => Navigator.of(context)
+                      .push(new MaterialPageRoute(builder: (_) {
+                    return new SelectSubjectSecond(
+                      model: models[index],
+                    );
+                  })),
             ));
   }
 }

@@ -34,13 +34,48 @@ class Answer extends StatefulWidget {
 }
 
 class _AnswerState extends State<Answer> {
+  Future<Question> _loadQuestions;
+  Map<String, OptionsState> _optionsStates;
+  bool isSelectedDone = false;
+
+  /// 是否确定选择
+
+  void initState() {
+    super.initState();
+
+    _loadQuestions =
+        AnswerService.fetchData(widget.user.currentExamID, type: widget.type);
+    _optionsStates = {
+      "A": OptionsState.unselected,
+      "B": OptionsState.unselected,
+      "C": OptionsState.unselected,
+      "D": OptionsState.unselected,
+    };
+  }
+
   /// 切换到下一题
   nextQuestion() {
-    print("nextQuestion");
+    setState(() {
+      _loadQuestions =
+          AnswerService.fetchData(widget.user.currentExamID, type: widget.type);
+      _optionsStates["A"] = OptionsState.unselected;
+      _optionsStates["B"] = OptionsState.unselected;
+      _optionsStates["C"] = OptionsState.unselected;
+      _optionsStates["D"] = OptionsState.unselected;
+      isSelectedDone = false;
+    });
   }
 
   shareButtonOnPressed() {
     print("shareButtonOnPressed");
+  }
+
+  /// 确认选项
+  doneSelect() {
+    setState(() {
+      print("doneSelect");
+      isSelectedDone = true;
+    });
   }
 
   @override
@@ -62,8 +97,7 @@ class _AnswerState extends State<Answer> {
           onPressed: () => nextQuestion(),
         ),
         body: FutureBuilder<Question>(
-            future: AnswerService.fetchData(widget.user.currentExamID,
-                type: widget.type),
+            future: _loadQuestions,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 /// 非材料题
@@ -72,13 +106,36 @@ class _AnswerState extends State<Answer> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       QuestionArea(question: snapshot.data),
-                      BottomArea(question: snapshot.data)
+                      BottomArea(
+                        question: snapshot.data,
+                        optionsStates: _optionsStates,
+                        doneSelect: () => doneSelect(),
+                        isSelectedDone: isSelectedDone,
+                      )
                     ],
                   );
                 }
+                print("snapshot.data.material ${snapshot.data.material}");
 
                 /// 材料题
-
+                return ListView(
+                  children: <Widget>[
+                    AnswerSection("Material"),
+                    ContentArea(
+                      content: snapshot.data.material,
+                    ),
+                    AnswerSection("Questions"),
+                    ContentArea(
+                      content: snapshot.data.content,
+                    ),
+                    QuestionSolveArea(
+                      question: snapshot.data,
+                      optionsStates: _optionsStates,
+                      doneSelect: () => doneSelect(),
+                      isSelectedDone: isSelectedDone,
+                    )
+                  ],
+                );
               }
               return Stack();
             }));
@@ -199,8 +256,16 @@ class ContentParagraphs extends StatelessWidget {
 ///
 class BottomArea extends StatelessWidget {
   final Question question;
+  final Map<String, OptionsState> optionsStates;
+  final bool isSelectedDone;
+  final VoidCallback doneSelect;
 
-  const BottomArea({this.question});
+  const BottomArea({
+    this.question,
+    this.optionsStates,
+    this.isSelectedDone,
+    this.doneSelect,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -209,6 +274,9 @@ class BottomArea extends StatelessWidget {
         child: ListView(children: <Widget>[
           QuestionSolveArea(
             question: this.question,
+            optionsStates: this.optionsStates,
+            doneSelect: this.doneSelect,
+            isSelectedDone: this.isSelectedDone,
           )
         ]));
   }
@@ -219,8 +287,16 @@ class BottomArea extends StatelessWidget {
 ///
 class QuestionSolveArea extends StatefulWidget {
   final Question question;
+  final Map<String, OptionsState> optionsStates;
+  final bool isSelectedDone;
+  final VoidCallback doneSelect;
 
-  const QuestionSolveArea({this.question});
+  const QuestionSolveArea({
+    this.question,
+    this.optionsStates,
+    this.isSelectedDone,
+    this.doneSelect,
+  });
 
   @override
   _QuestionSolveAreaState createState() => _QuestionSolveAreaState();
@@ -229,19 +305,14 @@ class QuestionSolveArea extends StatefulWidget {
 class _QuestionSolveAreaState extends State<QuestionSolveArea> {
   List<String> selectedOptions = List<String>();
 
-  List<OptionsState> optionsStates = [
-    OptionsState.unselected,
-    OptionsState.unselected,
-    OptionsState.unselected,
-    OptionsState.unselected,
-  ];
-
   ///
-  /// 选择试题
+  /// 选择试����
   /// 区分 [多选] [单选] [模糊]
   ///
   selectOptionOnPressed(String option) {
-    print("selectOptionOnPressed " + option);
+    if (widget.isSelectedDone == true) {
+      return;
+    }
 
     /// 多选
     if (AnswerService.isHaveMutilpleAnswer(widget.question)) {
@@ -254,23 +325,33 @@ class _QuestionSolveAreaState extends State<QuestionSolveArea> {
       return;
     }
 
-    /// 单选
-    this.confirmSelection();
+    /// 单���
+    this.confirmSelection([option]);
   }
 
   ///
   /// 点击确认按钮
   ///
   doneButtonOnPressed() {
-    this.confirmSelection();
+    // this.confirmSelection();
   }
 
   ///
   /// 确认选择
   ///
-  confirmSelection() {
+  confirmSelection(List<String> options) {
     setState(() {
-      optionsStates[0] = OptionsState.wrong;
+      for (String option in options) {
+        if (widget.question.answer.indexOf(option) == -1) {
+          widget.optionsStates[option] = OptionsState.wrong;
+        }
+      }
+      List<String> list = widget.question.answer.split(",");
+      print("list $list");
+      for (String item in list) {
+        widget.optionsStates[item] = OptionsState.right;
+      }
+      widget.doneSelect();
     });
   }
 
@@ -285,7 +366,7 @@ class _QuestionSolveAreaState extends State<QuestionSolveArea> {
         option: "A",
         content: widget.question.optionA,
         onPressed: () => selectOptionOnPressed("A"),
-        state: optionsStates[0],
+        state: widget.optionsStates["A"],
       ));
     }
     if (widget.question.optionB.isNotEmpty) {
@@ -293,7 +374,7 @@ class _QuestionSolveAreaState extends State<QuestionSolveArea> {
         option: "B",
         content: widget.question.optionB,
         onPressed: () => selectOptionOnPressed("B"),
-        state: optionsStates[1],
+        state: widget.optionsStates["B"],
       ));
     }
     if (widget.question.optionC.isNotEmpty) {
@@ -301,7 +382,7 @@ class _QuestionSolveAreaState extends State<QuestionSolveArea> {
         option: "C",
         content: widget.question.optionC,
         onPressed: () => selectOptionOnPressed("C"),
-        state: optionsStates[2],
+        state: widget.optionsStates["C"],
       ));
     }
     if (widget.question.optionD.isNotEmpty) {
@@ -309,7 +390,7 @@ class _QuestionSolveAreaState extends State<QuestionSolveArea> {
         option: "D",
         content: widget.question.optionD,
         onPressed: () => selectOptionOnPressed("D"),
-        state: optionsStates[3],
+        state: widget.optionsStates["D"],
       ));
     }
     return list;
@@ -318,6 +399,25 @@ class _QuestionSolveAreaState extends State<QuestionSolveArea> {
   /// 获取选项
   @override
   Widget build(BuildContext context) {
+    if (widget.isSelectedDone == false) {
+      return Column(
+        children: <Widget>[
+          /// 选项 Section
+          AnswerSection("Options"),
+
+          /// 选项
+          Column(
+            children: optionsList(),
+          ),
+
+          /// 底部占位图
+          Container(
+            color: Color(0xFFFAFAFA),
+            height: 16.0,
+          )
+        ],
+      );
+    }
     return Column(
       children: <Widget>[
         /// 选项 Section
@@ -564,7 +664,7 @@ class FeedbackItem extends StatelessWidget {
                 child: Text("Send Feedback"),
               ),
 
-              /// 占位辅图
+              /// 占���辅图
               Expanded(
                 child: Container(),
               ),
@@ -577,5 +677,34 @@ class FeedbackItem extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+///
+/// 内容展示区
+///
+class ContentArea extends StatefulWidget {
+  // 未处理的内容
+  final String content;
+  const ContentArea({this.content});
+  @override
+  _ContentAreaState createState() => _ContentAreaState();
+}
+
+class _ContentAreaState extends State<ContentArea> {
+  @override
+  Widget build(BuildContext context) {
+    print("ContentArea content $context");
+    return Container(
+        margin: EdgeInsets.fromLTRB(24.0, 8.0, 24.0, 8.0),
+        child: FutureBuilder(
+          future: splitWidgets(widget.content),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Column(children: snapshot.data);
+            }
+            return Container();
+          },
+        ));
   }
 }

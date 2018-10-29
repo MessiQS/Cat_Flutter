@@ -8,7 +8,7 @@ enum Method { Post, Get, Put, Delete }
 /// 网络请求
 ///
 class HttpManager {
-  static const token = "d287798fa70fc5c2f1ba03d6fa65e1ef";
+  static const token = "c79d7c115df29f81a2d72c6e1d59db47";
   static const user_id = "SS00000656";
 
   static request(Method method, url, {params}) {

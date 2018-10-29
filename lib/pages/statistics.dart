@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
 import 'package:cat/cats/cats.dart';
 import 'package:cat/router/cat_route.dart';
@@ -84,7 +85,8 @@ class BeginStudy extends StatelessWidget {
             onPressed: () =>
                 Navigator.of(context).pushNamed(SElECT_SUBJECT_ROUTE),
           ),
-        )
+        ),
+        ChartTable(),
       ],
     ));
   }
@@ -137,6 +139,11 @@ class _ChartTableState extends State<ChartTable> {
         ),
         ChartListItem(
           user: widget.user,
+        ),
+        Container(
+          width: 200.0,
+          height: 200.0,
+          child: AreaAndLineChart.withSampleData(),
         )
       ],
     );
@@ -167,9 +174,29 @@ class _ChartListItemState extends State<ChartListItem> {
         child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        Container(
-          margin: EdgeInsets.only(left: 24.0),
-          child: Text("123"),
+        Column(
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.only(left: 24.0),
+              width: 200.0,
+              child: Text(
+                "123",
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                  color: Color(0xFF272727),
+                  fontSize: 18.0,
+                ),
+              ),
+            ),
+            Container(
+              width: 200.0,
+              margin: EdgeInsets.only(left: 24.0),
+              child: Text(
+                "Today Practice",
+                style: TextStyle(color: Color(0xFF7B7B7B), fontSize: 12.0),
+              ),
+            ),
+          ],
         ),
         Container(
           margin: EdgeInsets.only(right: 16.0),
@@ -178,14 +205,79 @@ class _ChartListItemState extends State<ChartListItem> {
           child: CatBaseButton(
             "STUDY",
             onPressed: () =>
-                Navigator.of(context).push(new MaterialPageRoute(builder: (_) {
+                Navigator.of(context).push(MaterialPageRoute(builder: (_) {
                   return Answer(
                     user: widget.user,
                   );
                 })),
           ),
-        )
+        ),
       ],
     ));
   }
+}
+
+/// 图表
+class AreaAndLineChart extends StatelessWidget {
+  final List<charts.Series> seriesList;
+  final bool animate;
+
+  AreaAndLineChart(this.seriesList, {this.animate});
+
+  /// Creates a [LineChart] with sample data and no transition.
+  factory AreaAndLineChart.withSampleData() {
+    return AreaAndLineChart(
+      _createSampleData(),
+      // Disable animations for image tests.
+      animate: false,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return charts.LineChart(seriesList,
+        animate: animate,
+        customSeriesRenderers: [
+          charts.LineRendererConfig(
+            // ID used to link series to this renderer.
+            customRendererId: 'customArea',
+            includeArea: true,
+            stacked: true,
+          ),
+        ]);
+  }
+
+  /// Create one series with sample hard coded data.
+  static List<charts.Series<LinearQuestion, int>> _createSampleData() {
+    final yourFakeDesktopData = [
+      LinearQuestion(0, "Wed", 34),
+      LinearQuestion(1, "Mon", 22),
+      LinearQuestion(2, "Tus", 66),
+      LinearQuestion(3, "Sun", 43),
+      LinearQuestion(4, "Sun", 34),
+      LinearQuestion(5, "Sun", 22),
+    ];
+
+    return [
+      charts.Series<LinearQuestion, int>(
+        id: 'Desktop',
+        colorFn: (_, __) => charts.MaterialPalette.deepOrange.shadeDefault,
+        domainFn: (LinearQuestion question, _) => question.domain,
+        measureFn: (LinearQuestion question, _) => question.questions,
+        labelAccessorFn: (LinearQuestion question, _) => question.weekend,
+        data: yourFakeDesktopData,
+      )
+        // Configure our custom bar target renderer for this series.
+        ..setAttribute(charts.rendererIdKey, 'customArea'),
+    ];
+  }
+}
+
+/// 记忆统计
+class LinearQuestion {
+  final String weekend;
+  final int domain;
+  final int questions;
+
+  LinearQuestion(this.domain, this.weekend, this.questions);
 }

@@ -36,4 +36,18 @@ class Address {
   static getTitleByProvince() {
     return "${Config.host}api/getTitleByProvince";
   }
+
+  /// 更新服务端答题记录
+  ///
+  /// [paper_id] 试卷id
+  /// [question_id] 试题id
+  /// [question_number] 试题编号
+  /// [weighted] 加权值
+  /// [lastDateTime] 最后更新时间
+  /// [record] JSON化后的答题记录
+  /// [firstDateTime] 首次被选择的时间
+  /// [POST] 请求方式
+  static getUpdateInfoCache() {
+    return "${Config.host}api/getUpdateInfoCache";
+  }
 }

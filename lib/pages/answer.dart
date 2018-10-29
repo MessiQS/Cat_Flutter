@@ -3,7 +3,6 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/material.dart';
 import 'package:cat/cats/cats.dart';
 import 'package:cat/common/db/db.dart';
-import 'package:cat/pages/feedback.dart';
 import 'package:cat/common/services/answer.dart';
 import 'package:cat/models/image.dart';
 
@@ -42,7 +41,7 @@ class _AnswerState extends State<Answer> {
 
   void initState() {
     super.initState();
-
+    print("user ${widget.user}");
     _loadQuestions =
         AnswerService.fetchData(widget.user.currentExamID, type: widget.type);
     _optionsStates = {
@@ -73,7 +72,6 @@ class _AnswerState extends State<Answer> {
   /// 确认选项
   doneSelect() {
     setState(() {
-      print("doneSelect");
       isSelectedDone = true;
     });
   }
@@ -332,14 +330,14 @@ class _QuestionSolveAreaState extends State<QuestionSolveArea> {
   ///
   /// 点击确认按钮
   ///
-  doneButtonOnPressed() {
-    // this.confirmSelection();
+  doneButtonOnPressed(List<String> options) {
+    this.confirmSelection(options);
   }
 
   ///
   /// 确认选择
   ///
-  confirmSelection(List<String> options) {
+  confirmSelection(List<String> options) async {
     setState(() {
       for (String option in options) {
         if (widget.question.answer.indexOf(option) == -1) {
@@ -353,6 +351,12 @@ class _QuestionSolveAreaState extends State<QuestionSolveArea> {
       }
       widget.doneSelect();
     });
+
+    /// 保存到数据库
+    await AnswerService.saveRecordToDB(widget.question, options);
+
+    /// 同步到网络
+    await AnswerService.saveRecordToWeb(widget.question, options);
   }
 
   ///
@@ -441,8 +445,7 @@ class _QuestionSolveAreaState extends State<QuestionSolveArea> {
         FeedbackItem(question: widget.question),
 
         /// 底部占位图
-        Container(
-          color: Color(0xFFFAFAFA),
+        SizedBox(
           height: 16.0,
         )
       ],
@@ -625,25 +628,67 @@ class _AnswerAnalysisState extends State<AnswerAnalysis> {
   }
 }
 
+enum DialogAction {
+  cancel,
+  discard,
+  disagree,
+  agree,
+}
+
 ///
 /// 反馈（Content Incorrect?）
 ///
-class FeedbackItem extends StatelessWidget {
+class FeedbackItem extends StatefulWidget {
   final Question question;
+
   const FeedbackItem({this.question});
 
   @override
+  createState() => new _FeedbackItemState();
+}
+
+class _FeedbackItemState extends State<FeedbackItem> {
+  void showFeedbackDialog<T>({BuildContext context, Widget child}) {
+    showDialog<T>(
+      context: context,
+      builder: (BuildContext context) => child,
+    ).then<void>((T value) {
+      if (value != null) {}
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+
+    final TextStyle dialogTextStyle =
+        theme.textTheme.subhead.copyWith(color: theme.textTheme.caption.color);
     return Container(
       height: 48.0,
       width: MediaQuery.of(context).size.width,
       child: InkWell(
-        onTap: () =>
-            Navigator.of(context).push(new MaterialPageRoute(builder: (_) {
-              return FeedbackPage(
-                question: this.question,
-              );
-            })),
+        onTap: () {
+          showFeedbackDialog<DialogAction>(
+              context: context,
+
+              /// 请确认该题是否内容有误
+              /// 确定 取消
+              child: AlertDialog(
+                  content: Text("Please make sure content is incorrect.",
+                      style: dialogTextStyle),
+                  actions: <Widget>[
+                    FlatButton(
+                        child: const Text('DECLINE'),
+                        onPressed: () {
+                          Navigator.pop(context, DialogAction.cancel);
+                        }),
+                    FlatButton(
+                        child: const Text('SEND'),
+                        onPressed: () {
+                          Navigator.pop(context, DialogAction.discard);
+                        })
+                  ]));
+        },
         splashColor: CatColors.cellSplashColor,
         child: Ink(
           decoration: const BoxDecoration(
@@ -664,7 +709,7 @@ class FeedbackItem extends StatelessWidget {
                 child: Text("Send Feedback"),
               ),
 
-              /// 占���辅图
+              /// 占位辅图
               Expanded(
                 child: Container(),
               ),
@@ -694,7 +739,6 @@ class ContentArea extends StatefulWidget {
 class _ContentAreaState extends State<ContentArea> {
   @override
   Widget build(BuildContext context) {
-    print("ContentArea content $context");
     return Container(
         margin: EdgeInsets.fromLTRB(24.0, 8.0, 24.0, 8.0),
         child: FutureBuilder(

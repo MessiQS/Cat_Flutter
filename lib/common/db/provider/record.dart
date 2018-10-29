@@ -23,6 +23,9 @@ class RC {
 
   /// 试题的id
   static const String columnQuestionId = "questionID";
+
+  /// 是否正确
+  static const String columnIsCorrect = "isCorrect";
 }
 
 class Record {
@@ -35,12 +38,15 @@ class Record {
   String examId;
   String questionId;
 
+  bool isCorrect;
+
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
       RC.columnCreatedTime: createdTime,
       RC.columnSelectedOption: selectedOption,
       RC.columnExamID: examId,
       RC.columnQuestionId: questionId,
+      RC.columnIsCorrect: isCorrect,
     };
     if (id != null) {
       map[RC.columnID] = id;
@@ -56,6 +62,7 @@ class Record {
     selectedOption = map[RC.columnSelectedOption];
     examId = map[RC.columnExamID];
     questionId = map[RC.columnQuestionId];
+    isCorrect = map[RC.columnIsCorrect] == 0 ? false : true;
   }
 }
 
@@ -67,7 +74,8 @@ class RecordProvider extends BaseDBProvider {
         ${RC.columnCreatedTime} double,
         ${RC.columnSelectedOption} text,
         ${RC.columnExamID} text,
-        ${RC.columnQuestionId} text)
+        ${RC.columnQuestionId} text,
+        ${RC.columnIsCorrect} bool)
       ''';
   }
 
@@ -105,9 +113,33 @@ class RecordProvider extends BaseDBProvider {
           RC.columnSelectedOption,
           RC.columnExamID,
           RC.columnQuestionId,
+          RC.columnIsCorrect,
         ],
         where: "${RC.columnExamID} = ?",
         whereArgs: [examID]);
+
+    List<Record> list = List<Record>();
+    for (Map<String, dynamic> map in maps) {
+      Record record = Record.fromMap(map);
+      list.add(record);
+    }
+
+    return list;
+  }
+
+  Future<List<Record>> getRecordsByQuestionId(String questionId) async {
+    Database db = await getDataBase();
+    List<Map> maps = await db.query(tableName(),
+        columns: [
+          RC.columnID,
+          RC.columnCreatedTime,
+          RC.columnSelectedOption,
+          RC.columnExamID,
+          RC.columnQuestionId,
+          RC.columnIsCorrect,
+        ],
+        where: "${RC.columnQuestionId} = ?",
+        whereArgs: [questionId]);
 
     List<Record> list = List<Record>();
     for (Map<String, dynamic> map in maps) {

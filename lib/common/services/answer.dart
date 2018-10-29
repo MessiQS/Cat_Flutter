@@ -1,8 +1,9 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 
-import 'package:cat/common/db/db.dart';
 import 'package:cat/models/image.dart';
+import 'package:cat/common/db/db.dart';
+import 'package:cat/common/net/net.dart';
 import 'package:cat/common/config/config.dart';
 
 /// 试题类型
@@ -186,5 +187,53 @@ class AnswerService {
       }
     }
     return newList;
+  }
+
+  ///
+  /// 保存答题记录到数据库
+  ///
+  static saveRecordToDB(Question question, List<String> options) async {
+    /// 判断答案是否正确
+    bool isCorrect = true;
+    List<String> answerList = question.answer.split(",");
+    for (String answer in answerList) {
+      if (options.indexOf(answer) == -1) {
+        isCorrect = false;
+      }
+    }
+
+    /// 保存到本地数据库
+    Map map = {
+      RC.columnExamID: question.examID,
+      RC.columnQuestionId: question.id,
+      RC.columnSelectedOption: options.join(","),
+      RC.columnCreatedTime: DateTime.now().millisecondsSinceEpoch.toString(),
+      RC.columnIsCorrect: isCorrect,
+    };
+    Record record = Record.fromMap(map);
+    RecordProvider provider = RecordProvider();
+    await provider.insert(record);
+  }
+
+  ///
+  /// 保存答题记录到服务端
+  ///
+  static saveRecordToWeb(Question question, List<String> options) async {
+    /// 获取相关的答题记录
+    RecordProvider provider = RecordProvider();
+    List<Record> list = await provider.getRecordsByQuestionId(question.id.toString());
+
+    /// 配置网络数据
+    String url = Address.getUpdateInfoCache();
+    Map<String, String> params = {
+      "paper_id": question.examID,
+      "question_id": question.id.toString(),
+      "question_number": question.number.toString(),
+      "weighted": "",
+      "lastDateTime": "",
+      "record": "",
+      "firstDateTime": "",
+    };
+    HttpManager.request(Method.Post, url, params: params);
   }
 }

@@ -5,9 +5,9 @@ class AccountMenuStatefulWidget extends StatefulWidget {
   AccountMenuStatefulWidget({Key key, this.email, this.password})
       : super(key: key);
   // 邮箱
-  String email;
+  final String email;
   // 密码
-  String password;
+  final String password;
 
   @override
   _AccountMenuStatefulWidget createState() => _AccountMenuStatefulWidget();

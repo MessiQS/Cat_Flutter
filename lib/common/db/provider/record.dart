@@ -32,7 +32,7 @@ class Record {
   int id;
 
   /// 时间戳
-  double createdTime;
+  int createdTime;
 
   String selectedOption;
   String examId;
@@ -62,7 +62,7 @@ class Record {
     selectedOption = map[RC.columnSelectedOption];
     examId = map[RC.columnExamID];
     questionId = map[RC.columnQuestionId];
-    isCorrect = map[RC.columnIsCorrect] == 0 ? false : true;
+    isCorrect = map[RC.columnIsCorrect];// == 0 ? false : true;
   }
 }
 
@@ -71,7 +71,7 @@ class RecordProvider extends BaseDBProvider {
   tableSqlString() {
     return tableBaseString(RC.tableName, RC.columnID) +
         '''
-        ${RC.columnCreatedTime} double,
+        ${RC.columnCreatedTime} int,
         ${RC.columnSelectedOption} text,
         ${RC.columnExamID} text,
         ${RC.columnQuestionId} text,

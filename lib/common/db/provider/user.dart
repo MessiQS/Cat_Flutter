@@ -52,11 +52,11 @@ class User {
       this.currentExamID = ""});
 
   User.fromMap(Map<String, dynamic> map) {
-    id = map[UC.columnID];
-    userID = map[UC.columnUserId];
-    token = map[UC.columnToken];
-    currentExamID = map[UC.columnCurrentExamID];
-    currentExamTitle = map[UC.columnCurrentExamTitle];
+    id = map[UC.columnID] ?? 1;
+    userID = map[UC.columnUserId] ?? "";
+    token = map[UC.columnToken] ?? "";
+    currentExamID = map[UC.columnCurrentExamID] ?? "";
+    currentExamTitle = map[UC.columnCurrentExamTitle] ?? "";
   }
 
   @override
@@ -92,7 +92,9 @@ class UserProvider extends BaseDBProvider {
 
   Future<User> insert(User user) async {
     Database db = await getDataBase();
+    print("insert User");
     user.id = await db.insert(tableName(), user.toMap());
+    print("after insert user" + user.toString());
     return user;
   }
 
@@ -116,6 +118,7 @@ class UserProvider extends BaseDBProvider {
     List<Map> maps = await db.query(
       tableName(),
       columns: [
+        UC.columnID,
         UC.columnUserId,
         UC.columnToken,
         UC.columnCurrentExamID,
@@ -123,9 +126,16 @@ class UserProvider extends BaseDBProvider {
       ],
     );
 
+    /// 如果有就返回
     if (maps.length > 0) {
       return new User.fromMap(maps.first);
     }
-    return null;
+
+    /// 没有就创建一个
+    User user = new User();
+    user.userID = "1234";
+    user = await insert(user);
+    print("user await insert" + user.toString());
+    return user;
   }
 }

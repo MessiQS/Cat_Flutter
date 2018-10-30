@@ -6,6 +6,7 @@ import 'package:cat/cats/cats.dart';
 import 'package:cat/router/cat_route.dart';
 import 'package:cat/common/db/db.dart';
 import 'package:cat/pages/answer.dart';
+import 'package:cat/common/services/statistics.dart';
 
 class Statistics extends StatefulWidget {
   @override
@@ -36,25 +37,15 @@ class _StatisticsState extends State<Statistics> {
               ),
             ]),
         body: FutureBuilder<User>(
-          future: fetchUser(),
+          future: StatisticsService.fetchUser(),
           builder: (context, snapshot) {
-            if (snapshot.hasData && snapshot.data.currentExamTitle != "") {
+            if (snapshot.hasData && snapshot.data.currentExamTitle.isNotEmpty) {
               return ChartTable(user: snapshot.data);
             }
             return BeginStudy();
           },
         ));
   }
-}
-
-Future<User> fetchUser() async {
-  UserProvider userProvider = new UserProvider();
-  User user = await userProvider.getUser();
-
-  if (user == null) {
-    print("user is null");
-  }
-  return user;
 }
 
 ///
@@ -86,7 +77,6 @@ class BeginStudy extends StatelessWidget {
                 Navigator.of(context).pushNamed(SElECT_SUBJECT_ROUTE),
           ),
         ),
-        ChartTable(),
       ],
     ));
   }
@@ -144,6 +134,12 @@ class _ChartTableState extends State<ChartTable> {
           width: 200.0,
           height: 200.0,
           child: AreaAndLineChart.withSampleData(),
+        ),
+        RaisedButton(
+          child: Text("data"),
+          onPressed: () {
+            StatisticsService.fetchChartsElem(widget.user.currentExamID);
+          },
         )
       ],
     );
@@ -271,13 +267,4 @@ class AreaAndLineChart extends StatelessWidget {
         ..setAttribute(charts.rendererIdKey, 'customArea'),
     ];
   }
-}
-
-/// 记忆统计
-class LinearQuestion {
-  final String weekend;
-  final int domain;
-  final int questions;
-
-  LinearQuestion(this.domain, this.weekend, this.questions);
 }

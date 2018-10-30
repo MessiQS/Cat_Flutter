@@ -192,7 +192,10 @@ class AnswerService {
   ///
   /// 保存答题记录到数据库
   ///
-  static saveRecordToDB(Question question, List<String> options) async {
+  static Future<Record> saveRecordToDB(
+      Question question, List<String> options) async {
+    print("saveRecordToDB");
+
     /// 判断答案是否正确
     bool isCorrect = true;
     List<String> answerList = question.answer.split(",");
@@ -203,16 +206,19 @@ class AnswerService {
     }
 
     /// 保存到本地数据库
-    Map map = {
+    Map<String, dynamic> map = {
       RC.columnExamID: question.examID,
       RC.columnQuestionId: question.id,
       RC.columnSelectedOption: options.join(","),
-      RC.columnCreatedTime: DateTime.now().millisecondsSinceEpoch.toString(),
+      RC.columnCreatedTime: DateTime.now().millisecondsSinceEpoch,
       RC.columnIsCorrect: isCorrect,
     };
+    print("map" + map.toString());
     Record record = Record.fromMap(map);
     RecordProvider provider = RecordProvider();
-    await provider.insert(record);
+    record = await provider.insert(record);
+    print("save record $record");
+    return record;
   }
 
   ///
@@ -221,7 +227,8 @@ class AnswerService {
   static saveRecordToWeb(Question question, List<String> options) async {
     /// 获取相关的答题记录
     RecordProvider provider = RecordProvider();
-    List<Record> list = await provider.getRecordsByQuestionId(question.id.toString());
+    List<Record> list =
+        await provider.getRecordsByQuestionId(question.id.toString());
 
     /// 配置网络数据
     String url = Address.getUpdateInfoCache();

@@ -41,7 +41,6 @@ class _AnswerState extends State<Answer> {
 
   void initState() {
     super.initState();
-    print("user ${widget.user}");
     _loadQuestions =
         AnswerService.fetchData(widget.user.currentExamID, type: widget.type);
     _optionsStates = {
@@ -54,6 +53,8 @@ class _AnswerState extends State<Answer> {
 
   /// 切换到下一题
   nextQuestion() {
+    print("user ${widget.user}");
+
     setState(() {
       _loadQuestions =
           AnswerService.fetchData(widget.user.currentExamID, type: widget.type);
@@ -113,7 +114,6 @@ class _AnswerState extends State<Answer> {
                     ],
                   );
                 }
-                print("snapshot.data.material ${snapshot.data.material}");
 
                 /// 材料题
                 return ListView(
@@ -316,8 +316,10 @@ class _QuestionSolveAreaState extends State<QuestionSolveArea> {
     if (AnswerService.isHaveMutilpleAnswer(widget.question)) {
       /// 如果没有添加过
       if (selectedOptions.indexOf(option) == -1) {
+        widget.optionsStates[option] = OptionsState.selected;
         selectedOptions.add(option);
       } else {
+        widget.optionsStates[option] = OptionsState.unselected;
         selectedOptions.remove(option);
       }
       return;
@@ -345,7 +347,6 @@ class _QuestionSolveAreaState extends State<QuestionSolveArea> {
         }
       }
       List<String> list = widget.question.answer.split(",");
-      print("list $list");
       for (String item in list) {
         widget.optionsStates[item] = OptionsState.right;
       }
@@ -356,7 +357,7 @@ class _QuestionSolveAreaState extends State<QuestionSolveArea> {
     await AnswerService.saveRecordToDB(widget.question, options);
 
     /// 同步到网络
-    await AnswerService.saveRecordToWeb(widget.question, options);
+    // await AnswerService.saveRecordToWeb(widget.question, options);
   }
 
   ///
@@ -403,11 +404,16 @@ class _QuestionSolveAreaState extends State<QuestionSolveArea> {
   /// 获取选项
   @override
   Widget build(BuildContext context) {
+    /// 是否有多选按钮
+    bool hasButton = AnswerService.isHaveMutilpleAnswer(widget.question);
     if (widget.isSelectedDone == false) {
       return Column(
         children: <Widget>[
           /// 选项 Section
-          AnswerSection("Options"),
+          AnswerSection(
+            "Options",
+            hasButton: hasButton,
+          ),
 
           /// 选项
           Column(
@@ -425,7 +431,10 @@ class _QuestionSolveAreaState extends State<QuestionSolveArea> {
     return Column(
       children: <Widget>[
         /// 选项 Section
-        AnswerSection("Options"),
+        AnswerSection(
+          "Options",
+          hasButton: hasButton,
+        ),
 
         /// 选项
         Column(
@@ -467,6 +476,40 @@ class AnswerSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> list = [
+      Padding(
+        padding: EdgeInsets.fromLTRB(24.0, 20.0, 24.0, .0),
+        child: Text(
+          text,
+          style: new TextStyle(
+            fontSize: 16.0,
+            fontWeight: FontWeight.normal,
+            color: CatColors.textDefaultColor,
+          ),
+        ),
+      ),
+    ];
+
+    /// 如果多选项
+    if (hasButton == true) {
+      list.add(Container(
+          margin: EdgeInsets.fromLTRB(.0, 15.0, 16.0, .0),
+          width: 58.0,
+          height: 28.5,
+          child: RaisedButton(
+            padding: EdgeInsets.all(.0),
+            color: Color(0xFF0082D5),
+            onPressed: () {},
+            child: Text(
+              "ENTER",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 12.0,
+              ),
+            ),
+          )));
+    }
+
     return new Container(
       child: Stack(
         children: <Widget>[
@@ -474,16 +517,9 @@ class AnswerSection extends StatelessWidget {
             'images/answer_section_background.png',
             fit: BoxFit.fill,
           ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(24.0, 20.0, 24.0, .0),
-            child: Text(
-              text,
-              style: new TextStyle(
-                fontSize: 16.0,
-                fontWeight: FontWeight.normal,
-                color: CatColors.textDefaultColor,
-              ),
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: list,
           )
         ],
       ),
@@ -519,6 +555,9 @@ class _AnswerOptionItemState extends State<AnswerOptionItem> {
       imageURL = "images/option_right_background.png";
     }
     if (widget.state == OptionsState.wrong) {
+      imageURL = "images/option_wrong_background.png";
+    }
+    if (widget.state == OptionsState.selected) {
       imageURL = "images/option_wrong_background.png";
     }
 
@@ -579,6 +618,9 @@ class _AnswerOptionItemState extends State<AnswerOptionItem> {
     }
     if (widget.state == OptionsState.wrong) {
       color = Color(0xFFF9E1E7);
+    }
+    if (widget.state == OptionsState.selected) {
+      color = Color(0xFF0082D5);
     }
 
     return Container(

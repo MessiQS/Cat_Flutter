@@ -34,17 +34,26 @@ class _SelectSubjectThirdState extends State<SelectSubjectThird> {
       question.examID = examID;
       list.add(question);
     }
+    print("provider.insertList(list);");
     provider.insertList(list);
 
     /// 下载选题记录
     await SelectSubjectService.downloadExamRecord(examID);
 
-    User user = new User();
+    UserProvider userProvider = new UserProvider();
+    User user = await userProvider.getUser();
+    print("User user = await userProvider.getUser: $user");
+
+    print("title " + title);
+    print("user " + user.toString());
     user.currentExamID = examID;
     user.currentExamTitle = title;
 
-    UserProvider userProvider = new UserProvider();
-    userProvider.insert(user);
+    // print("user: $user");
+
+    userProvider.update(user);
+
+    // print("user: $user");
   }
 
   @override

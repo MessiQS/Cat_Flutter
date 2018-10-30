@@ -227,9 +227,9 @@ class QuestionProvider extends BaseDBProvider {
   Future<List<Question>> insertList(List<Question> list) async {
     Database db = await getDataBase();
     for (Question question in list) {
-      print("question before\n" + question.toString());
+      // print("question before\n" + question.toString());
       question.id = await db.insert(tableName(), question.toMap());
-      print("question after\n" + question.toString());
+      // print("question after\n" + question.toString());
     }
     return list;
   }

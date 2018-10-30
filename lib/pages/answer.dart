@@ -316,10 +316,14 @@ class _QuestionSolveAreaState extends State<QuestionSolveArea> {
     if (AnswerService.isHaveMutilpleAnswer(widget.question)) {
       /// 如果没有添加过
       if (selectedOptions.indexOf(option) == -1) {
-        widget.optionsStates[option] = OptionsState.selected;
+        setState(() {
+          widget.optionsStates[option] = OptionsState.selected;
+        });
         selectedOptions.add(option);
       } else {
-        widget.optionsStates[option] = OptionsState.unselected;
+        setState(() {
+          widget.optionsStates[option] = OptionsState.unselected;
+        });
         selectedOptions.remove(option);
       }
       return;
@@ -468,10 +472,12 @@ class _QuestionSolveAreaState extends State<QuestionSolveArea> {
 class AnswerSection extends StatelessWidget {
   final String text;
   final bool hasButton;
+  final VoidCallback onPressed;
 
   const AnswerSection(
     this.text, {
     this.hasButton = false,
+    this.onPressed,
   });
 
   @override
@@ -499,7 +505,7 @@ class AnswerSection extends StatelessWidget {
           child: RaisedButton(
             padding: EdgeInsets.all(.0),
             color: Color(0xFF0082D5),
-            onPressed: () {},
+            onPressed: this.onPressed,
             child: Text(
               "ENTER",
               style: TextStyle(
@@ -558,7 +564,7 @@ class _AnswerOptionItemState extends State<AnswerOptionItem> {
       imageURL = "images/option_wrong_background.png";
     }
     if (widget.state == OptionsState.selected) {
-      imageURL = "images/option_wrong_background.png";
+      imageURL = "images/option_selected_background.png";
     }
 
     return Stack(
@@ -620,7 +626,7 @@ class _AnswerOptionItemState extends State<AnswerOptionItem> {
       color = Color(0xFFF9E1E7);
     }
     if (widget.state == OptionsState.selected) {
-      color = Color(0xFF0082D5);
+      color = Color(0xFFD9EDF9);
     }
 
     return Container(

@@ -33,10 +33,10 @@ class Record {
 
   /// 时间戳
   int createdTime;
+  int questionId;
 
   String selectedOption;
   String examId;
-  String questionId;
 
   bool isCorrect;
 
@@ -58,11 +58,25 @@ class Record {
 
   Record.fromMap(Map<String, dynamic> map) {
     id = map[RC.columnID];
-    createdTime = map[RC.columnCreatedTime];
-    selectedOption = map[RC.columnSelectedOption];
-    examId = map[RC.columnExamID];
-    questionId = map[RC.columnQuestionId];
-    isCorrect = map[RC.columnIsCorrect];// == 0 ? false : true;
+    createdTime = map[RC.columnCreatedTime] ?? 0;
+    selectedOption = map[RC.columnSelectedOption] ?? "";
+    examId = map[RC.columnExamID] ?? "";
+    questionId = map[RC.columnQuestionId] ?? "";
+    isCorrect = map[RC.columnIsCorrect] == 0 ? false : true;
+  }
+
+  @override
+  String toString() {
+    return '''
+        =======================  ${this.runtimeType}  =======================
+
+        ID : ${this.id}
+        CreatedTime : ${this.createdTime}
+        SelectedOption : ${this.selectedOption}
+        ExamId : ${this.examId}
+        QuestionId : ${this.questionId}
+        IsCorrect : ${this.isCorrect}
+      ''';
   }
 }
 
@@ -71,10 +85,10 @@ class RecordProvider extends BaseDBProvider {
   tableSqlString() {
     return tableBaseString(RC.tableName, RC.columnID) +
         '''
-        ${RC.columnCreatedTime} int,
+        ${RC.columnCreatedTime} integer,
         ${RC.columnSelectedOption} text,
         ${RC.columnExamID} text,
-        ${RC.columnQuestionId} text,
+        ${RC.columnQuestionId} integer,
         ${RC.columnIsCorrect} bool)
       ''';
   }
@@ -117,7 +131,6 @@ class RecordProvider extends BaseDBProvider {
         ],
         where: "${RC.columnExamID} = ?",
         whereArgs: [examID]);
-
     List<Record> list = List<Record>();
     for (Map<String, dynamic> map in maps) {
       Record record = Record.fromMap(map);

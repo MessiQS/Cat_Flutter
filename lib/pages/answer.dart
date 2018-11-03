@@ -53,8 +53,6 @@ class _AnswerState extends State<Answer> {
 
   /// 切换到下一题
   nextQuestion() {
-    print("user ${widget.user}");
-
     setState(() {
       _loadQuestions =
           AnswerService.fetchData(widget.user.currentExamID, type: widget.type);

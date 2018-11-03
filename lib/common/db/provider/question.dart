@@ -156,8 +156,7 @@ class Question {
   @override
   String toString() {
     return '''
-    
-        =======================  Question  =======================
+        =======================  ${this.runtimeType}  =======================
 
         ID : ${this.id}
         Title : ${this.title}
@@ -191,7 +190,7 @@ class QuestionProvider extends BaseDBProvider {
         ${QC.columnTitle} text,
         ${QC.columnCreatedTime} text,
         ${QC.columnUpdateTime} text,
-        ${QC.columnNumber} int,
+        ${QC.columnNumber} integer,
         ${QC.columnA} text,
         ${QC.columnB} text,
         ${QC.columnC} text,

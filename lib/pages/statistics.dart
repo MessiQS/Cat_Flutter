@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
 import 'package:cat/cats/cats.dart';
@@ -32,7 +30,13 @@ class _StatisticsState extends State<Statistics> {
             actions: <Widget>[
               new IconButton(
                 icon: const Icon(Icons.more_vert),
-                onPressed: () {},
+                onPressed: () {
+                  showModalBottomSheet<void>(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return BottomActionSheet();
+                      });
+                },
                 tooltip: '更多',
               ),
             ]),
@@ -127,18 +131,29 @@ class _ChartTableState extends State<ChartTable> {
             ],
           ),
         ),
-        ChartListItem(
+        ChartItem(
           user: widget.user,
         ),
         Container(
+          margin: EdgeInsets.all(16.0),
           width: 200.0,
           height: 200.0,
-          child: AreaAndLineChart.withSampleData(),
+          // child: AreaAndLineChart.withSampleData(),
+          child: FutureBuilder(
+            future:
+                StatisticsService.fetchTPChartElems(widget.user.currentExamID),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return AreaAndLineChart(snapshot.data);
+              }
+              return Placeholder();
+            },
+          ),
         ),
         RaisedButton(
           child: Text("data"),
           onPressed: () {
-            StatisticsService.fetchChartsElem(widget.user.currentExamID);
+            StatisticsService.fetchTPChartElems(widget.user.currentExamID);
           },
         )
       ],
@@ -149,16 +164,16 @@ class _ChartTableState extends State<ChartTable> {
 ///
 /// 单个选项
 ///
-class ChartListItem extends StatefulWidget {
+class ChartItem extends StatefulWidget {
   final User user;
 
-  const ChartListItem({this.user});
+  const ChartItem({this.user});
 
   @override
-  createState() => new _ChartListItemState();
+  createState() => new _ChartItemState();
 }
 
-class _ChartListItemState extends State<ChartListItem> {
+class _ChartItemState extends State<ChartItem> {
   @override
   void initState() {
     super.initState();
@@ -221,9 +236,9 @@ class AreaAndLineChart extends StatelessWidget {
   AreaAndLineChart(this.seriesList, {this.animate});
 
   /// Creates a [LineChart] with sample data and no transition.
-  factory AreaAndLineChart.withSampleData() {
+  factory AreaAndLineChart.withSampleData(List<ChartElem> list) {
     return AreaAndLineChart(
-      _createSampleData(),
+      _createSampleData(list),
       // Disable animations for image tests.
       animate: false,
     );
@@ -244,27 +259,64 @@ class AreaAndLineChart extends StatelessWidget {
   }
 
   /// Create one series with sample hard coded data.
-  static List<charts.Series<LinearQuestion, int>> _createSampleData() {
-    final yourFakeDesktopData = [
-      LinearQuestion(0, "Wed", 34),
-      LinearQuestion(1, "Mon", 22),
-      LinearQuestion(2, "Tus", 66),
-      LinearQuestion(3, "Sun", 43),
-      LinearQuestion(4, "Sun", 34),
-      LinearQuestion(5, "Sun", 22),
-    ];
+  static List<charts.Series<ChartElem, int>> _createSampleData(
+      List<ChartElem> list) {
+    // final yourFakeDesktopData = [
+    //   ChartElem(0, 34),
+    //   ChartElem(1, 22),
+    //   ChartElem(2, 66),
+    //   ChartElem(3, 43),
+    //   ChartElem(4, 34),
+    //   ChartElem(5, 22),
+    // ];
 
     return [
-      charts.Series<LinearQuestion, int>(
+      charts.Series<ChartElem, int>(
         id: 'Desktop',
         colorFn: (_, __) => charts.MaterialPalette.deepOrange.shadeDefault,
-        domainFn: (LinearQuestion question, _) => question.domain,
-        measureFn: (LinearQuestion question, _) => question.questions,
-        labelAccessorFn: (LinearQuestion question, _) => question.weekend,
-        data: yourFakeDesktopData,
+        domainFn: (ChartElem question, _) => question.domain,
+        measureFn: (ChartElem question, _) => question.questions,
+        data: list,
       )
         // Configure our custom bar target renderer for this series.
         ..setAttribute(charts.rendererIdKey, 'customArea'),
     ];
+  }
+}
+
+class BottomActionSheet extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        ActionSheetItem(
+          url: "images/action_notification.png",
+          text: "Notification",
+        )
+      ],
+    );
+  }
+}
+
+class ActionSheetItem extends StatelessWidget {
+  final String url;
+  final String text;
+  const ActionSheetItem({this.url, this.text});
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: <Widget>[
+        Container(
+          width: 24.0,
+          height: 24.0,
+          margin: EdgeInsets.fromLTRB(24.0, 16.0, 32.0, 16.0),
+          child: Image.asset(url),
+        ),
+        Text(
+          text,
+          style: TextStyle(fontSize: 16.0, color: Colors.black),
+        ),
+      ],
+    );
   }
 }

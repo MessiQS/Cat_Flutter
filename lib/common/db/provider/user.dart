@@ -62,13 +62,13 @@ class User {
   @override
   String toString() {
     return '''
-        =======================  User  =======================
+        =======================  ${this.runtimeType}  =======================
 
         id: ${this.id}
         userID: ${this.userID} 
         token: ${this.token} 
         currentExamID: ${this.currentExamID} 
-        urrentExamTitle: ${this.currentExamTitle}
+        CurrentExamTitle: ${this.currentExamTitle}
       ''';
   }
 }

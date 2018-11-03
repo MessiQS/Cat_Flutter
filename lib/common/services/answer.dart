@@ -38,26 +38,41 @@ class AnswerService {
     /// 获取对应试卷的所有试题
     List<Question> list = await questionProvider.getQuestions(examID);
     List<Record> recordList = await recordProvider.getRecords(examID);
-    List<String> recordExamIds = List<String>();
-    if (recordList.isEmpty == false) {
-      recordExamIds = recordList.map((value) => value.examId);
+    List<int> recordQuestionIds = List<int>();
+    for (Record record in recordList) {
+      /// 如果记录中没有，添加
+      if (recordQuestionIds.indexOf(record.questionId) == -1) {
+        recordQuestionIds.add(record.questionId);
+      }
+    }
+    print("recordQuestionIds $recordQuestionIds");
+
+    /// 从未学习过的里面取值
+    if (type == AnswerType.neverStudied) {
+      for (Question question in list) {
+        /// 如果学过，就删除掉
+        if (recordQuestionIds.indexOf(question.id) != -1) {
+          list.remove(question);
+        }
+      }
     }
 
-    /// 获取所有做过记录
-    /// 去重
-    List<String> unique = List<String>();
-    recordExamIds.forEach((str) {
-      if (unique.contains(str) == false) {
-        unique.add(str);
+    /// 从学习过的里面取值
+    if (type == AnswerType.studied) {
+      for (Question question in list) {
+        /// 如果没学过，就删除掉
+        if (recordQuestionIds.indexOf(question.id) == -1) {
+          list.remove(question);
+        }
       }
-    });
+    }
+
     if (list.isEmpty == false) {
       Random random = new Random();
       int number = random.nextInt(list.length - 1);
       Question question = list[number];
-      // Question question = list[58];
 
-      print("${question}");
+      print("${question.toString()}");
       return question;
     }
     return null;
@@ -213,11 +228,9 @@ class AnswerService {
       RC.columnCreatedTime: DateTime.now().millisecondsSinceEpoch,
       RC.columnIsCorrect: isCorrect,
     };
-    print("map" + map.toString());
     Record record = Record.fromMap(map);
     RecordProvider provider = RecordProvider();
     record = await provider.insert(record);
-    print("save record $record");
     return record;
   }
 

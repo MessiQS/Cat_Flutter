@@ -27,27 +27,28 @@ class QuestionModel {
   final String source;
   final String analysis;
 
-  const QuestionModel(
-      {this.number,
-      this.optionA,
-      this.optionB,
-      this.optionC,
-      this.optionD,
-      this.answer,
-      this.content,
-      this.type,
-      this.title,
-      this.point,
-      this.material,
-      this.hideTag,
-      this.category,
-      this.year,
-      this.province,
-      this.questionID,
-      this.createdTime,
-      this.updatedTime,
-      this.source,
-      this.analysis});
+  const QuestionModel({
+    this.number,
+    this.optionA,
+    this.optionB,
+    this.optionC,
+    this.optionD,
+    this.answer,
+    this.content,
+    this.type,
+    this.title,
+    this.point,
+    this.material,
+    this.hideTag,
+    this.category,
+    this.year,
+    this.province,
+    this.questionID,
+    this.createdTime,
+    this.updatedTime,
+    this.source,
+    this.analysis,
+  });
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
@@ -123,7 +124,7 @@ class QuestionModel {
   String toString() {
     return '''
     
-        =======================  Question Model  =======================
+        =======================  ${this.runtimeType}  =======================
 
         Title : ${this.title}
         CreatedTime : ${this.createdTime}

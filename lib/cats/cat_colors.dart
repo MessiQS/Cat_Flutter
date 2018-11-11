@@ -30,4 +30,7 @@ class CatColors {
 
   /// cell 的 splash颜色
   static const Color cellSplashColor = Color(0x88607D8B);
+
+  /// 视图默认背景颜色
+  static const Color defaultBackgroundColor = Color(0xFFFAFAFA);
 }

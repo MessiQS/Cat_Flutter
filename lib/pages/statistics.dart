@@ -6,6 +6,23 @@ import 'package:cat/common/db/db.dart';
 import 'package:cat/pages/answer.dart';
 import 'package:cat/common/services/statistics.dart';
 
+enum ActionSheetType {
+  notification,
+  account,
+  update,
+  sendFeedback,
+  logout,
+}
+
+enum ActionSheetStyle {
+  defaultStyle,
+  switchStyle,
+}
+
+typedef ActionSheetItemOnPressed = void Function(ActionSheetType type);
+typedef ActionSheetItemValueChanged = void Function(
+    ActionSheetType type, bool value);
+
 class Statistics extends StatefulWidget {
   @override
   createState() => new _StatisticsState();
@@ -138,13 +155,51 @@ class _ChartTableState extends State<ChartTable> {
           margin: EdgeInsets.all(16.0),
           width: 200.0,
           height: 200.0,
-          // child: AreaAndLineChart.withSampleData(),
           child: FutureBuilder(
             future:
                 StatisticsService.fetchTPChartElems(widget.user.currentExamID),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return AreaAndLineChart(snapshot.data);
+                return Stack(
+                    alignment: const Alignment(1.0, 1.1),
+                    children: <Widget>[
+                      AreaAndLineChart.withSampleData(snapshot.data),
+                      Container(
+                          // margin: EdgeInsets.only(top: 0.0),
+                          width: MediaQuery.of(context).size.width,
+                          height: 25.0,
+                          color: CatColors.defaultBackgroundColor,
+                          child: FutureBuilder(
+                              future: StatisticsService.getTodayChartWeekday(),
+                              builder: (context, sst) {
+                                if (sst.hasData) {
+                                  List<String> list = sst.data;
+                                  return Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: list.map((value) {
+                                      /// 最后一个高亮
+                                      if (list.last == value) {
+                                        return Text(
+                                          value,
+                                          style: TextStyle(
+                                            color: CatColors.globalTintColor,
+                                            fontSize: 12.0,
+                                          ),
+                                        );
+                                      }
+                                      return Text(
+                                        value,
+                                        style: TextStyle(
+                                          color: Color(0xFFB9B9B9),
+                                          fontSize: 12.0,
+                                        ),
+                                      );
+                                    }).toList(),
+                                  );
+                                }
+                              }))
+                    ]);
               }
               return Placeholder();
             },
@@ -261,21 +316,12 @@ class AreaAndLineChart extends StatelessWidget {
   /// Create one series with sample hard coded data.
   static List<charts.Series<ChartElem, int>> _createSampleData(
       List<ChartElem> list) {
-    // final yourFakeDesktopData = [
-    //   ChartElem(0, 34),
-    //   ChartElem(1, 22),
-    //   ChartElem(2, 66),
-    //   ChartElem(3, 43),
-    //   ChartElem(4, 34),
-    //   ChartElem(5, 22),
-    // ];
-
     return [
       charts.Series<ChartElem, int>(
         id: 'Desktop',
         colorFn: (_, __) => charts.MaterialPalette.deepOrange.shadeDefault,
         domainFn: (ChartElem question, _) => question.domain,
-        measureFn: (ChartElem question, _) => question.questions,
+        measureFn: (ChartElem question, _) => question.count,
         data: list,
       )
         // Configure our custom bar target renderer for this series.
@@ -284,38 +330,182 @@ class AreaAndLineChart extends StatelessWidget {
   }
 }
 
-class BottomActionSheet extends StatelessWidget {
+///
+/// 底部弹出框
+///
+class BottomActionSheet extends StatefulWidget {
+  @override
+  createState() => new _BottomActionSheetState();
+}
+
+class _BottomActionSheetState extends State<BottomActionSheet> {
+  // bool enabledNotification;
+  // bool enabledAccount;
+
+  onPressed(ActionSheetType type) {
+    print("type $type");
+  }
+
+  // onChanged(ActionSheetType type, bool value) {
+  //   if (type == ActionSheetType.notification) {
+  //     setState(() {
+  //       enabledAccount = value;
+  //     });
+  //   }
+  //   if (type == ActionSheetType.account) {
+  //     setState(() {
+  //       enabledAccount = value;
+  //     });
+  //   }
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
+        SizedBox(height: 8.0),
         ActionSheetItem(
           url: "images/action_notification.png",
           text: "Notification",
-        )
+          onPressed: onPressed,
+          type: ActionSheetType.notification,
+          style: ActionSheetStyle.switchStyle,
+        ),
+        ActionSheetItem(
+          url: "images/action_account.png",
+          text: "Account",
+          onPressed: onPressed,
+          type: ActionSheetType.account,
+          style: ActionSheetStyle.switchStyle,
+        ),
+        ActionSheetItem(
+          url: "images/action_update.png",
+          text: "Update",
+          onPressed: onPressed,
+          type: ActionSheetType.update,
+        ),
+        ActionSheetItem(
+          url: "images/action_send_feedback.png",
+          text: "Send Feedback",
+          onPressed: onPressed,
+          type: ActionSheetType.sendFeedback,
+        ),
+        ActionSheetItem(
+          url: "images/action_logout.png",
+          text: "Logout",
+          onPressed: onPressed,
+          type: ActionSheetType.logout,
+        ),
       ],
     );
   }
 }
 
-class ActionSheetItem extends StatelessWidget {
+///
+/// 弹框选项
+///
+class ActionSheetItem extends StatefulWidget {
   final String url;
   final String text;
-  const ActionSheetItem({this.url, this.text});
+  final ActionSheetType type;
+  final ActionSheetItemOnPressed onPressed;
+  final ActionSheetStyle style;
+
+  const ActionSheetItem({
+    this.url,
+    this.text,
+    this.onPressed,
+    this.type,
+    this.style = ActionSheetStyle.defaultStyle,
+  });
+  @override
+  createState() => new _ActionSheetItemState();
+}
+
+class _ActionSheetItemState extends State<ActionSheetItem> {
+  bool sValue;
+
+  @override
+  void initState() {
+    super.initState();
+    sValue = false;
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (widget.style == ActionSheetStyle.switchStyle) {
+      return buildSwitch(context);
+    }
+    return buildDefault(context);
+  }
+
+  Widget buildDefault(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        /// 将类型回传回去
+        widget.onPressed(widget.type);
+      },
+      splashColor: CatColors.cellSplashColor,
+      child: Ink(
+          child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Container(
+                width: 24.0,
+                height: 24.0,
+                margin: EdgeInsets.fromLTRB(24.0, 16.0, 32.0, 16.0),
+                child: Image.asset(widget.url),
+              ),
+              Text(
+                widget.text,
+                style: TextStyle(
+                  fontSize: 16.0,
+                  color: Colors.black,
+                ),
+              ),
+            ],
+          ),
+        ],
+      )),
+    );
+  }
+
+  Widget buildSwitch(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
+        Row(
+          children: <Widget>[
+            Container(
+              width: 24.0,
+              height: 24.0,
+              margin: EdgeInsets.fromLTRB(24.0, 16.0, 32.0, 16.0),
+              child: Image.asset(widget.url),
+            ),
+            Text(
+              widget.text,
+              style: TextStyle(
+                fontSize: 16.0,
+                color: Colors.black,
+              ),
+            ),
+          ],
+        ),
         Container(
-          width: 24.0,
-          height: 24.0,
-          margin: EdgeInsets.fromLTRB(24.0, 16.0, 32.0, 16.0),
-          child: Image.asset(url),
-        ),
-        Text(
-          text,
-          style: TextStyle(fontSize: 16.0, color: Colors.black),
-        ),
+          margin: EdgeInsets.only(right: 20.0),
+          child: Switch(
+            value: this.sValue,
+            onChanged: (bool value) {
+              setState(() {
+                this.sValue = value;
+              });
+            },
+            activeColor: CatColors.globalTintColor,
+            activeTrackColor: const Color(0xFFFCA88D),
+          ),
+        )
       ],
     );
   }

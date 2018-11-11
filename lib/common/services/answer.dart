@@ -6,6 +6,20 @@ import 'package:cat/common/db/db.dart';
 import 'package:cat/common/net/net.dart';
 import 'package:cat/common/config/config.dart';
 
+enum OptionsState {
+  /// 未选择状态
+  unselected,
+
+  /// 选择后的状态（多选题）
+  selected,
+
+  /// 答案正确的状态
+  right,
+
+  /// 答案错误的状态
+  wrong,
+}
+
 /// 试题类型
 enum AnswerType {
   /// 学习过的题
@@ -69,8 +83,7 @@ class AnswerService {
     if (list.isEmpty == false) {
       Random random = new Random();
       int number = random.nextInt(list.length - 1);
-      // Question question = list[number];
-      Question question = list[879];
+      Question question = list[number];
 
       return question;
     }
@@ -120,9 +133,6 @@ class AnswerService {
     );
 
     String str = regExp.firstMatch(paragraphs).group(0);
-    print('''
-      图片 $str
-    ''');
 
     ///
     /// 提取完成后的src
@@ -260,5 +270,41 @@ class AnswerService {
       "firstDateTime": "",
     };
     HttpManager.request(Method.Post, url, params: params);
+  }
+
+  ///
+  /// 获取选项icon
+  ///
+  static String getOptionIcon(OptionsState state) {
+    String imageURL = "images/option_default_background.png";
+
+    if (state == OptionsState.right) {
+      imageURL = "images/option_right_background.png";
+    }
+    if (state == OptionsState.wrong) {
+      imageURL = "images/option_wrong_background.png";
+    }
+    if (state == OptionsState.selected) {
+      imageURL = "images/option_selected_background.png";
+    }
+    return imageURL;
+  }
+
+  ///
+  /// 获取选项的颜色
+  ///
+  static Color getOptionColor(OptionsState state) {
+    Color color = Colors.transparent;
+
+    if (state == OptionsState.right) {
+      color = Color(0xFFDAF6E7);
+    }
+    if (state == OptionsState.wrong) {
+      color = Color(0xFFF9E1E7);
+    }
+    if (state == OptionsState.selected) {
+      color = Color(0xFFD9EDF9);
+    }
+    return color;
   }
 }

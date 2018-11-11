@@ -6,20 +6,6 @@ import 'package:cat/common/db/db.dart';
 import 'package:cat/common/services/answer.dart';
 import 'package:cat/models/image.dart';
 
-enum OptionsState {
-  /// 未选择状态
-  unselected,
-
-  /// 选择后的状态（多选题）
-  selected,
-
-  /// 答案正确的状态
-  right,
-
-  /// 答案错误的状态
-  wrong,
-}
-
 ///
 /// 答题页面
 ///
@@ -558,17 +544,7 @@ class _AnswerOptionItemState extends State<AnswerOptionItem> {
   /// [A][B][C][D]
   ///
   Widget icon(BuildContext context) {
-    String imageURL = "images/option_default_background.png";
-
-    if (widget.state == OptionsState.right) {
-      imageURL = "images/option_right_background.png";
-    }
-    if (widget.state == OptionsState.wrong) {
-      imageURL = "images/option_wrong_background.png";
-    }
-    if (widget.state == OptionsState.selected) {
-      imageURL = "images/option_selected_background.png";
-    }
+    String imageURL = AnswerService.getOptionIcon(widget.state);
 
     return Stack(
       children: <Widget>[
@@ -620,17 +596,7 @@ class _AnswerOptionItemState extends State<AnswerOptionItem> {
 
   @override
   Widget build(BuildContext context) {
-    Color color = Colors.transparent;
-
-    if (widget.state == OptionsState.right) {
-      color = Color(0xFFDAF6E7);
-    }
-    if (widget.state == OptionsState.wrong) {
-      color = Color(0xFFF9E1E7);
-    }
-    if (widget.state == OptionsState.selected) {
-      color = Color(0xFFD9EDF9);
-    }
+    Color color = AnswerService.getOptionColor(widget.state);
 
     return Container(
       width: MediaQuery.of(context).size.width,

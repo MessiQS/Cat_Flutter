@@ -242,9 +242,9 @@ class _ChartSectionState extends State<ChartSection> {
       margin: EdgeInsets.all(16.0),
       height: 200.0,
       child: FutureBuilder(
-        future: StatisticsService.fetchTPChartElems(widget.user.currentExamID),
+        future: StatisticsService.fetchEChartlems(
+            widget.user.currentExamID, widget.weekdayType),
         builder: (context, snapshot) {
-          print("snapshot data ${snapshot.data}");
           if (snapshot.hasData) {
             return Stack(
                 alignment: const Alignment(1.0, 1.1),

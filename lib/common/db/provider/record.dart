@@ -54,7 +54,7 @@ class Record {
     return map;
   }
 
-  Record();
+  Record._();
 
   Record.fromMap(Map<String, dynamic> map) {
     id = map[RC.columnID];
@@ -139,6 +139,31 @@ class RecordProvider extends BaseDBProvider {
   }
 
   ///
+  /// 通过题号顺序取出指定试卷ID下所有的记录
+  ///
+  Future<List<Record>> getRecordsOrderBy(String examID, String orderBy) async {
+    Database db = await getDataBase();
+
+    List<Map> maps = await db.query(tableName(),
+        columns: [
+          RC.columnID,
+          RC.columnCreatedTime,
+          RC.columnSelectedOption,
+          RC.columnExamID,
+          RC.columnQuestionId,
+          RC.columnIsCorrect,
+        ],
+        where: "${RC.columnExamID} = ?",
+        whereArgs: [examID],
+        orderBy: "$orderBy DESC");
+
+    /// 取出所有记录
+    List<Record> list = maps.map((Map map) => Record.fromMap(map)).toList();
+
+    return list;
+  }
+
+  ///
   /// 获取每道题的最新记录
   ///
   Future<List<Record>> getUniqueRecords(String examID) async {
@@ -158,14 +183,13 @@ class RecordProvider extends BaseDBProvider {
         ],
         where: "${RC.columnExamID} = ?",
         whereArgs: [examID],
-        orderBy: "${RC.columnCreatedTime} asc");
+        orderBy: "${RC.columnCreatedTime} ASC");
 
     List<Record> list = maps.map((Map map) => Record.fromMap(map)).toList();
 
     ///
     /// 过滤, 因为按照创建时间排序
     /// 所以相同questionID过滤
-    ///
     List<int> fliterList = List<int>();
     for (Record record in list) {
       /// 如果`fliterList`中有就从`list`删除

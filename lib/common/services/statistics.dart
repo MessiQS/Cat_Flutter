@@ -1,5 +1,4 @@
 import 'package:cat/common/db/db.dart';
-import 'package:flutter/material.dart';
 
 enum WeekdayType { Before, After }
 
@@ -64,7 +63,6 @@ class StatisticsService {
       List<Record>(),
     ];
     int oneday = 24 * 60 * 60 * 1000;
-    print("list $list");
 
     /// 分段
     for (Record record in list) {
@@ -81,7 +79,6 @@ class StatisticsService {
       ChartElem elem = ChartElem(5 - i, recordLists[i].length);
       elems.add(elem);
     }
-    print("elems elem");
     return elems;
   }
 
@@ -93,15 +90,37 @@ class StatisticsService {
   static Future<List<ChartElem>> fetchFCFTElems(String examID) async {
     RecordProvider recordProvider = RecordProvider();
 
-    /// 二维数组
-    List<List<Record>> recordLists = [
-      List<Record>(),
-      List<Record>(),
-      List<Record>(),
-      List<Record>(),
-      List<Record>(),
-      List<Record>(),
-    ];
+    /// 按照question id排序，为了后面分组过滤
+    List<Record> list =
+        await recordProvider.getRecordsOrderBy(examID, RC.columnQuestionId);
+    List<ChartElem> elems = List<ChartElem>();
+
+    /// x 代表已经完成的试题总量
+    /// y 代表做过但是未完成的试题总量
+    int x, y;
+    int questionId = -1;
+    for (Record record in list) {
+      print(record);
+      if (questionId == record.questionId) {
+        continue;
+      }
+      questionId = record.questionId;
+    }
+
+    return elems;
+  }
+
+  static Future<List<ChartElem>> fetchEChartlems(
+      String examID, WeekdayType type) async {
+    if (type == WeekdayType.After) {
+      return StatisticsService.fetchFCFTElems(examID);
+    }
+
+    if (type == WeekdayType.Before) {
+      return StatisticsService.fetchTPChartElems(examID);
+    }
+
+    return [];
   }
 
   /// 获取从今天开始到过去五天的全部星期
@@ -125,13 +144,10 @@ class StatisticsService {
       int j = now.weekday + i;
       list.add(weekend[j]);
     }
-    print('''
-      获取从今天开始到未来五天的全部星期
-      $list
-      ''');
     return list;
   }
 
+  /// 获取未来五天的星期
   static List<String> getWeekday(WeekdayType type) {
     if (type == WeekdayType.Before) {
       return StatisticsService.getTodayBeforeWeekday();

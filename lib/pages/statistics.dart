@@ -117,14 +117,12 @@ class ChartTable extends StatefulWidget {
 
 class _ChartTableState extends State<ChartTable> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return ListView(
       children: <Widget>[
+        PlacehoderSizeBox(
+          height: 8.0,
+        ),
         Container(
           height: 45.0,
           width: MediaQuery.of(context).size.width,
@@ -148,70 +146,121 @@ class _ChartTableState extends State<ChartTable> {
             ],
           ),
         ),
+        PlacehoderSizeBox(
+          height: 8.0,
+        ),
         ChartItem(
           user: widget.user,
+          number: "123",
+          desc: "Today Practice",
+          buttonText: "STUDY",
         ),
-        Container(
-          margin: EdgeInsets.all(16.0),
-          width: 200.0,
-          height: 200.0,
-          child: FutureBuilder(
-            future:
-                StatisticsService.fetchTPChartElems(widget.user.currentExamID),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Stack(
-                    alignment: const Alignment(1.0, 1.1),
-                    children: <Widget>[
-                      AreaAndLineChart.withSampleData(snapshot.data),
-                      Container(
-                          // margin: EdgeInsets.only(top: 0.0),
-                          width: MediaQuery.of(context).size.width,
-                          height: 25.0,
-                          color: CatColors.defaultBackgroundColor,
-                          child: FutureBuilder(
-                              future: StatisticsService.getTodayChartWeekday(),
-                              builder: (context, sst) {
-                                if (sst.hasData) {
-                                  List<String> list = sst.data;
-                                  return Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: list.map((value) {
-                                      /// 最后一个高亮
-                                      if (list.last == value) {
-                                        return Text(
-                                          value,
-                                          style: TextStyle(
-                                            color: CatColors.globalTintColor,
-                                            fontSize: 12.0,
-                                          ),
-                                        );
-                                      }
-                                      return Text(
-                                        value,
-                                        style: TextStyle(
-                                          color: Color(0xFFB9B9B9),
-                                          fontSize: 12.0,
-                                        ),
-                                      );
-                                    }).toList(),
-                                  );
-                                }
-                              }))
-                    ]);
-              }
-              return Placeholder();
-            },
-          ),
+        ChartSection(
+          user: widget.user,
         ),
-        RaisedButton(
-          child: Text("data"),
-          onPressed: () {
-            StatisticsService.fetchTPChartElems(widget.user.currentExamID);
-          },
-        )
+        PlacehoderSizeBox(
+          height: 8.0,
+        ),
+        ChartItem(
+          user: widget.user,
+          number: "13",
+          desc: "Forgetting Curve from Today",
+          buttonText: "REVIEW",
+        ),
+        ChartSection(
+          user: widget.user,
+          weekdayType: WeekdayType.After,
+        ),
       ],
+    );
+  }
+}
+
+///
+/// 每一块区域
+///
+class ChartSection extends StatefulWidget {
+  final List<Widget> list;
+  final User user;
+  final WeekdayType weekdayType;
+
+  const ChartSection({
+    Key key,
+    this.user,
+    this.list,
+    this.weekdayType = WeekdayType.Before,
+  }) : super(key: key);
+
+  @override
+  createState() => new _ChartSectionState();
+}
+
+class _ChartSectionState extends State<ChartSection> {
+  /// 底部栏 "TUE" "WED" "THU" "FRI" "SAT" "SUN"
+  Widget buildBottom(BuildContext context) {
+    List<String> list = StatisticsService.getWeekday(widget.weekdayType);
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: list.map((value) {
+        /// 过去五天，最后一个亮
+        if (widget.weekdayType == WeekdayType.Before && list.last == value) {
+          return Text(
+            value,
+            style: TextStyle(
+              color: CatColors.globalTintColor,
+              fontSize: 12.0,
+            ),
+          );
+        }
+
+        /// 未来五天，第一个亮
+        if (widget.weekdayType == WeekdayType.After && list.first == value) {
+          return Text(
+            value,
+            style: TextStyle(
+              color: CatColors.globalTintColor,
+              fontSize: 12.0,
+            ),
+          );
+        }
+
+        return Text(
+          value,
+          style: TextStyle(
+            color: Color(0xFFB9B9B9),
+            fontSize: 12.0,
+          ),
+        );
+      }).toList(),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.all(16.0),
+      height: 200.0,
+      child: FutureBuilder(
+        future: StatisticsService.fetchTPChartElems(widget.user.currentExamID),
+        builder: (context, snapshot) {
+          print("snapshot data ${snapshot.data}");
+          if (snapshot.hasData) {
+            return Stack(
+                alignment: const Alignment(1.0, 1.1),
+                children: <Widget>[
+                  AreaAndLineChart.withSampleData(snapshot.data),
+                  Container(
+                      margin: EdgeInsets.symmetric(horizontal: 8.0),
+                      width: MediaQuery.of(context).size.width,
+                      height: 25.0,
+                      color: CatColors.defaultBackgroundColor,
+                      child: buildBottom(context))
+                ]);
+          }
+          return SizedBox();
+        },
+      ),
     );
   }
 }
@@ -221,8 +270,16 @@ class _ChartTableState extends State<ChartTable> {
 ///
 class ChartItem extends StatefulWidget {
   final User user;
+  final String number;
+  final String desc;
+  final String buttonText;
 
-  const ChartItem({this.user});
+  const ChartItem({
+    this.user,
+    this.number,
+    this.desc,
+    this.buttonText,
+  });
 
   @override
   createState() => new _ChartItemState();
@@ -243,10 +300,10 @@ class _ChartItemState extends State<ChartItem> {
         Column(
           children: <Widget>[
             Container(
-              margin: EdgeInsets.only(left: 24.0),
+              margin: EdgeInsets.fromLTRB(24.0, 24.0, .0, .0),
               width: 200.0,
               child: Text(
-                "123",
+                widget.number,
                 textAlign: TextAlign.start,
                 style: TextStyle(
                   color: Color(0xFF272727),
@@ -258,18 +315,18 @@ class _ChartItemState extends State<ChartItem> {
               width: 200.0,
               margin: EdgeInsets.only(left: 24.0),
               child: Text(
-                "Today Practice",
+                widget.desc,
                 style: TextStyle(color: Color(0xFF7B7B7B), fontSize: 12.0),
               ),
             ),
           ],
         ),
         Container(
-          margin: EdgeInsets.only(right: 16.0),
+          margin: EdgeInsets.fromLTRB(.0, 24.0, 16.0, .0),
           width: 69.0,
           height: 25.0,
           child: CatBaseButton(
-            "STUDY",
+            widget.buttonText,
             onPressed: () =>
                 Navigator.of(context).push(MaterialPageRoute(builder: (_) {
                   return Answer(
@@ -345,19 +402,6 @@ class _BottomActionSheetState extends State<BottomActionSheet> {
   onPressed(ActionSheetType type) {
     print("type $type");
   }
-
-  // onChanged(ActionSheetType type, bool value) {
-  //   if (type == ActionSheetType.notification) {
-  //     setState(() {
-  //       enabledAccount = value;
-  //     });
-  //   }
-  //   if (type == ActionSheetType.account) {
-  //     setState(() {
-  //       enabledAccount = value;
-  //     });
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -507,6 +551,29 @@ class _ActionSheetItemState extends State<ActionSheetItem> {
           ),
         )
       ],
+    );
+  }
+}
+
+///
+/// 占位
+///
+class PlacehoderSizeBox extends StatelessWidget {
+  final double width;
+  final double height;
+  const PlacehoderSizeBox({this.width, this.height});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width:
+          this.width == null ? MediaQuery.of(context).size.width : this.width,
+      height: this.height == null
+          ? MediaQuery.of(context).size.height
+          : this.height,
+      child: const DecoratedBox(
+        decoration: const BoxDecoration(color: Color(0xFFF0F0F0)),
+      ),
     );
   }
 }

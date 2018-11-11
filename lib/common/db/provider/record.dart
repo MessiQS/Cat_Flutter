@@ -138,6 +138,9 @@ class RecordProvider extends BaseDBProvider {
     return list;
   }
 
+  ///
+  /// 获取每道题的最新记录
+  ///
   Future<List<Record>> getUniqueRecords(String examID) async {
     Database db = await getDataBase();
 

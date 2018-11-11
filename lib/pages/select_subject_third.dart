@@ -34,7 +34,6 @@ class _SelectSubjectThirdState extends State<SelectSubjectThird> {
       question.examID = examID;
       list.add(question);
     }
-    print("provider.insertList(list);");
     provider.insertList(list);
 
     /// 下载选题记录
@@ -42,18 +41,11 @@ class _SelectSubjectThirdState extends State<SelectSubjectThird> {
 
     UserProvider userProvider = new UserProvider();
     User user = await userProvider.getUser();
-    print("User user = await userProvider.getUser: $user");
 
-    print("title " + title);
-    print("user " + user.toString());
     user.currentExamID = examID;
     user.currentExamTitle = title;
 
-    // print("user: $user");
-
     userProvider.update(user);
-
-    // print("user: $user");
   }
 
   @override

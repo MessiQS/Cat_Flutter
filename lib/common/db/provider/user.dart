@@ -92,9 +92,7 @@ class UserProvider extends BaseDBProvider {
 
   Future<User> insert(User user) async {
     Database db = await getDataBase();
-    print("insert User");
     user.id = await db.insert(tableName(), user.toMap());
-    print("after insert user" + user.toString());
     return user;
   }
 
@@ -135,7 +133,6 @@ class UserProvider extends BaseDBProvider {
     User user = new User();
     user.userID = "1234";
     user = await insert(user);
-    print("user await insert" + user.toString());
     return user;
   }
 }

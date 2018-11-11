@@ -148,9 +148,14 @@ Future<List<ContentParagraphs>> splitWidgets(String content) async {
   List<ContentParagraphs> paragraphsList = List<ContentParagraphs>();
   for (String str in list) {
     ContentParagraphs paragraphs;
+    RegExp regExp = new RegExp(
+      r'src\s*=\s*"(.+?)"',
+      caseSensitive: false,
+      multiLine: false,
+    );
 
     /// 不包含图片
-    if (str.indexOf("src=") == -1) {
+    if (regExp.hasMatch(str) == false) {
       paragraphs =
           new ContentParagraphs(type: ParagraphsType.text, paragraphs: str);
     } else {

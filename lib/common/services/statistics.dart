@@ -1,4 +1,7 @@
 import 'package:cat/common/db/db.dart';
+import 'package:flutter/material.dart';
+
+enum WeekdayType { Before, After }
 
 class StatisticsService {
   static Map<int, String> weekend = {
@@ -48,6 +51,7 @@ class StatisticsService {
     /// 获取今天时间戳
     DateTime now = new DateTime.now();
     DateTime today = new DateTime(now.year, now.month, now.day);
+
     int todayEpoch = today.millisecondsSinceEpoch;
 
     /// 二维数组
@@ -60,26 +64,24 @@ class StatisticsService {
       List<Record>(),
     ];
     int oneday = 24 * 60 * 60 * 1000;
+    print("list $list");
 
     /// 分段
     for (Record record in list) {
-      print("$record");
-      for (int i = 5; i < 0; i++) {
-        if (todayEpoch + (i * oneday) < record.createdTime &&
-            record.createdTime < todayEpoch + ((i + 1) * oneday)) {
+      for (int i = 0; i < 5; i++) {
+        if (record.createdTime > todayEpoch - (i * oneday) &&
+            record.createdTime < todayEpoch - ((i - 1) * oneday)) {
           recordLists[i].add(record);
-          // continue;
+          continue;
         }
       }
     }
-    print("recordLists $recordLists");
 
     for (int i = 0; i < recordLists.length; i++) {
-      ChartElem elem = ChartElem(i, recordLists[i].length);
-      print("$elem");
+      ChartElem elem = ChartElem(5 - i, recordLists[i].length);
       elems.add(elem);
     }
-    print("return elems $elems");
+    print("elems elem");
     return elems;
   }
 
@@ -90,9 +92,20 @@ class StatisticsService {
   ///
   static Future<List<ChartElem>> fetchFCFTElems(String examID) async {
     RecordProvider recordProvider = RecordProvider();
+
+    /// 二维数组
+    List<List<Record>> recordLists = [
+      List<Record>(),
+      List<Record>(),
+      List<Record>(),
+      List<Record>(),
+      List<Record>(),
+      List<Record>(),
+    ];
   }
 
-  static Future<List<String>> getTodayChartWeekday() async {
+  /// 获取从今天开始到过去五天的全部星期
+  static List<String> getTodayBeforeWeekday() {
     List<String> list = [];
 
     DateTime now = new DateTime.now();
@@ -101,6 +114,34 @@ class StatisticsService {
       list.add(weekend[j]);
     }
     return list.reversed.toList();
+  }
+
+  /// 获取从今天开始到未来五天的全部星期
+  static List<String> getTodayAfterWeekday() {
+    List<String> list = [];
+
+    DateTime now = new DateTime.now();
+    for (int i = 0; i < 6; i++) {
+      int j = now.weekday + i;
+      list.add(weekend[j]);
+    }
+    print('''
+      获取从今天开始到未来五天的全部星期
+      $list
+      ''');
+    return list;
+  }
+
+  static List<String> getWeekday(WeekdayType type) {
+    if (type == WeekdayType.Before) {
+      return StatisticsService.getTodayBeforeWeekday();
+    }
+
+    if (type == WeekdayType.After) {
+      return StatisticsService.getTodayAfterWeekday();
+    }
+
+    return [];
   }
 }
 

@@ -45,7 +45,6 @@ class AnswerService {
         recordQuestionIds.add(record.questionId);
       }
     }
-    print("recordQuestionIds $recordQuestionIds");
 
     /// 从未学习过的里面取值
     if (type == AnswerType.neverStudied) {
@@ -70,9 +69,9 @@ class AnswerService {
     if (list.isEmpty == false) {
       Random random = new Random();
       int number = random.nextInt(list.length - 1);
-      Question question = list[number];
+      // Question question = list[number];
+      Question question = list[879];
 
-      print("${question.toString()}");
       return question;
     }
     return null;
@@ -121,14 +120,20 @@ class AnswerService {
     );
 
     String str = regExp.firstMatch(paragraphs).group(0);
+    print('''
+      图片 $str
+    ''');
 
     ///
     /// 提取完成后的src
     /// https://shuatiapp.cn/images/56db380cf50180a7/normal_583x673_a768f839ffb619572cc196a2478daff7.png
     ///
-    String src = str.replaceAll('src="./', Config.host).replaceAll('"', "");
-
-    print("paragraphs" + paragraphs);
+    String src = str
+        .replaceAll('src="./', Config.host)
+        .replaceAll('"', "")
+        .replaceAll("src = ", "")
+        .replaceAll("src =", "")
+        .replaceAll("src= ", "");
 
     double maxWidth = MediaQuery.of(context).size.width - 48;
     double width = 200.0;
@@ -177,6 +182,7 @@ class AnswerService {
       /// 设置最大尺寸上限
       width = min(maxWidth, width);
     }
+
     return ImageModel(
         height: height, width: width, src: src, type: ImageType.network);
   }
@@ -188,7 +194,8 @@ class AnswerService {
     content = content
         .replaceAll("<br>", "\n\n")
         .replaceAll("<br/>", "\n\n")
-        .replaceAll("</br>", "\n\n");
+        .replaceAll("</br>", "\n\n")
+        .replaceAll("<br />", "\n\n");
 
     List<String> newList = List<String>();
     List<String> list = content.split("<img");
@@ -209,8 +216,6 @@ class AnswerService {
   ///
   static Future<Record> saveRecordToDB(
       Question question, List<String> options) async {
-    print("saveRecordToDB");
-
     /// 判断答案是否正确
     bool isCorrect = true;
     List<String> answerList = question.answer.split(",");

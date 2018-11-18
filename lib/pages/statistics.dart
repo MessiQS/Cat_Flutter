@@ -132,7 +132,10 @@ class _ChartTableState extends State<ChartTable> {
               Container(
                 width: MediaQuery.of(context).size.width * 0.7,
                 margin: EdgeInsets.only(left: 24.0),
-                child: Text(widget.user.currentExamTitle),
+                child: Text(
+                  widget.user.currentExamTitle,
+                  style: TextStyle(),
+                ),
               ),
               Container(
                 margin: EdgeInsets.only(right: 16.0),
@@ -406,42 +409,47 @@ class _BottomActionSheetState extends State<BottomActionSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        SizedBox(height: 8.0),
-        ActionSheetItem(
-          url: "images/action_notification.png",
-          text: "Notification",
-          onPressed: onPressed,
-          type: ActionSheetType.notification,
-          style: ActionSheetStyle.switchStyle,
-        ),
-        ActionSheetItem(
-          url: "images/action_account.png",
-          text: "Account",
-          onPressed: onPressed,
-          type: ActionSheetType.account,
-          style: ActionSheetStyle.switchStyle,
-        ),
-        ActionSheetItem(
-          url: "images/action_update.png",
-          text: "Update",
-          onPressed: onPressed,
-          type: ActionSheetType.update,
-        ),
-        ActionSheetItem(
-          url: "images/action_send_feedback.png",
-          text: "Send Feedback",
-          onPressed: onPressed,
-          type: ActionSheetType.sendFeedback,
-        ),
-        ActionSheetItem(
-          url: "images/action_logout.png",
-          text: "Logout",
-          onPressed: onPressed,
-          type: ActionSheetType.logout,
-        ),
-      ],
+    return Container(
+      height: 292,
+      child:(
+        Column(
+          children: <Widget>[
+            SizedBox(height: 8.0),
+            ActionSheetItem(
+              url: "images/action_notification.png",
+              text: "Notification",
+              onPressed: onPressed,
+              type: ActionSheetType.notification,
+              style: ActionSheetStyle.switchStyle,
+            ),
+            ActionSheetItem(
+              url: "images/action_account.png",
+              text: "Account",
+              onPressed: onPressed,
+              type: ActionSheetType.account,
+              style: ActionSheetStyle.switchStyle,
+            ),
+            ActionSheetItem(
+              url: "images/action_update.png",
+              text: "Update",
+              onPressed: onPressed,
+              type: ActionSheetType.update,
+            ),
+            ActionSheetItem(
+              url: "images/action_send_feedback.png",
+              text: "Send Feedback",
+              onPressed: onPressed,
+              type: ActionSheetType.sendFeedback,
+            ),
+            ActionSheetItem(
+              url: "images/action_logout.png",
+              text: "Logout",
+              onPressed: onPressed,
+              type: ActionSheetType.logout,
+            ),
+          ],
+        )
+      ),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:cat/common/db/db.dart';
+import 'dart:math';
 
 enum WeekdayType { Before, After }
 
@@ -97,20 +98,54 @@ class StatisticsService {
 
     /// x 代表已经完成的试题总量
     /// y 代表做过但是未完成的试题总量
-    int x, y;
+    int x = 0, y = 0;
     int questionId = -1;
+
+    /// 当前权重
+    int weighting = 7;
+    int currentQuestionWeighting = 0;
     for (Record record in list) {
-      print(record);
+      print("fetchFCFTElems $record");
       if (questionId == record.questionId) {
+        if (record.isCorrect == true) {
+          currentQuestionWeighting += weighting;
+        } else {
+          weighting -= 1;
+        }
+
         continue;
       }
       questionId = record.questionId;
+      if (currentQuestionWeighting < 7) {
+        y += 1;
+      } else {
+        x += 1;
+      }
     }
+
+    List<int> fcftList = [];
+
+    fcftList.add(x + y);
+    fcftList.add((x + (0.6 * y)).round());
+    fcftList.add((x + (0.45 * y)).round());
+    fcftList.add((x + (0.36 * y)).round());
+    fcftList.add((x + (0.34 * y)).round());
+    fcftList.add((x + (0.28 * y)).round());
+
+    for (int i = 0; i < 5; i++) {
+      ChartElem elem = ChartElem(i, fcftList[i]);
+      elems.add(elem);
+    }
+
+    print('''
+    x: $x
+    y: $y
+    ''');
 
     return elems;
   }
 
-  static Future<List<ChartElem>> fetchEChartlems(
+  static Future<List<ChartElem>> fetchEChartElems(
       String examID, WeekdayType type) async {
     if (type == WeekdayType.After) {
       return StatisticsService.fetchFCFTElems(examID);

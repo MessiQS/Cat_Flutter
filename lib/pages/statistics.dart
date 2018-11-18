@@ -130,6 +130,7 @@ class _ChartTableState extends State<ChartTable> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Container(
+                width: MediaQuery.of(context).size.width * 0.7,
                 margin: EdgeInsets.only(left: 24.0),
                 child: Text(widget.user.currentExamTitle),
               ),
@@ -242,7 +243,7 @@ class _ChartSectionState extends State<ChartSection> {
       margin: EdgeInsets.all(16.0),
       height: 200.0,
       child: FutureBuilder(
-        future: StatisticsService.fetchEChartlems(
+        future: StatisticsService.fetchEChartElems(
             widget.user.currentExamID, widget.weekdayType),
         builder: (context, snapshot) {
           if (snapshot.hasData) {

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:cat/router/cat_route.dart';
 
 // pages
-import 'package:cat/pages/sign_up.dart';
+import 'package:cat/pages/phone/sign_up.dart';
 import 'package:cat/pages/welcome.dart';
 import 'package:cat/pages/login.dart';
 import 'package:cat/pages/statistics.dart';
@@ -33,7 +33,7 @@ class CatApp extends StatelessWidget {
       // 设置路由
       routes: <String, WidgetBuilder>{
         WELCOME_ROUTE: (BuildContext context) => Welcome(),
-        SIGN_UP_ROUTE: (BuildContext context) => SignIn(),
+        SIGN_UP_ROUTE: (BuildContext context) => SignUp(),
         LOGIN_ROUTE: (BuildContext context) => Login(),
         STATISTICS_ROUTE: (BuildContext context) => Statistics(),
         SElECT_SUBJECT_ROUTE: (BuildContext context) => SelectSubject(),

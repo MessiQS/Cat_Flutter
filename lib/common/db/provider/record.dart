@@ -155,7 +155,7 @@ class RecordProvider extends BaseDBProvider {
         ],
         where: "${RC.columnExamID} = ?",
         whereArgs: [examID],
-        orderBy: "$orderBy DESC");
+        orderBy: "$orderBy DESC, ${RC.columnCreatedTime} ASC");
 
     /// 取出所有记录
     List<Record> list = maps.map((Map map) => Record.fromMap(map)).toList();

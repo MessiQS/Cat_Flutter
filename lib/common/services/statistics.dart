@@ -1,5 +1,4 @@
 import 'package:cat/common/db/db.dart';
-import 'dart:math';
 
 enum WeekdayType { Before, After }
 
@@ -136,12 +135,6 @@ class StatisticsService {
       ChartElem elem = ChartElem(i, fcftList[i]);
       elems.add(elem);
     }
-
-    print('''
-    x: $x
-    y: $y
-    ''');
-
     return elems;
   }
 

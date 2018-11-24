@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:cat/cats/cats.dart';
-import 'package:cat/widgets/account_menu.dart';
+import 'package:cat/widgets/phone/account_menu.dart';
 import 'package:cat/router/cat_route.dart';
 
 ///
@@ -17,7 +17,7 @@ class SignUp extends StatelessWidget {
         title: Text("SIGNUP"));
 
     final double menuWidth = MediaQuery.of(context).size.width - 48.0;
-    final double menuHeight = 162.0;
+    final double menuHeight = 220.0;
 
     /// 菜单栏位置 = 顶部视图背景高度 - AppBar高度 - 菜单栏高度的二分之一 - StatusBar高度
     final double menuMarginTop =
@@ -50,16 +50,16 @@ class SignUp extends StatelessWidget {
               Container(
                   margin: EdgeInsets.all(24.0),
                   height: 50.0,
-                  child: CatBaseButton("SIGNUP", onPressed: () => {})),
+                  child: CatBaseButton("注册", onPressed: () => {})),
               // "Allready have an account? Login"
               Container(
                   child: new RichText(
                 text: new TextSpan(
-                  text: 'Allready have an account?',
+                  text: '已经注册过账号?',
                   style: TextStyle(fontSize: 14.0, color: Color(0xFFB9B9B9)),
                   children: <TextSpan>[
                     new TextSpan(
-                        text: ' Login',
+                        text: ' 点击登录',
                         style: TextStyle(color: CatColors.globalTintColor),
                         recognizer: new TapGestureRecognizer()
                           ..onTap = () {

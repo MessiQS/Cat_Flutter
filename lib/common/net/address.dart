@@ -50,4 +50,33 @@ class Address {
   static getUpdateInfoCache() {
     return "${Config.host}api/getUpdateInfoCache";
   }
+
+  /// 反馈内容
+  ///
+  /// [user_id] 用户id
+  /// [title] 标题
+  /// [content] 内容
+  /// [POST] 请求方式
+  static feedBack() {
+    return "${Config.host}api/feedback";
+  }
+
+  /// 错题反馈
+  ///
+  /// [title] 题目标题
+  /// [id] 试题id
+  /// [question_number] 试题号
+  /// [user_id ] 用户id
+  /// [POST] 请求方式
+  static wrongFeedBack() {
+    return "${Config.host}api/wrongFeedBack";
+  }
+
+  /// 获取验证码
+  ///
+  /// [account] 手机号
+  /// [POST] 请求方式
+  static getCaptcha() {
+    return "${Config.host}api/getcode";
+  }
 }

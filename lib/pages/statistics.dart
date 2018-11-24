@@ -405,6 +405,9 @@ class _BottomActionSheetState extends State<BottomActionSheet> {
 
   onPressed(ActionSheetType type) {
     print("type $type");
+    if (type == ActionSheetType.sendFeedback) {
+      Navigator.of(context).pushNamed(FEEDBACK_ROUTE);
+    }
   }
 
   @override

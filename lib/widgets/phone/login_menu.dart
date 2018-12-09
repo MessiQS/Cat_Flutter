@@ -2,24 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:cat/cats/cats.dart';
 import 'package:cat/common/services/sign_up.dart';
 
+typedef PhoneCallback = void Function(String phone);
+typedef PasswordCallback = void Function(String password);
+
 class LoginMenuStatefulWidget extends StatefulWidget {
-  LoginMenuStatefulWidget({Key key, this.phone, this.password})
+  LoginMenuStatefulWidget({Key key, this.phoneCallback, this.passwordCallback})
       : super(key: key);
   // 邮箱
-  final String phone;
+  final PhoneCallback phoneCallback;
+
   // 密码
-  final String password;
+  final PasswordCallback passwordCallback;
 
   @override
   _LoginMenuStatefulWidget createState() => _LoginMenuStatefulWidget();
 }
 
 class _LoginMenuStatefulWidget extends State<LoginMenuStatefulWidget> {
-  TextEditingController phoneTEC = new TextEditingController();
-  TextEditingController passwordTEC = new TextEditingController();
-
-  showAlert() {}
-
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -32,7 +31,9 @@ class _LoginMenuStatefulWidget extends State<LoginMenuStatefulWidget> {
               children: <Widget>[
                 /// 电话号
                 TextField(
-                  controller: phoneTEC,
+                  onChanged: (value) {
+                    widget.phoneCallback(value);
+                  },
                   decoration: const InputDecoration(
                     hintText: '你的手机号',
                     hintStyle: const TextStyle(
@@ -58,7 +59,9 @@ class _LoginMenuStatefulWidget extends State<LoginMenuStatefulWidget> {
 
                 /// Password
                 TextField(
-                  controller: passwordTEC,
+                  onChanged: (value) {
+                    widget.passwordCallback(value);
+                  },
                   decoration: const InputDecoration(
                     hintText: '你的密码',
                     hintStyle: const TextStyle(

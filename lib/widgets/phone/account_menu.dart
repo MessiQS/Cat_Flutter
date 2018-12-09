@@ -27,6 +27,9 @@ class _AccountMenuStatefulWidget extends State<AccountMenuStatefulWidget> {
     print("captchaButtonOnPress " + phone);
     GetCaptchaResponse response = await SignUpService.getCaptcha(phone);
     if (response.type == true) {
+
+
+      
     } else {
       showDialog(
         context: context,

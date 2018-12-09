@@ -10,14 +10,14 @@ enum Environment {
 }
 
 class Config {
-  static const Environment environment = Environment.dev;
+  static const Environment environment = Environment.test;
 
   static get host {
     if (environment == Environment.dev) {
       return "https://shuatiapp.cn/";
     }
     if (environment == Environment.test) {
-      return "https://shuatiapp.cn/";
+      return "http://192.168.0.183:8080/";
     }
     if (environment == Environment.product) {
       return "https://shuatiapp.cn/";

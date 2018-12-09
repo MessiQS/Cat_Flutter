@@ -6,7 +6,7 @@ import 'package:cat/router/cat_route.dart';
 // pages
 import 'package:cat/pages/phone/sign_up.dart';
 import 'package:cat/pages/welcome.dart';
-import 'package:cat/pages/login.dart';
+import 'package:cat/pages/phone/login.dart';
 import 'package:cat/pages/statistics.dart';
 import 'package:cat/pages/select_subject.dart';
 import 'package:cat/pages/select_subject_second.dart';

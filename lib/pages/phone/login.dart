@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cat/router/cat_route.dart';
 import 'package:cat/widgets/phone/login_menu.dart';
+import 'package:cat/common/services/login.dart';
 
 ///
 /// 登录页面
@@ -11,12 +12,30 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  String phone = "";
+  String password = "";
   ScrollController _scroll;
-
   @override
   void initState() {
     super.initState();
     _scroll = new ScrollController();
+  }
+
+  loginButtonOnPress() async {
+    LoginResponse response = await LoginService.login(phone, password);
+    if (response.type == true) {
+      Navigator.of(context).pushNamed(STATISTICS_ROUTE);
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('登录失败'),
+            content: Text(response.data),
+          );
+        },
+      );
+    }
   }
 
   @override
@@ -41,13 +60,19 @@ class _LoginState extends State<Login> {
           Container(
             constraints: BoxConstraints(minHeight: 162.0),
             margin: EdgeInsets.fromLTRB(24.0, 200.0, 24.0, .0),
-            child: LoginMenuStatefulWidget(),
+            child: LoginMenuStatefulWidget(
+              phoneCallback: (value) {
+                this.phone = value;
+              },
+              passwordCallback: (value) {
+                this.password = value;
+              },
+            ),
           ),
           Container(
             margin: EdgeInsets.only(top: 32.0),
             child: FlatButton(
-              onPressed: () =>
-                  Navigator.of(context).pushNamed(STATISTICS_ROUTE),
+              onPressed: () => loginButtonOnPress(),
               child: const Text(
                 '登录',
                 style: TextStyle(fontSize: 14.0, color: Colors.white),

@@ -79,4 +79,23 @@ class Address {
   static getCaptcha() {
     return "${Config.host}api/getcode";
   }
+
+  /// 登录
+  ///
+  /// [account] 手机号 or 邮箱
+  /// [password] 密码
+  /// [POST] 请求方式
+  static login() {
+    return "${Config.host}api/login";
+  }
+
+  /// 注册
+  /// 
+  /// [account] 手机号码 or 邮箱
+  /// [password] 密码
+  /// [vericode] 验证码
+  /// [POST] 请求方式
+  static signIn() {
+    return "${Config.host}api/signin";
+  }
 }

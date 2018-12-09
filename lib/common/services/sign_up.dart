@@ -30,9 +30,8 @@ class SignUpService {
     }
   }
 
-  static signIn(String phone, String captcha, String password) async {
+  static signUp(String phone, String captcha, String password) async {
     String url = Address.signUp();
-
     Map<String, String> params = {
       "account": phone,
       "password": password,

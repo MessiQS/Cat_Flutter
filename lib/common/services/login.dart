@@ -2,7 +2,7 @@ import 'package:cat/common/net/net.dart';
 
 class LoginResponse {
   final bool type;
-  final String data;
+  final dynamic data;
   const LoginResponse({this.type, this.data});
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) {

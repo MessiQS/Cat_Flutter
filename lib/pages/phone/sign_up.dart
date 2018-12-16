@@ -3,11 +3,19 @@ import 'package:flutter/gestures.dart';
 import 'package:cat/cats/cats.dart';
 import 'package:cat/widgets/phone/account_menu.dart';
 import 'package:cat/router/cat_route.dart';
+import 'package:cat/common/services/sign_up.dart';
 
 ///
 /// 登录页面
 ///
 class SignUp extends StatelessWidget {
+  signUp() async {
+    SignUpResponse signUpResponse = await SignUpService.signUp();
+    if (signUpResponse.type == true) {
+      print("sign up " + signUpResponse.data);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final double bgHeight = MediaQuery.of(context).size.height * (11.0 / 26.8);
@@ -37,7 +45,7 @@ class SignUp extends StatelessWidget {
               fit: BoxFit.fill,
             ),
           ),
-          Column(
+          ListView(
             children: <Widget>[
               appBar,
               // 输入框菜单栏
@@ -50,13 +58,17 @@ class SignUp extends StatelessWidget {
               Container(
                   margin: EdgeInsets.all(24.0),
                   height: 50.0,
-                  child: CatBaseButton("注册", onPressed: () => {})),
+                  child: CatBaseButton("注册", onPressed: this.signUp)),
               // "Allready have an account? Login"
               Container(
                   child: new RichText(
+                textAlign: TextAlign.center,
                 text: new TextSpan(
                   text: '已经注册过账号?',
-                  style: TextStyle(fontSize: 14.0, color: Color(0xFFB9B9B9)),
+                  style: TextStyle(
+                    fontSize: 14.0,
+                    color: Color(0xFFB9B9B9),
+                  ),
                   children: <TextSpan>[
                     new TextSpan(
                         text: ' 点击登录',

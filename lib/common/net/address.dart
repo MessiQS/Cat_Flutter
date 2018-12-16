@@ -89,13 +89,14 @@ class Address {
     return "${Config.host}api/login";
   }
 
-  /// 注册
+  /// 注册 
+  /// 原来登录注册是一个接口，现在仅作为注册使用
   /// 
   /// [account] 手机号码 or 邮箱
   /// [password] 密码
   /// [vericode] 验证码
   /// [POST] 请求方式
-  static signIn() {
+  static signUp() {
     return "${Config.host}api/signin";
   }
 }

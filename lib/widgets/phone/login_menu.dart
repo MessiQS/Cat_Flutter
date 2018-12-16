@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:cat/cats/cats.dart';
-import 'package:cat/common/services/sign_up.dart';
 
 typedef PhoneCallback = void Function(String phone);
 typedef PasswordCallback = void Function(String password);

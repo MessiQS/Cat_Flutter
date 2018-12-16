@@ -8,13 +8,12 @@
   <component name="ChangeListManager">
     <list default="true" id="8935f2dd-26c4-4cde-ad5c-bb2fe2d05f7c" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/app.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/common/config/config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common/config/config.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/common/net/address.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common/net/address.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/common/services/login.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common/services/login.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/common/services/sign_up.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common/services/sign_up.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/phone/login.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/phone/login.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/phone/sign_up.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/phone/sign_up.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/sign_up.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/sign_up.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/widgets/phone/account_menu.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/phone/account_menu.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/widgets/phone/login_menu.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/phone/login_menu.dart" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -107,8 +106,8 @@
       <file leaf-file-name="statistics.dart" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/lib/pages/statistics.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="67">
-              <caret line="38" column="20" selection-start-line="38" selection-start-column="20" selection-end-line="38" selection-end-column="20" />
+            <state relative-caret-position="365">
+              <caret line="59" column="34" selection-start-line="59" selection-start-column="34" selection-end-line="59" selection-end-column="34" />
             </state>
           </provider>
         </entry>
@@ -264,6 +263,19 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
+      <pane id="AndroidView">
+        <subPane>
+          <expand>
+            <path>
+              <item name="cat" type="1abcf292:AndroidViewProjectNode" />
+              <item name="cat" type="e9137016:NonAndroidModuleNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -350,19 +362,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="AndroidView">
-        <subPane>
-          <expand>
-            <path>
-              <item name="cat" type="1abcf292:AndroidViewProjectNode" />
-              <item name="cat" type="e9137016:NonAndroidModuleNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -862,8 +861,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/pages/statistics.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="67">
-          <caret line="38" column="20" selection-start-line="38" selection-start-column="20" selection-end-line="38" selection-end-column="20" />
+        <state relative-caret-position="365">
+          <caret line="59" column="34" selection-start-line="59" selection-start-column="34" selection-end-line="59" selection-end-column="34" />
         </state>
       </provider>
     </entry>

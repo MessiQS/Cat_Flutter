@@ -60,6 +60,7 @@ flutter:
    - images/action_account.png
    - images/action_send_feedback.png
    - images/action_logout.png
+   - images/congrats.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.

@@ -19,6 +19,9 @@ class _AccountMenuStatefulWidget extends State<AccountMenuStatefulWidget> {
   TextEditingController captchaTEC = new TextEditingController();
   TextEditingController passwordTEC = new TextEditingController();
 
+  // captcha 验证码
+  String captchaButtonText;
+
   captchaButtonOnPress() async {
     String phone = phoneTEC.text;
     if (phone.length < 11) {
@@ -27,9 +30,7 @@ class _AccountMenuStatefulWidget extends State<AccountMenuStatefulWidget> {
     print("captchaButtonOnPress " + phone);
     GetCaptchaResponse response = await SignUpService.getCaptcha(phone);
     if (response.type == true) {
-
-
-      
+      setState(() {});
     } else {
       showDialog(
         context: context,
@@ -58,6 +59,7 @@ class _AccountMenuStatefulWidget extends State<AccountMenuStatefulWidget> {
                 /// 电话号
                 TextField(
                   controller: phoneTEC,
+                  onChanged: (value) => SignUpService.phone = value,
                   decoration: const InputDecoration(
                     hintText: '你的手机号',
                     hintStyle: const TextStyle(
@@ -81,11 +83,13 @@ class _AccountMenuStatefulWidget extends State<AccountMenuStatefulWidget> {
                   cursorColor: CatColors.textFieldCursorColor,
                 ),
 
+                /// Captcha
                 Stack(
                   alignment: const Alignment(1.0, 0.7),
                   children: <Widget>[
                     TextField(
                       controller: captchaTEC,
+                      onChanged: (value) => SignUpService.captcha = value,
                       decoration: const InputDecoration(
                         hintText: '你的验证码',
                         hintStyle: const TextStyle(
@@ -124,6 +128,7 @@ class _AccountMenuStatefulWidget extends State<AccountMenuStatefulWidget> {
                 /// Password
                 TextField(
                   controller: passwordTEC,
+                  onChanged: (value) => SignUpService.password = value,
                   decoration: const InputDecoration(
                     hintText: '你的密码',
                     hintStyle: const TextStyle(

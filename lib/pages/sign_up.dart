@@ -37,7 +37,7 @@ class SignUp extends StatelessWidget {
               fit: BoxFit.fill,
             ),
           ),
-          Column(
+          ListView(
             children: <Widget>[
               appBar,
               // 输入框菜单栏

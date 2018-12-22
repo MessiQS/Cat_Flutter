@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cat/router/cat_route.dart';
 import 'package:cat/widgets/phone/login_menu.dart';
 import 'package:cat/common/services/login.dart';
+import 'package:cat/common/dao/user.dart';
 
 ///
 /// 登录页面
@@ -24,6 +25,11 @@ class _LoginState extends State<Login> {
   loginButtonOnPress() async {
     LoginResponse response = await LoginService.login(phone, password);
     if (response.type == true) {
+      String token = response.data["token"];
+      String userID = response.data["user_id"];
+
+      await UserDao.saveUserToDB(userID, token);
+
       Navigator.of(context).pushNamed(STATISTICS_ROUTE);
     } else {
       showDialog(

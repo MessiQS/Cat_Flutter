@@ -21,7 +21,6 @@ class LoginService {
         await HttpManager.request(Method.Post, url, params: params);
     if (response.statusCode == 200) {
       // If the call to the server was successful, parse the JSON
-      print("json.decode(response.body) ${json.decode(response.body)}");
       return LoginResponse.fromJson(json.decode(response.body));
     } else {
       // If that call was not successful, throw an error.

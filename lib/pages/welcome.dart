@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cat/cats/cats.dart';
 import 'package:cat/router/cat_route.dart';
+import 'package:cat/widgets/congrats.dart';
 
 ///
 /// 欢迎页

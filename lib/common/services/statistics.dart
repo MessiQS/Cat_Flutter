@@ -104,7 +104,6 @@ class StatisticsService {
     int weighting = 7;
     int currentQuestionWeighting = 0;
     for (Record record in list) {
-      print("fetchFCFTElems $record");
       if (questionId == record.questionId) {
         if (record.isCorrect == true) {
           currentQuestionWeighting += weighting;
@@ -186,6 +185,15 @@ class StatisticsService {
     }
 
     return [];
+  }
+
+  static todayPractiveCount(String examID) async {
+RecordProvider recordProvider = RecordProvider();
+
+    List<Record> list =
+        await recordProvider.getRecordsOrderBy(examID, RC.columnQuestionId);
+
+    return "12";
   }
 }
 

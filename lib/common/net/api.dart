@@ -1,6 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'package:cat/common/utils/system_global.dart';
 import 'dart:core';
+import 'package:cat/common/db/db.dart';
 
 enum Method { Post, Get, Put, Delete }
 
@@ -8,17 +9,19 @@ enum Method { Post, Get, Put, Delete }
 /// 网络请求
 ///
 class HttpManager {
-  static const token = "e367b2aaf9f71cf5ce9e34ab3c119b0a";
-  static const user_id = "SS00000656";
-
-  static request(Method method, url, {params}) {
+  static request(Method method, url, {params}) async {
     /// 如果没有传参数，初始化Map
     if (params == null) {
       params = new Map<String, dynamic>();
     }
 
-    if (user_id != null) {
-      params["user_id"] = user_id;
+    /// 加载User
+    UserProvider userProvider = new UserProvider();
+    User user = await userProvider.getUser();
+    print("user $user");
+
+    if (user.userID != null) {
+      params["user_id"] = user.userID;
     }
 
     Map<String, String> headers = {
@@ -26,8 +29,8 @@ class HttpManager {
       'meta': configureMetaWithMeta()
     };
 
-    if (token != null) {
-      headers["Authorization"] = token;
+    if (user.token != null) {
+      headers["Authorization"] = user.token;
     }
 
     /// Post

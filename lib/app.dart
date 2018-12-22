@@ -50,4 +50,8 @@ class CatApp extends StatelessWidget {
       ],
     );
   }
+
+  home() {
+    
+  }
 }

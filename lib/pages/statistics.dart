@@ -155,12 +155,13 @@ class _ChartTableState extends State<ChartTable> {
         ),
         ChartItem(
           user: widget.user,
-          number: "123",
-          desc: "Today Practice",
-          buttonText: "STUDY",
+          number: StatisticsService.todayPractiveCount(),
+          desc: "今日练习",
+          buttonText: "学习",
         ),
         ChartSection(
           user: widget.user,
+          weekdayType: WeekdayType.Before,
         ),
         PlacehoderSizeBox(
           height: 8.0,
@@ -168,8 +169,8 @@ class _ChartTableState extends State<ChartTable> {
         ChartItem(
           user: widget.user,
           number: "13",
-          desc: "Forgetting Curve from Today",
-          buttonText: "REVIEW",
+          desc: "遗忘曲线",
+          buttonText: "复习",
         ),
         ChartSection(
           user: widget.user,
@@ -414,45 +415,43 @@ class _BottomActionSheetState extends State<BottomActionSheet> {
   Widget build(BuildContext context) {
     return Container(
       height: 292,
-      child:(
-        Column(
-          children: <Widget>[
-            SizedBox(height: 8.0),
-            ActionSheetItem(
-              url: "images/action_notification.png",
-              text: "Notification",
-              onPressed: onPressed,
-              type: ActionSheetType.notification,
-              style: ActionSheetStyle.switchStyle,
-            ),
-            ActionSheetItem(
-              url: "images/action_account.png",
-              text: "Account",
-              onPressed: onPressed,
-              type: ActionSheetType.account,
-              style: ActionSheetStyle.switchStyle,
-            ),
-            ActionSheetItem(
-              url: "images/action_update.png",
-              text: "Update",
-              onPressed: onPressed,
-              type: ActionSheetType.update,
-            ),
-            ActionSheetItem(
-              url: "images/action_send_feedback.png",
-              text: "Send Feedback",
-              onPressed: onPressed,
-              type: ActionSheetType.sendFeedback,
-            ),
-            ActionSheetItem(
-              url: "images/action_logout.png",
-              text: "Logout",
-              onPressed: onPressed,
-              type: ActionSheetType.logout,
-            ),
-          ],
-        )
-      ),
+      child: (Column(
+        children: <Widget>[
+          SizedBox(height: 8.0),
+          ActionSheetItem(
+            url: "images/action_notification.png",
+            text: "Notification",
+            onPressed: onPressed,
+            type: ActionSheetType.notification,
+            style: ActionSheetStyle.switchStyle,
+          ),
+          ActionSheetItem(
+            url: "images/action_account.png",
+            text: "Account",
+            onPressed: onPressed,
+            type: ActionSheetType.account,
+            style: ActionSheetStyle.switchStyle,
+          ),
+          ActionSheetItem(
+            url: "images/action_update.png",
+            text: "Update",
+            onPressed: onPressed,
+            type: ActionSheetType.update,
+          ),
+          ActionSheetItem(
+            url: "images/action_send_feedback.png",
+            text: "Send Feedback",
+            onPressed: onPressed,
+            type: ActionSheetType.sendFeedback,
+          ),
+          ActionSheetItem(
+            url: "images/action_logout.png",
+            text: "Logout",
+            onPressed: onPressed,
+            type: ActionSheetType.logout,
+          ),
+        ],
+      )),
     );
   }
 }

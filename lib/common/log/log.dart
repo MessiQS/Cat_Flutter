@@ -1,1 +1,3 @@
-class Log {}
+class Log {
+  
+}

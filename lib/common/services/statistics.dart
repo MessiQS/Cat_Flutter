@@ -210,7 +210,10 @@ class StatisticsService {
     List<Record> list =
         await recordProvider.getRecordsOrderBy(examID, RC.columnQuestionId);
 
-    for (Record record in list) {}
+    for (Record record in list) {
+      
+
+    }
   }
 }
 

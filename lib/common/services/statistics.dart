@@ -187,13 +187,30 @@ class StatisticsService {
     return [];
   }
 
-  static todayPractiveCount(String examID) async {
-RecordProvider recordProvider = RecordProvider();
+  static todayPraticeCount(String examID) async {
+    RecordProvider recordProvider = RecordProvider();
 
     List<Record> list =
         await recordProvider.getRecordsOrderBy(examID, RC.columnQuestionId);
 
-    return "12";
+    List<Record> uniqueList = List();
+    String currentQuestionID = "";
+    for (Record record in list) {
+      if (record.examId != currentQuestionID) {
+        uniqueList.add(record);
+        currentQuestionID = record.examId;
+      }
+    }
+
+    return uniqueList.length;
+  }
+
+  static futurePracticeCount(String examID) async {
+    RecordProvider recordProvider = RecordProvider();
+    List<Record> list =
+        await recordProvider.getRecordsOrderBy(examID, RC.columnQuestionId);
+
+    for (Record record in list) {}
   }
 }
 

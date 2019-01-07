@@ -59,6 +59,8 @@ class _StatisticsState extends State<Statistics> {
             ]),
         body: FutureBuilder<User>(
           future: StatisticsService.fetchUser(),
+
+
           builder: (context, snapshot) {
             if (snapshot.hasData && snapshot.data.currentExamTitle.isNotEmpty) {
               return ChartTable(user: snapshot.data);
@@ -155,7 +157,7 @@ class _ChartTableState extends State<ChartTable> {
         ),
         ChartItem(
           user: widget.user,
-          number: StatisticsService.todayPractiveCount(),
+          number: StatisticsService.todayPraticeCount(widget.user.currentExamID),
           desc: "今日练习",
           buttonText: "学习",
         ),

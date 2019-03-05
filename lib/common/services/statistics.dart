@@ -187,6 +187,16 @@ class StatisticsService {
     return [];
   }
 
+  static getPraticeCount(String examID, WeekdayType type) {
+    if (type == WeekdayType.Before) {
+      return StatisticsService.todayPraticeCount(examID);
+    }
+
+    if (type == WeekdayType.After) {
+      return StatisticsService.futurePracticeCount(examID);
+    }
+  }
+
   static todayPraticeCount(String examID) async {
     RecordProvider recordProvider = RecordProvider();
 
@@ -194,15 +204,16 @@ class StatisticsService {
         await recordProvider.getRecordsOrderBy(examID, RC.columnQuestionId);
 
     List<Record> uniqueList = List();
-    String currentQuestionID = "";
+    int currentQuestionID = 0;
     for (Record record in list) {
-      if (record.examId != currentQuestionID) {
+      if (record.questionId != currentQuestionID) {
         uniqueList.add(record);
-        currentQuestionID = record.examId;
+        currentQuestionID = record.questionId;
       }
     }
+    print(uniqueList);
 
-    return uniqueList.length;
+    return uniqueList.length.toString();
   }
 
   static futurePracticeCount(String examID) async {
@@ -210,10 +221,44 @@ class StatisticsService {
     List<Record> list =
         await recordProvider.getRecordsOrderBy(examID, RC.columnQuestionId);
 
-    for (Record record in list) {
-      
-
+    /// 重置首条记录
+    Record currentRecord;
+    if (list.length > 0) {
+      currentRecord = list.first;
+    } else {
+      return "0";
     }
+    List<List<Record>> sortList = List<List<Record>>();
+    List<Record> sortedList = List<Record>();
+    for (Record record in list) {
+      if (currentRecord.questionId == record.questionId) {
+        sortedList.add(record);
+      } else {
+        sortList.clear();
+        currentRecord = record;
+      }
+    }
+
+    /// 待验证
+    /// 需要记忆的总数
+    int count = 0;
+
+    /// 查看每组是否满足条件
+    for (List<Record> list in sortList) {
+      int weighting = 7;
+      int weightingTotal = 0;
+      for (Record record in list) {
+        if (record.isCorrect) {
+          weightingTotal = weighting + weightingTotal;
+        } else {
+          weighting = weighting - 1;
+        }
+      }
+      if (weightingTotal < 7) {
+        count = count + 1;
+      }
+    }
+    return count.toString();
   }
 }
 

@@ -250,6 +250,25 @@ class AnswerService {
   }
 
   ///
+  /// 从网络端同步数据
+  ///
+  static saveRecordFromWeb(String examId, int questionId, String options,
+      int createTime, bool isCorrect) async {
+    /// 保存到本地数据库
+    Map<String, dynamic> map = {
+      RC.columnExamID: examId,
+      RC.columnQuestionId: questionId,
+      RC.columnSelectedOption: options,
+      RC.columnCreatedTime: createTime,
+      RC.columnIsCorrect: isCorrect,
+    };
+    Record record = Record.fromMap(map);
+    RecordProvider provider = RecordProvider();
+    record = await provider.insert(record);
+    return record;
+  }
+
+  ///
   /// 保存答题记录到服务端
   ///
   static saveRecordToWeb(Question question, List<String> options) async {

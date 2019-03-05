@@ -89,9 +89,9 @@ class Address {
     return "${Config.host}api/login";
   }
 
-  /// 注册 
+  /// 注册
   /// 原来登录注册是一个接口，现在仅作为注册使用
-  /// 
+  ///
   /// [account] 手机号码 or 邮箱
   /// [password] 密码
   /// [vericode] 验证码
@@ -99,4 +99,15 @@ class Address {
   static signUp() {
     return "${Config.host}api/signin";
   }
+
+  ///
+  /// 获取用户信息
+  ///
+  /// [user_id] 用户id
+  /// [GET] 请求方式
+  static getUserQuestionInfo() {
+    return "${Config.host}api/getUserQuestionInfo";
+  }
+
+  
 }

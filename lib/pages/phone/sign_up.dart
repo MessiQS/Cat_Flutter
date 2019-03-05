@@ -14,6 +14,7 @@ class SignUp extends StatelessWidget {
     if (signUpResponse.type == true) {
       print("sign up " + signUpResponse.data);
     }
+  
   }
 
   @override

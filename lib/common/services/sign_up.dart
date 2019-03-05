@@ -1,4 +1,5 @@
 import 'package:cat/common/net/net.dart';
+import 'package:cat/common/utils/crypto.dart';
 
 class GetCaptchaResponse {
   final bool type;
@@ -48,9 +49,11 @@ class SignUpService {
 
   static signUp() async {
     String url = Address.signUp();
+    String md5 = CryptoUtil.generateMd5(password);
+
     Map<String, String> params = {
       "account": phone,
-      "password": password,
+      "password": md5,
       "vericode": captcha
     };
     final response =

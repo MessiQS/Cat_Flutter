@@ -33,6 +33,14 @@ class HttpManager {
       headers["Authorization"] = user.token;
     }
 
+    headers["Authorization"] = "920603cb89871e19a7684dc757dade7c";
+    params["user_id"] = "SS00000001";
+    print("--------------------");
+    print("url: \n" + url);
+    print("method: \n" + method.index.toString());
+    print("headers: \n" + headers.toString());
+    print("params: \n" + params.toString());
+
     /// Post
     if (method == Method.Post) {
       return http.post(url, body: params, headers: headers);

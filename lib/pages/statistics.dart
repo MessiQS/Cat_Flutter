@@ -39,11 +39,7 @@ class _StatisticsState extends State<Statistics> {
     return Scaffold(
         appBar: GradientAppBar(
             title: Text("Statistics"),
-            leading: IconButton(
-              tooltip: '菜单栏',
-              icon: const Icon(Icons.menu),
-              onPressed: () {},
-            ),
+            leading: Icon(Icons.menu),
             actions: <Widget>[
               new IconButton(
                 icon: const Icon(Icons.more_vert),
@@ -59,8 +55,6 @@ class _StatisticsState extends State<Statistics> {
             ]),
         body: FutureBuilder<User>(
           future: StatisticsService.fetchUser(),
-
-
           builder: (context, snapshot) {
             if (snapshot.hasData && snapshot.data.currentExamTitle.isNotEmpty) {
               return ChartTable(user: snapshot.data);
@@ -157,9 +151,9 @@ class _ChartTableState extends State<ChartTable> {
         ),
         ChartItem(
           user: widget.user,
-          number: StatisticsService.todayPraticeCount(widget.user.currentExamID),
           desc: "今日练习",
           buttonText: "学习",
+          type: WeekdayType.Before,
         ),
         ChartSection(
           user: widget.user,
@@ -170,9 +164,9 @@ class _ChartTableState extends State<ChartTable> {
         ),
         ChartItem(
           user: widget.user,
-          number: "13",
           desc: "遗忘曲线",
           buttonText: "复习",
+          type: WeekdayType.After,
         ),
         ChartSection(
           user: widget.user,
@@ -277,15 +271,15 @@ class _ChartSectionState extends State<ChartSection> {
 ///
 class ChartItem extends StatefulWidget {
   final User user;
-  final String number;
   final String desc;
   final String buttonText;
+  final WeekdayType type;
 
   const ChartItem({
     this.user,
-    this.number,
     this.desc,
     this.buttonText,
+    this.type,
   });
 
   @override
@@ -307,17 +301,22 @@ class _ChartItemState extends State<ChartItem> {
         Column(
           children: <Widget>[
             Container(
-              margin: EdgeInsets.fromLTRB(24.0, 24.0, .0, .0),
-              width: 200.0,
-              child: Text(
-                widget.number,
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                  color: Color(0xFF272727),
-                  fontSize: 18.0,
-                ),
-              ),
-            ),
+                margin: EdgeInsets.fromLTRB(24.0, 24.0, .0, .0),
+                width: 200.0,
+                child: FutureBuilder(
+                  future: StatisticsService.getPraticeCount(
+                      widget.user.currentExamID, widget.type),
+                  builder: (context, snapshot) {
+                    return Text(
+                      snapshot.data,
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                        color: Color(0xFF272727),
+                        fontSize: 18.0,
+                      ),
+                    );
+                  },
+                )),
             Container(
               width: 200.0,
               margin: EdgeInsets.only(left: 24.0),
@@ -432,7 +431,6 @@ class _BottomActionSheetState extends State<BottomActionSheet> {
             text: "Account",
             onPressed: onPressed,
             type: ActionSheetType.account,
-            style: ActionSheetStyle.switchStyle,
           ),
           ActionSheetItem(
             url: "images/action_update.png",

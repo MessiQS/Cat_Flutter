@@ -10,7 +10,7 @@ enum Environment {
 }
 
 class Config {
-  static const Environment environment = Environment.test;
+  static const Environment environment = Environment.dev;
 
   static get host {
     if (environment == Environment.dev) {

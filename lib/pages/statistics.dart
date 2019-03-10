@@ -5,6 +5,7 @@ import 'package:cat/router/cat_route.dart';
 import 'package:cat/common/db/db.dart';
 import 'package:cat/pages/answer.dart';
 import 'package:cat/common/services/statistics.dart';
+import 'package:cat/common/services/login.dart';
 
 enum ActionSheetType {
   notification,
@@ -409,6 +410,35 @@ class _BottomActionSheetState extends State<BottomActionSheet> {
     print("type $type");
     if (type == ActionSheetType.sendFeedback) {
       Navigator.of(context).pushNamed(FEEDBACK_ROUTE);
+    }
+    if (type == ActionSheetType.logout) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          // return object of type Dialog
+          return AlertDialog(
+            title: new Text("Alert Dialog title"),
+            content: new Text("Alert Dialog body"),
+            actions: <Widget>[
+              // usually buttons at the bottom of the dialog
+              new FlatButton(
+                child: new Text("取消"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              new FlatButton(
+                child: new Text("确认"),
+                onPressed: () {
+                  LoginService.logout();
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                      WELCOME_ROUTE, (Route<dynamic> route) => false);
+                },
+              ),
+            ],
+          );
+        },
+      );
     }
   }
 

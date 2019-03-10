@@ -2,6 +2,7 @@ import 'package:cat/common/net/net.dart';
 import 'dart:convert' as JSON;
 import 'package:cat/common/services/answer.dart';
 import 'package:cat/common/utils/crypto.dart';
+import 'package:cat/common/db/db.dart';
 
 class LoginResponse {
   final bool type;
@@ -74,5 +75,14 @@ class LoginService {
       // If that call was not successful, throw an error.
       throw Exception('Failed to load post');
     }
+  }
+
+  static logout() async {
+    QuestionProvider questionProvider = new QuestionProvider();
+    RecordProvider recordProvider = new RecordProvider();
+    UserProvider userProvider = new UserProvider();
+    questionProvider.deleteAll();
+    recordProvider.deleteAll();
+    userProvider.deleteAll();
   }
 }

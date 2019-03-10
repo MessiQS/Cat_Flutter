@@ -238,6 +238,12 @@ class QuestionProvider extends BaseDBProvider {
         .delete(tableName(), where: "${QC.columnID} = ?", whereArgs: [id]);
   }
 
+  Future<int> deleteAll() async {
+    Database db = await getDataBase();
+
+    return await db.delete(tableName(), where: "1=1");
+  }
+
   Future<int> update(Question question) async {
     Database db = await getDataBase();
 

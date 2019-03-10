@@ -24,15 +24,14 @@ class _LoginState extends State<Login> {
 
   loginButtonOnPress() async {
     LoginResponse response = await LoginService.login(phone, password);
-    print(response);
     if (response.type == true) {
       String token = response.data["token"];
       String userID = response.data["user_id"];
-      print(response);
 
       await UserDao.saveUserToDB(userID, token);
       await LoginService.synchronizeNetworkData(userID);
-      Navigator.of(context).pushNamed(STATISTICS_ROUTE);
+      Navigator.of(context).pushNamedAndRemoveUntil(
+          STATISTICS_ROUTE, (Route<dynamic> route) => false);
     } else {
       showDialog(
         context: context,

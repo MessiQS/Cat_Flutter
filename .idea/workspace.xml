@@ -9,17 +9,8 @@
     <list default="true" id="8935f2dd-26c4-4cde-ad5c-bb2fe2d05f7c" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/common/config/config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common/config/config.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/common/net/address.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common/net/address.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/common/net/api.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common/net/api.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/common/services/answer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common/services/answer.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/common/services/login.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common/services/login.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/common/services/statistics.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common/services/statistics.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/answer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/answer.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/pages/phone/login.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/phone/login.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/phone/sign_up.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/phone/sign_up.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/pages/statistics.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/statistics.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/welcome.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/welcome.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
@@ -33,14 +24,15 @@
     <session id="-1207616005">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="4" />
+          <entry key="project.closed" value="7" />
           <entry key="project.open.time.0" value="1" />
           <entry key="project.open.time.1" value="1" />
-          <entry key="project.open.time.14" value="1" />
+          <entry key="project.open.time.14" value="2" />
+          <entry key="project.open.time.17" value="1" />
           <entry key="project.open.time.5" value="1" />
           <entry key="project.open.time.8" value="1" />
           <entry key="project.open.time.88" value="1" />
-          <entry key="project.opened" value="6" />
+          <entry key="project.opened" value="8" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -79,11 +71,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/lib/common/services/login.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="205">
-              <caret line="58" column="23" selection-start-line="58" selection-start-column="23" selection-end-line="58" selection-end-column="23" />
-              <folding>
-                <element signature="e#0#41#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="7">
+              <caret line="49" column="23" selection-start-line="49" selection-start-column="23" selection-end-line="49" selection-end-column="23" />
             </state>
           </provider>
         </entry>
@@ -199,6 +188,19 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
+      <pane id="AndroidView">
+        <subPane>
+          <expand>
+            <path>
+              <item name="cat" type="1abcf292:AndroidViewProjectNode" />
+              <item name="cat" type="e9137016:NonAndroidModuleNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -280,19 +282,6 @@
               <item name="cat" type="b2602c69:ProjectViewProjectNode" />
               <item name="cat" type="462c0819:PsiDirectoryNode" />
               <item name="test" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
-      <pane id="AndroidView">
-        <subPane>
-          <expand>
-            <path>
-              <item name="cat" type="1abcf292:AndroidViewProjectNode" />
-              <item name="cat" type="e9137016:NonAndroidModuleNode" />
             </path>
           </expand>
           <select />
@@ -412,7 +401,7 @@
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" weight="0.32969698" />
       <window_info anchor="bottom" id="Logcat" order="10" />
       <window_info anchor="bottom" id="Version Control" order="11" weight="0.32969698" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="12" visible="true" weight="0.0" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="12" visible="true" weight="0.32891566" />
       <window_info anchor="bottom" id="Messages" order="13" visible="true" weight="0.32969698" />
       <window_info anchor="bottom" id="Flutter Performance" order="14" side_tool="true" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
@@ -707,11 +696,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/common/services/login.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="205">
-          <caret line="58" column="23" selection-start-line="58" selection-start-column="23" selection-end-line="58" selection-end-column="23" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="7">
+          <caret line="49" column="23" selection-start-line="49" selection-start-column="23" selection-end-line="49" selection-end-column="23" />
         </state>
       </provider>
     </entry>

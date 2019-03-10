@@ -81,8 +81,8 @@ class LoginService {
     QuestionProvider questionProvider = new QuestionProvider();
     RecordProvider recordProvider = new RecordProvider();
     UserProvider userProvider = new UserProvider();
-    questionProvider.deleteAll();
-    recordProvider.deleteAll();
-    userProvider.deleteAll();
+    await questionProvider.deleteAll();
+    await recordProvider.deleteAll();
+    await userProvider.deleteAll();
   }
 }

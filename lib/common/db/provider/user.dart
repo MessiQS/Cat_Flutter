@@ -103,6 +103,12 @@ class UserProvider extends BaseDBProvider {
         .delete(tableName(), where: "${UC.columnID} = ?", whereArgs: [id]);
   }
 
+  Future<int> deleteAll() async {
+    Database db = await getDataBase();
+
+    return await db.delete(tableName(), where: "1=1");
+  }
+
   Future<int> update(User user) async {
     Database db = await getDataBase();
 

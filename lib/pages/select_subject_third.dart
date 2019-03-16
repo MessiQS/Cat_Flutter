@@ -3,6 +3,7 @@ import 'package:cat/cats/cats.dart';
 import 'package:cat/widgets/subject_list_item.dart';
 import 'package:cat/common//db/db.dart';
 import 'package:cat/models/question.dart';
+import 'package:cat/router/cat_route.dart';
 
 import 'package:cat/common/services/select_subject.dart';
 
@@ -46,6 +47,9 @@ class _SelectSubjectThirdState extends State<SelectSubjectThird> {
     user.currentExamTitle = title;
 
     userProvider.update(user);
+
+    /// 返回最上级页
+    Navigator.popUntil(context, ModalRoute.withName(STATISTICS_ROUTE));
   }
 
   @override

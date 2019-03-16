@@ -4,6 +4,7 @@ import 'package:cat/cats/cats.dart';
 import 'package:cat/widgets/phone/account_menu.dart';
 import 'package:cat/router/cat_route.dart';
 import 'package:cat/common/services/sign_up.dart';
+import 'package:cat/widgets/Loading.dart';
 
 ///
 /// 登录页面
@@ -14,7 +15,6 @@ class SignUp extends StatelessWidget {
     if (signUpResponse.type == true) {
       print("sign up " + signUpResponse.data);
     }
-  
   }
 
   @override
@@ -37,6 +37,7 @@ class SignUp extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: <Widget>[
+
           /// 背景图片
           Container(
             width: MediaQuery.of(context).size.width,

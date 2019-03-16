@@ -32,7 +32,7 @@ class ListItem extends StatelessWidget {
             Container(
                 height: 25.0,
                 width: 69.0,
-                child: CatBaseButton("SELECT", onPressed: onPressed)),
+                child: CatBaseButton("选择", onPressed: onPressed)),
           ],
         ));
   }

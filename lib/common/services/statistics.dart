@@ -189,11 +189,11 @@ class StatisticsService {
 
   static getPraticeCount(String examID, WeekdayType type) {
     if (type == WeekdayType.Before) {
-      return StatisticsService.todayPraticeCount(examID);
+      return StatisticsService.futurePracticeCount(examID);
     }
 
     if (type == WeekdayType.After) {
-      return StatisticsService.futurePracticeCount(examID);
+      return StatisticsService.todayPraticeCount(examID);
     }
   }
 

@@ -18,6 +18,17 @@ class LoginResponse {
 }
 
 class LoginService {
+  static isLogin() async {
+    UserProvider userProvider = new UserProvider();
+
+    User user = await userProvider.getUser();
+    if (user.userID != null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   static login(String phone, String password) async {
     String url = Address.login();
     String md5 = CryptoUtil.generateMd5(password);

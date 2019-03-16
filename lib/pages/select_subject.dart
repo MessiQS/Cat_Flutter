@@ -20,7 +20,7 @@ class _SelectSubjectState extends State<SelectSubject> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: GradientAppBar(
-          title: Text("Select Subject"),
+          title: Text("选择科目"),
         ),
         body: FutureBuilder<SelectSubjectGet>(
             future: SelectSubjectService.fetchMainData(),

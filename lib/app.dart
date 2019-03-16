@@ -2,6 +2,7 @@
 import 'package:cat/cats/cats.dart';
 import 'package:flutter/material.dart';
 import 'package:cat/router/cat_route.dart';
+import 'package:cat/common/services/login.dart';
 
 // pages
 import 'package:cat/pages/phone/sign_up.dart';
@@ -28,8 +29,16 @@ class CatApp extends StatelessWidget {
         textSelectionColor: CatColors.globalTintColor,
         cursorColor: CatColors.globalTintColor,
       ),
-      title: "SIGNUP",
-      home: Welcome(),
+      title: "注册",
+      home: FutureBuilder(
+          future: LoginService.isLogin(),
+          builder: (context, snapshot) {
+            if (snapshot.data) {
+              return Statistics();
+            } else {
+              return Welcome();
+            }
+          }),
       // 设置路由
       routes: <String, WidgetBuilder>{
         WELCOME_ROUTE: (BuildContext context) => Welcome(),
@@ -49,9 +58,5 @@ class CatApp extends StatelessWidget {
         const Locale('zh'),
       ],
     );
-  }
-
-  home() {
-    
   }
 }

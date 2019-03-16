@@ -39,7 +39,7 @@ class _StatisticsState extends State<Statistics> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: GradientAppBar(
-            title: Text("Statistics"),
+            title: Text("统计"),
             leading: Icon(Icons.menu),
             actions: <Widget>[
               new IconButton(
@@ -139,9 +139,9 @@ class _ChartTableState extends State<ChartTable> {
                 width: 69.0,
                 height: 25.0,
                 child: CatBaseButton(
-                  "SELECT",
-                  onPressed: () =>
-                      Navigator.of(context).pushNamed(SElECT_SUBJECT_ROUTE),
+                  "选择",
+                  onPressed: () => Navigator.of(context, rootNavigator: true)
+                      .pushNamed(SElECT_SUBJECT_ROUTE),
                 ),
               ),
             ],
@@ -334,8 +334,8 @@ class _ChartItemState extends State<ChartItem> {
           height: 25.0,
           child: CatBaseButton(
             widget.buttonText,
-            onPressed: () =>
-                Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+            onPressed: () => Navigator.of(context, rootNavigator: true)
+                    .push(MaterialPageRoute(builder: (_) {
                   return Answer(
                     user: widget.user,
                   );
@@ -409,7 +409,7 @@ class _BottomActionSheetState extends State<BottomActionSheet> {
   onPressed(ActionSheetType type) {
     print("type $type");
     if (type == ActionSheetType.sendFeedback) {
-      Navigator.of(context).pushNamed(FEEDBACK_ROUTE);
+      Navigator.of(context, rootNavigator: true).pushNamed(FEEDBACK_ROUTE);
     }
     if (type == ActionSheetType.logout) {
       showDialog(
@@ -451,32 +451,32 @@ class _BottomActionSheetState extends State<BottomActionSheet> {
           SizedBox(height: 8.0),
           ActionSheetItem(
             url: "images/action_notification.png",
-            text: "Notification",
+            text: "通知",
             onPressed: onPressed,
             type: ActionSheetType.notification,
             style: ActionSheetStyle.switchStyle,
           ),
           ActionSheetItem(
             url: "images/action_account.png",
-            text: "Account",
+            text: "账户",
             onPressed: onPressed,
             type: ActionSheetType.account,
           ),
           ActionSheetItem(
             url: "images/action_update.png",
-            text: "Update",
+            text: "更新",
             onPressed: onPressed,
             type: ActionSheetType.update,
           ),
           ActionSheetItem(
             url: "images/action_send_feedback.png",
-            text: "Send Feedback",
+            text: "反馈",
             onPressed: onPressed,
             type: ActionSheetType.sendFeedback,
           ),
           ActionSheetItem(
             url: "images/action_logout.png",
-            text: "Logout",
+            text: "退出登录",
             onPressed: onPressed,
             type: ActionSheetType.logout,
           ),

@@ -17,6 +17,8 @@ class SignUp extends StatelessWidget {
     }
   }
 
+  
+
   @override
   Widget build(BuildContext context) {
     final double bgHeight = MediaQuery.of(context).size.height * (11.0 / 26.8);
@@ -26,7 +28,7 @@ class SignUp extends StatelessWidget {
         title: Text("SIGNUP"));
 
     final double menuWidth = MediaQuery.of(context).size.width - 48.0;
-    final double menuHeight = 220.0;
+    final double menuHeight = 230.0;
 
     /// 菜单栏位置 = 顶部视图背景高度 - AppBar高度 - 菜单栏高度的二分之一 - StatusBar高度
     final double menuMarginTop =

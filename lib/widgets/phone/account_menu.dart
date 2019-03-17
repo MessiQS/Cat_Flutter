@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cat/cats/cats.dart';
 import 'package:cat/common/services/sign_up.dart';
+import 'dart:ui';
+import 'dart:async';
 
 class AccountMenuStatefulWidget extends StatefulWidget {
   AccountMenuStatefulWidget({Key key, this.phone, this.password})
@@ -21,6 +23,27 @@ class _AccountMenuStatefulWidget extends State<AccountMenuStatefulWidget> {
 
   // captcha 验证码
   String captchaButtonText;
+  Timer _timer;
+  int _start = 60;
+
+  void startTimer() {
+    const oneSec = const Duration(seconds: 1);
+    _timer = new Timer.periodic(
+        oneSec,
+        (Timer timer) => setState(() {
+              if (_start < 1) {
+                timer.cancel();
+              } else {
+                _start = _start - 1;
+              }
+            }));
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
 
   captchaButtonOnPress() async {
     String phone = phoneTEC.text;
@@ -29,22 +52,37 @@ class _AccountMenuStatefulWidget extends State<AccountMenuStatefulWidget> {
     }
     print("captchaButtonOnPress " + phone);
     GetCaptchaResponse response = await SignUpService.getCaptcha(phone);
+    print(response);
+
     if (response.type == true) {
       setState(() {});
     } else {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text('注册失败'),
-            content: Text(response.data),
-          );
-        },
-      );
+      showAlert(response.data);
     }
   }
 
-  showAlert() {}
+  String numberValidator(String value) {
+    if (value == null) {
+      return null;
+    }
+    final n = num.tryParse(value);
+    if (n == null) {
+      return '"$value" 不是个有效数字';
+    }
+    return null;
+  }
+
+  showAlert(String content) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('注册失败'),
+          content: Text(content),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,6 +119,7 @@ class _AccountMenuStatefulWidget extends State<AccountMenuStatefulWidget> {
                   ),
                   keyboardType: TextInputType.phone,
                   cursorColor: CatColors.textFieldCursorColor,
+                  maxLength: 11,
                 ),
 
                 /// Captcha
@@ -113,15 +152,7 @@ class _AccountMenuStatefulWidget extends State<AccountMenuStatefulWidget> {
                       cursorColor: CatColors.textFieldCursorColor,
                     ),
                     Container(
-                        width: 69.0,
-                        height: 24.0,
-                        child: CatBaseButton("获取验证码",
-                            textStyle: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.normal,
-                              fontSize: 12.0,
-                            ),
-                            onPressed: this.captchaButtonOnPress)),
+                        width: 69.0, height: 24.0, child: getCaptchaButton()),
                   ],
                 ),
 
@@ -154,5 +185,21 @@ class _AccountMenuStatefulWidget extends State<AccountMenuStatefulWidget> {
                 ),
               ],
             )));
+  }
+
+  getCaptchaButton() {
+    if (_timer != null && _timer.isActive) {
+      return Container(
+        child: Text("_start"),
+      );
+    } else {
+      return CatBaseButton("获取验证码",
+          textStyle: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.normal,
+            fontSize: 12.0,
+          ),
+          onPressed: this.captchaButtonOnPress);
+    }
   }
 }

@@ -38,6 +38,7 @@ class SignUpService {
     print(url);
     final response =
         await HttpManager.request(Method.Post, url, params: params);
+    print("getCaptcha response $response ");
     if (response.statusCode == 200) {
       // If the call to the server was successful, parse the JSON
       return GetCaptchaResponse.fromJson(json.decode(response.body));

@@ -33,7 +33,7 @@ class CatApp extends StatelessWidget {
       home: FutureBuilder(
           future: LoginService.isLogin(),
           builder: (context, snapshot) {
-            if (snapshot.data) {
+            if (snapshot.hasData && snapshot.data) {
               return Statistics();
             } else {
               return Welcome();

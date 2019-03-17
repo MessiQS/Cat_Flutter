@@ -81,7 +81,7 @@ class BeginStudy extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Text(
-          "You haven’t choose\nanything yet",
+          "您还没有选择任何试题",
           style: TextStyle(fontSize: 20.0),
           textAlign: TextAlign.center,
         ),
@@ -90,7 +90,7 @@ class BeginStudy extends StatelessWidget {
           width: 170.0,
           height: 36.0,
           child: CatBaseButton(
-            "Begin Study",
+            "开始学习",
             onPressed: () =>
                 Navigator.of(context).pushNamed(SElECT_SUBJECT_ROUTE),
           ),
@@ -417,8 +417,8 @@ class _BottomActionSheetState extends State<BottomActionSheet> {
         builder: (BuildContext context) {
           // return object of type Dialog
           return AlertDialog(
-            title: new Text("Alert Dialog title"),
-            content: new Text("Alert Dialog body"),
+            title: new Text("退出登录"),
+            content: new Text("请确认退出登录"),
             actions: <Widget>[
               // usually buttons at the bottom of the dialog
               new FlatButton(
@@ -445,29 +445,29 @@ class _BottomActionSheetState extends State<BottomActionSheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 292,
+      height: 120,
       child: (Column(
         children: <Widget>[
           SizedBox(height: 8.0),
-          ActionSheetItem(
-            url: "images/action_notification.png",
-            text: "通知",
-            onPressed: onPressed,
-            type: ActionSheetType.notification,
-            style: ActionSheetStyle.switchStyle,
-          ),
-          ActionSheetItem(
-            url: "images/action_account.png",
-            text: "账户",
-            onPressed: onPressed,
-            type: ActionSheetType.account,
-          ),
-          ActionSheetItem(
-            url: "images/action_update.png",
-            text: "更新",
-            onPressed: onPressed,
-            type: ActionSheetType.update,
-          ),
+          // ActionSheetItem(
+          //   url: "images/action_notification.png",
+          //   text: "通知",
+          //   onPressed: onPressed,
+          //   type: ActionSheetType.notification,
+          //   style: ActionSheetStyle.switchStyle,
+          // ),
+          // ActionSheetItem(
+          //   url: "images/action_account.png",
+          //   text: "账户",
+          //   onPressed: onPressed,
+          //   type: ActionSheetType.account,
+          // ),
+          // ActionSheetItem(
+          //   url: "images/action_update.png",
+          //   text: "更新",
+          //   onPressed: onPressed,
+          //   type: ActionSheetType.update,
+          // ),
           ActionSheetItem(
             url: "images/action_send_feedback.png",
             text: "反馈",

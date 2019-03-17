@@ -20,7 +20,7 @@ class HttpManager {
     User user = await userProvider.getUser();
     print("user $user");
 
-    if (user.userID != null) {
+    if (user != null && user.userID != null) {
       params["user_id"] = user.userID;
     }
 
@@ -29,17 +29,18 @@ class HttpManager {
       'meta': configureMetaWithMeta()
     };
 
-    if (user.token != null) {
+    if (user != null && user.token != null) {
       headers["Authorization"] = user.token;
     }
 
-    headers["Authorization"] = "920603cb89871e19a7684dc757dade7c";
-    params["user_id"] = "SS00000001";
-    print("--------------------");
-    print("url: \n" + url);
-    print("method: \n" + method.index.toString());
-    print("headers: \n" + headers.toString());
-    print("params: \n" + params.toString());
+    // headers["Authorization"] = "920603cb89871e19a7684dc757dade7c";
+    // params["user_id"] = "SS00000001";
+    print('''
+        url:      $url
+        method:   ${HttpManager.methodWithName(method)}
+        headers:  ${headers.toString()}
+        params:   ${params.toString()}
+    ''');
 
     /// Post
     if (method == Method.Post) {
@@ -117,5 +118,20 @@ class HttpManager {
     };
 
     return meta.toString();
+  }
+
+  static methodWithName(Method method) {
+    if (method == Method.Post) {
+      return "Post 请求";
+    }
+    if (method == Method.Get) {
+      return "Post 请求";
+    }
+    if (method == Method.Put) {
+      return "Put 请求";
+    }
+    if (method == Method.Delete) {
+      return "Delete 请求";
+    }
   }
 }

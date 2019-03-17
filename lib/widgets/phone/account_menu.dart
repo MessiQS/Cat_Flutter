@@ -27,6 +27,7 @@ class _AccountMenuStatefulWidget extends State<AccountMenuStatefulWidget> {
   int _start = 60;
 
   void startTimer() {
+    _start = 60;
     const oneSec = const Duration(seconds: 1);
     _timer = new Timer.periodic(
         oneSec,
@@ -50,11 +51,11 @@ class _AccountMenuStatefulWidget extends State<AccountMenuStatefulWidget> {
     if (phone.length < 11) {
       return;
     }
-    print("captchaButtonOnPress " + phone);
     GetCaptchaResponse response = await SignUpService.getCaptcha(phone);
-    print(response);
+    print(response.data);
 
     if (response.type == true) {
+      startTimer();
       setState(() {});
     } else {
       showAlert(response.data);
@@ -182,6 +183,7 @@ class _AccountMenuStatefulWidget extends State<AccountMenuStatefulWidget> {
                   keyboardType: TextInputType.text,
                   obscureText: true,
                   cursorColor: CatColors.textFieldCursorColor,
+                  maxLength: 32,
                 ),
               ],
             )));
@@ -189,9 +191,20 @@ class _AccountMenuStatefulWidget extends State<AccountMenuStatefulWidget> {
 
   getCaptchaButton() {
     if (_timer != null && _timer.isActive) {
-      return Container(
-        child: Text("_start"),
-      );
+      return Material(
+          color: Colors.grey,
+          elevation: 5.0,
+          borderRadius: new BorderRadius.all(new Radius.circular(5.0)),
+          child: Center(
+            child: Text(
+              "$_start",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 14.0,
+              ),
+            ),
+          ));
     } else {
       return CatBaseButton("获取验证码",
           textStyle: TextStyle(

@@ -135,6 +135,9 @@ class UserProvider extends BaseDBProvider {
       return new User.fromMap(maps.first);
     }
 
-    return null;
+    /// 如果账户为空，生成一个
+    User user = new User();
+    user = await insert(user);
+    return user;
   }
 }

@@ -7,17 +7,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8935f2dd-26c4-4cde-ad5c-bb2fe2d05f7c" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/app.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/common/config/config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common/config/config.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/common/db/provider/user.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common/db/provider/user.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/common/net/api.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common/net/api.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/common/services/login.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common/services/login.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/common/services/sign_up.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common/services/sign_up.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/pages/phone/login.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/phone/login.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/select_subject_third.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/select_subject_third.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/statistics.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/statistics.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/welcome.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/welcome.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/phone/sign_up.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/phone/sign_up.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/widgets/phone/account_menu.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/widgets/phone/account_menu.dart" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -80,8 +74,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/lib/common/services/login.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="62" column="53" selection-start-line="62" selection-start-column="53" selection-end-line="62" selection-end-column="53" />
+            <state relative-caret-position="361">
+              <caret line="61" column="53" selection-start-line="61" selection-start-column="53" selection-end-line="61" selection-end-column="53" />
             </state>
           </provider>
         </entry>
@@ -389,6 +383,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1874106" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -705,8 +700,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/common/services/login.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="62" column="53" selection-start-line="62" selection-start-column="53" selection-end-line="62" selection-end-column="53" />
+        <state relative-caret-position="361">
+          <caret line="61" column="53" selection-start-line="61" selection-start-column="53" selection-end-line="61" selection-end-column="53" />
         </state>
       </provider>
     </entry>

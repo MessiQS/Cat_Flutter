@@ -24,11 +24,10 @@ class _LoginState extends State<Login> {
   }
 
   loginButtonOnPress() async {
-    /// 弹窗加载中
-    showDialog(context: context, builder: (context) => LoaderWidget());
-
     LoginResponse response = await LoginService.login(phone, password);
     if (response.type == true) {
+      showDialog(context: context, builder: (context) => LoaderWidget());
+
       String token = response.data["token"];
       String userID = response.data["user_id"];
 
@@ -38,11 +37,11 @@ class _LoginState extends State<Login> {
       /// 取消弹窗
       Navigator.of(context).pop();
 
+      /// 返回至统计页面
       Navigator.of(context).pushNamedAndRemoveUntil(
           STATISTICS_ROUTE, (Route<dynamic> route) => false);
     } else {
       /// 取消弹窗
-      Navigator.of(context).pop();
       showDialog(
         context: context,
         builder: (context) {

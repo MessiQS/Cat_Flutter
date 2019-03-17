@@ -4,31 +4,66 @@ import 'package:cat/cats/cats.dart';
 import 'package:cat/widgets/phone/account_menu.dart';
 import 'package:cat/router/cat_route.dart';
 import 'package:cat/common/services/sign_up.dart';
-import 'package:cat/widgets/Loading.dart';
+import 'package:cat/common/dao/user.dart';
+import 'package:cat/common/services/login.dart';
 
 ///
-/// 登录页面
+/// 注册页面
 ///
 class SignUp extends StatelessWidget {
-  signUp() async {
-    SignUpResponse signUpResponse = await SignUpService.signUp();
-    if (signUpResponse.type == true) {
-      print("sign up " + signUpResponse.data);
+  signUp(BuildContext context) async {
+    /// 注册
+    SignUpResponse response = await SignUpService.signUp();
+    if (response.type == false) {
+      /// 取消弹窗
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('注册失败'),
+            content: Text(response.data),
+          );
+        },
+      );
+      return;
     }
-  }
 
-  
+    /// 登录
+    LoginResponse loginResponse =
+        await LoginService.login(SignUpService.phone, SignUpService.password);
+
+    if (loginResponse.type == false) {
+      /// 取消弹窗
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('登录失败'),
+            content: Text(response.data),
+          );
+        },
+      );
+      return;
+    }
+
+    String token = loginResponse.data["token"];
+    String userID = loginResponse.data["user_id"];
+
+    await UserDao.saveUserToDB(userID, token);
+
+    /// 返回至统计页面
+    Navigator.of(context).pushNamedAndRemoveUntil(
+        STATISTICS_ROUTE, (Route<dynamic> route) => false);
+  }
 
   @override
   Widget build(BuildContext context) {
     final double bgHeight = MediaQuery.of(context).size.height * (11.0 / 26.8);
     AppBar appBar = AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: .0,
-        title: Text("SIGNUP"));
+        backgroundColor: Colors.transparent, elevation: .0, title: Text("注册"));
 
     final double menuWidth = MediaQuery.of(context).size.width - 48.0;
-    final double menuHeight = 230.0;
+    final double menuHeight = 250.0;
 
     /// 菜单栏位置 = 顶部视图背景高度 - AppBar高度 - 菜单栏高度的二分之一 - StatusBar高度
     final double menuMarginTop =
@@ -39,7 +74,6 @@ class SignUp extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: <Widget>[
-
           /// 背景图片
           Container(
             width: MediaQuery.of(context).size.width,
@@ -62,7 +96,7 @@ class SignUp extends StatelessWidget {
               Container(
                   margin: EdgeInsets.all(24.0),
                   height: 50.0,
-                  child: CatBaseButton("注册", onPressed: this.signUp)),
+                  child: CatBaseButton("注册", onPressed: () => signUp(context))),
               // "Allready have an account? Login"
               Container(
                   child: new RichText(

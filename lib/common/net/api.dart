@@ -18,7 +18,6 @@ class HttpManager {
     /// 加载User
     UserProvider userProvider = new UserProvider();
     User user = await userProvider.getUser();
-    print("user $user");
 
     if (user != null && user.userID != null) {
       params["user_id"] = user.userID;
@@ -33,8 +32,6 @@ class HttpManager {
       headers["Authorization"] = user.token;
     }
 
-    // headers["Authorization"] = "920603cb89871e19a7684dc757dade7c";
-    // params["user_id"] = "SS00000001";
     print('''
         url:      $url
         method:   ${HttpManager.methodWithName(method)}

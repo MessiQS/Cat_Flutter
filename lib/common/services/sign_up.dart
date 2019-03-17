@@ -35,10 +35,8 @@ class SignUpService {
   static getCaptcha(String phone) async {
     String url = Address.getCaptcha();
     Map<String, String> params = {"account": phone};
-    print(url);
     final response =
         await HttpManager.request(Method.Post, url, params: params);
-    print("getCaptcha response $response ");
     if (response.statusCode == 200) {
       // If the call to the server was successful, parse the JSON
       return GetCaptchaResponse.fromJson(json.decode(response.body));

@@ -184,6 +184,8 @@ class _AccountMenuStatefulWidget extends State<AccountMenuStatefulWidget> {
                   obscureText: true,
                   cursorColor: CatColors.textFieldCursorColor,
                   maxLength: 32,
+                  onSubmitted: (term) {
+                  },
                 ),
               ],
             )));

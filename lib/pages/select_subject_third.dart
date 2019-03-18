@@ -5,7 +5,7 @@ import 'package:cat/common//db/db.dart';
 import 'package:cat/models/question.dart';
 import 'package:cat/router/cat_route.dart';
 import 'package:cat/widgets/loading.dart';
-
+import 'package:cat/pages/statistics.dart';
 import 'package:cat/common/services/select_subject.dart';
 
 class SelectSubjectThird extends StatefulWidget {
@@ -25,7 +25,10 @@ class _SelectSubjectThirdState extends State<SelectSubjectThird> {
   }
 
   selectExamClick(String examID, String title) async {
-    showDialog(context: context, builder: (context) => LoaderWidget());
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => LoaderWidget());
 
     QuestionProvider provider = new QuestionProvider();
 
@@ -53,7 +56,10 @@ class _SelectSubjectThirdState extends State<SelectSubjectThird> {
 
     /// 返回最上级页
     Navigator.of(context).pop();
-    Navigator.pushReplacementNamed(context, STATISTICS_ROUTE);
+
+    Navigator.of(context).pushAndRemoveUntil(
+        new MaterialPageRoute(builder: (context) => new Statistics()),
+        (route) => route == null);
   }
 
   @override

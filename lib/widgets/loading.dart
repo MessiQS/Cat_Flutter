@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 class LoaderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Stack(
+    return Scaffold(
+      body: Stack(
         children: <Widget>[
           Container(
             width: MediaQuery.of(context).size.width,

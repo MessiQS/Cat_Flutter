@@ -198,8 +198,6 @@ class StatisticsService {
     }
   }
 
-  static today(String examID) async {}
-
   static todayPraticeCount(String examID) async {
     RecordProvider recordProvider = RecordProvider();
 
@@ -227,7 +225,7 @@ class StatisticsService {
     RecordProvider recordProvider = RecordProvider();
     List<Record> list =
         await recordProvider.getRecordsOrderBy(examID, RC.columnQuestionId);
-
+    print("object ${list.toString()}");
     /// 重置首条记录
     Record currentRecord;
     if (list.length > 0) {
@@ -241,7 +239,8 @@ class StatisticsService {
       if (currentRecord.questionId == record.questionId) {
         sortedList.add(record);
       } else {
-        sortList.clear();
+        sortList.add(sortedList);
+        sortedList.clear();
         currentRecord = record;
       }
     }

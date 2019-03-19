@@ -407,7 +407,6 @@ class _BottomActionSheetState extends State<BottomActionSheet> {
   // bool enabledAccount;
 
   onPressed(ActionSheetType type) {
-    print("type $type");
     if (type == ActionSheetType.sendFeedback) {
       Navigator.of(context, rootNavigator: true).pushNamed(FEEDBACK_ROUTE);
     }

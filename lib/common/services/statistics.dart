@@ -225,7 +225,7 @@ class StatisticsService {
     RecordProvider recordProvider = RecordProvider();
     List<Record> list =
         await recordProvider.getRecordsOrderBy(examID, RC.columnQuestionId);
-    print("object ${list.toString()}");
+
     /// 重置首条记录
     Record currentRecord;
     if (list.length > 0) {
@@ -265,10 +265,6 @@ class StatisticsService {
       }
     }
     return count.toString();
-  }
-
-  static isHaveNewQuestion(String examID) async {
-
   }
 }
 

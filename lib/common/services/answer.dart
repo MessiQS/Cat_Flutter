@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'dart:async';
+import 'dart:convert' as JSON;
 
 import 'package:flutter/material.dart';
 import 'package:cat/models/image.dart';
@@ -278,17 +279,62 @@ class AnswerService {
     List<Record> list =
         await provider.getRecordsByQuestionId(question.id.toString());
 
+    int weighting = 7;
+    int weightingTotal = 0;
+    for (Record record in list) {
+      if (record.isCorrect) {
+        weightingTotal = weighting + weightingTotal;
+      } else {
+        weighting = weighting - 1;
+      }
+    }
+
+    /// 最后一次选择时间
+    final lastDateTime = new DateTime.now().millisecondsSinceEpoch;
+
+    /// 判断是否正确
+    var right = "1";
+    var wrong = "0";
+    List<String> answers = question.answer.split(",");
+    for (String item in answers) {
+      if (options.indexOf(item) == -1) {
+        right = "0";
+        wrong = "1";
+      }
+    }
+
+    /// 获取第一次刷题时间
+    var firstDateTime = lastDateTime;
+    if (list != null && list.length != 0) {
+      firstDateTime = list.first.createdTime;
+    }
+
+    /// 记录统计
+    Map<String, dynamic> recordsParams;
+    for (Record record in list) {
+      var isRight = right == "1" ? true : false;
+      var select = options.join(",");
+      recordsParams = {
+        "time": record.createdTime.toString(),
+        "isRight": isRight,
+        "select": select,
+      };
+    }
+
     /// 配置网络数据
     String url = Address.getUpdateInfoCache();
     Map<String, String> params = {
       "paper_id": question.examID,
       "question_id": question.id.toString(),
       "question_number": question.number.toString(),
-      "weighted": "",
-      "lastDateTime": "",
-      "record": "",
-      "firstDateTime": "",
+      "weighted": weighting.toString(),
+      "lastDateTime": lastDateTime.toString(),
+      "record": recordsParams.toString(),
+      "firstDateTime": firstDateTime.toString(),
+      "right": right,
+      "wrong": wrong,
     };
+
     HttpManager.request(Method.Post, url, params: params);
   }
 

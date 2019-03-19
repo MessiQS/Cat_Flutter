@@ -68,15 +68,15 @@ class _AnswerState extends State<Answer> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: GradientAppBar(
-            title: Text(widget.user.currentExamTitle),
-            // actions: <Widget>[
-            //   new IconButton(
-            //     icon: const Icon(Icons.share),
-            //     onPressed: () => shareButtonOnPressed(),
-            //     tooltip: 'Share',
-            //   ),
-            // ]
-            ),
+          title: Text(widget.user.currentExamTitle),
+          // actions: <Widget>[
+          //   new IconButton(
+          //     icon: const Icon(Icons.share),
+          //     onPressed: () => shareButtonOnPressed(),
+          //     tooltip: 'Share',
+          //   ),
+          // ]
+        ),
         floatingActionButton: FloatingActionButton(
           child: Image.asset("images/arrow_right.png"),
           foregroundColor: CatColors.cellSplashColor,
@@ -354,7 +354,7 @@ class _QuestionSolveAreaState extends State<QuestionSolveArea> {
     await AnswerService.saveRecordToDB(widget.question, options);
 
     /// 同步到网络
-    // await AnswerService.saveRecordToWeb(widget.question, options);
+    AnswerService.saveRecordToWeb(widget.question, options);
   }
 
   ///

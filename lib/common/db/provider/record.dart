@@ -220,7 +220,8 @@ class RecordProvider extends BaseDBProvider {
           RC.columnIsCorrect,
         ],
         where: "${RC.columnQuestionId} = ?",
-        whereArgs: [questionId]);
+        whereArgs: [questionId],
+        orderBy: "${RC.columnCreatedTime} ASC");
 
     List<Record> list = List<Record>();
     for (Map<String, dynamic> map in maps) {

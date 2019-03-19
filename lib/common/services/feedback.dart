@@ -27,12 +27,12 @@ class FeedBackService {
     }
   }
 
-  static sendWrongFeedBack(String title, String content, String number) async {
+  static sendWrongFeedBack(String title, int id, int number) async {
     String url = Address.wrongFeedBack();
     Map<String, String> params = {
       "title": title,
-      "id": content,
-      "question_number": number
+      "id": id.toString(),
+      "question_number": number.toString()
     };
 
     final response =

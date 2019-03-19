@@ -19,7 +19,7 @@ class HttpManager {
     UserProvider userProvider = new UserProvider();
     User user = await userProvider.getUser();
 
-    if (user != null && user.userID != null) {
+    if (user != null && user.userID != "") {
       params["user_id"] = user.userID;
     }
 
@@ -28,7 +28,7 @@ class HttpManager {
       'meta': configureMetaWithMeta()
     };
 
-    if (user != null && user.token != null) {
+    if (user != null && user.token != "") {
       headers["Authorization"] = user.token;
     }
 

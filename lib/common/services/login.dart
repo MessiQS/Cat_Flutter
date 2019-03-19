@@ -22,7 +22,7 @@ class LoginService {
     UserProvider userProvider = new UserProvider();
 
     User user = await userProvider.getUser();
-    if (user != null && user.userID != null) {
+    if (user != null && user.userID != "") {
       return true;
     } else {
       return false;

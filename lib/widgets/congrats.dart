@@ -20,7 +20,7 @@ class Congrats extends StatelessWidget {
             margin: EdgeInsets.only(top: 300.0),
             child: FlatButton(
               child: const Text(
-                'Go Back',
+                '返回',
                 style: TextStyle(fontSize: 14.0, color: Color(0xFFFF7B46)),
               ),
               onPressed: this.goBack,

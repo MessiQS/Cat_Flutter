@@ -3,9 +3,9 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/material.dart';
 import 'package:cat/cats/cats.dart';
 import 'package:cat/common/db/db.dart';
-import 'package:cat/common/services/answer.dart';
 import 'package:cat/models/image.dart';
 import 'package:cat/widgets/congrats.dart';
+import 'package:cat/common/services/services.dart';
 import 'dart:core';
 
 ///
@@ -68,13 +68,14 @@ class _AnswerState extends State<Answer> {
     return Scaffold(
         appBar: GradientAppBar(
             title: Text(widget.user.currentExamTitle),
-            actions: <Widget>[
-              new IconButton(
-                icon: const Icon(Icons.share),
-                onPressed: () => shareButtonOnPressed(),
-                tooltip: 'Share',
-              ),
-            ]),
+            // actions: <Widget>[
+            //   new IconButton(
+            //     icon: const Icon(Icons.share),
+            //     onPressed: () => shareButtonOnPressed(),
+            //     tooltip: 'Share',
+            //   ),
+            // ]
+            ),
         floatingActionButton: FloatingActionButton(
           child: Image.asset("images/arrow_right.png"),
           foregroundColor: CatColors.cellSplashColor,
@@ -498,7 +499,7 @@ class AnswerSection extends StatelessWidget {
             color: Color(0xFF0082D5),
             onPressed: this.onPressed,
             child: Text(
-              "ENTER",
+              "确 定",
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 12.0,
@@ -693,17 +694,20 @@ class _FeedbackItemState extends State<FeedbackItem> {
               /// 请确认该题是否内容有误
               /// 确定 取消
               child: AlertDialog(
-                  content: Text("Please make sure content is incorrect.",
-                      style: dialogTextStyle),
+                  content: Text("确认反馈错题", style: dialogTextStyle),
                   actions: <Widget>[
                     FlatButton(
-                        child: const Text('DECLINE'),
+                        child: const Text('取消'),
                         onPressed: () {
                           Navigator.pop(context, DialogAction.cancel);
                         }),
                     FlatButton(
-                        child: const Text('SEND'),
+                        child: const Text('确认'),
                         onPressed: () {
+                          FeedBackService.sendWrongFeedBack(
+                              widget.question.title,
+                              widget.question.id,
+                              widget.question.number);
                           Navigator.pop(context, DialogAction.discard);
                         })
                   ]));

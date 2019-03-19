@@ -266,6 +266,10 @@ class StatisticsService {
     }
     return count.toString();
   }
+
+  static isHaveNewQuestion(String examID) async {
+
+  }
 }
 
 /// 记忆统计

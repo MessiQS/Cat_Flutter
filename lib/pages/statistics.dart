@@ -288,9 +288,51 @@ class ChartItem extends StatefulWidget {
 }
 
 class _ChartItemState extends State<ChartItem> {
+  var todayPracticeCount;
+  var reviewCount;
+
   @override
   void initState() {
     super.initState();
+  }
+
+  learnButtonClick() {
+    if (widget.type == WeekdayType.Before) {
+      if (todayPracticeCount == "0") {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text('已经刷完了'),
+              content: Text('没有试题可刷了'),
+            );
+          },
+        );
+        return;
+      }
+    }
+
+    if (widget.type == WeekdayType.After) {
+      if (reviewCount == "0") {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text('已经刷完了'),
+              content: Text('没有试题可刷了'),
+            );
+          },
+        );
+        return;
+      }
+    }
+
+    Navigator.of(context, rootNavigator: true)
+        .push(MaterialPageRoute(builder: (_) {
+      return Answer(
+        user: widget.user,
+      );
+    }));
   }
 
   @override
@@ -308,6 +350,18 @@ class _ChartItemState extends State<ChartItem> {
                   future: StatisticsService.getPraticeCount(
                       widget.user.currentExamID, widget.type),
                   builder: (context, snapshot) {
+                    if (snapshot.hasData == false) {
+                      return null;
+                    }
+
+                    if (widget.type == WeekdayType.Before) {
+                      todayPracticeCount = snapshot.data;
+                    }
+
+                    if (widget.type == WeekdayType.After) {
+                      reviewCount = snapshot.data;
+                    }
+
                     return Text(
                       snapshot.data,
                       textAlign: TextAlign.start,
@@ -334,12 +388,7 @@ class _ChartItemState extends State<ChartItem> {
           height: 25.0,
           child: CatBaseButton(
             widget.buttonText,
-            onPressed: () => Navigator.of(context, rootNavigator: true)
-                    .push(MaterialPageRoute(builder: (_) {
-                  return Answer(
-                    user: widget.user,
-                  );
-                })),
+            onPressed: () => learnButtonClick(),
           ),
         ),
       ],

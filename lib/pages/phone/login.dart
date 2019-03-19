@@ -26,8 +26,7 @@ class _LoginState extends State<Login> {
   loginButtonOnPress() async {
     LoginResponse response = await LoginService.login(phone, password);
     if (response.type == true) {
-      showDialog(context: context, builder: (context) => LoaderWidget());
-
+      Loader.show(context);
       String token = response.data["token"];
       String userID = response.data["user_id"];
 
@@ -35,7 +34,7 @@ class _LoginState extends State<Login> {
       await LoginService.synchronizeNetworkData(userID);
 
       /// 取消弹窗
-      Navigator.of(context).pop();
+      Loader.hide(context);
 
       /// 返回至统计页面
       Navigator.of(context).pushNamedAndRemoveUntil(

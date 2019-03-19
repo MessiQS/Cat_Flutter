@@ -1,5 +1,26 @@
 import 'package:flutter/material.dart';
 
+class Loader {
+  static show(BuildContext context) {
+    showGeneralDialog(
+      context: context,
+      pageBuilder: (BuildContext buildContext, Animation<double> animation,
+          Animation<double> secondaryAnimation) {
+        return LoaderWidget();
+      },
+      barrierDismissible: true,
+      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+      barrierColor: Colors.black,
+      transitionDuration: const Duration(milliseconds: 200),
+    );
+  }
+
+  static hide(BuildContext context) {
+    /// 弹窗消失，还有问题
+    Navigator.of(context).pop();
+  }
+}
+
 class LoaderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

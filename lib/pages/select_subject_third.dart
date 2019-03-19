@@ -24,10 +24,7 @@ class _SelectSubjectThirdState extends State<SelectSubjectThird> {
   }
 
   selectExamClick(String examID, String title) async {
-    showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => LoaderWidget());
+    Loader.show(context);
 
     QuestionProvider provider = new QuestionProvider();
 
@@ -53,8 +50,7 @@ class _SelectSubjectThirdState extends State<SelectSubjectThird> {
 
     userProvider.update(user);
 
-    /// 返回最上级页
-    Navigator.of(context).pop();
+    Loader.hide(context);
 
     Navigator.of(context).pushAndRemoveUntil(
         new MaterialPageRoute(builder: (context) => new Statistics()),

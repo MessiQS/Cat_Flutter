@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/rendering.dart';
 
 import 'package:flutter/material.dart';
@@ -23,9 +24,9 @@ class Answer extends StatefulWidget {
 class _AnswerState extends State<Answer> {
   Future<Question> _loadQuestions;
   Map<String, OptionsState> _optionsStates;
-  bool isSelectedDone = false;
 
   /// 是否确定选择
+  bool isSelectedDone = false;
 
   void initState() {
     super.initState();
@@ -105,11 +106,11 @@ class _AnswerState extends State<Answer> {
                 /// 材料题
                 return ListView(
                   children: <Widget>[
-                    AnswerSection("Material"),
+                    AnswerSection("材料"),
                     ContentArea(
                       content: snapshot.data.material,
                     ),
-                    AnswerSection("Questions"),
+                    AnswerSection("试题"),
                     ContentArea(
                       content: snapshot.data.content,
                     ),
@@ -407,7 +408,7 @@ class _QuestionSolveAreaState extends State<QuestionSolveArea> {
         children: <Widget>[
           /// 选项 Section
           AnswerSection(
-            "Options",
+            "选项",
             hasButton: hasButton,
           ),
 
@@ -428,7 +429,7 @@ class _QuestionSolveAreaState extends State<QuestionSolveArea> {
       children: <Widget>[
         /// 选项 Section
         AnswerSection(
-          "Options",
+          "选项",
           hasButton: hasButton,
         ),
 
@@ -438,13 +439,13 @@ class _QuestionSolveAreaState extends State<QuestionSolveArea> {
         ),
 
         /// 答案分析 Section
-        AnswerSection("Answer Analysis"),
+        AnswerSection("答案分析"),
 
         /// 答案分析
         AnswerAnalysis(question: widget.question),
 
         /// 错题反馈 Section
-        AnswerSection("Content Incorrect?"),
+        AnswerSection("错题反馈?"),
 
         /// 错题反馈
         FeedbackItem(question: widget.question),

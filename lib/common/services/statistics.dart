@@ -214,7 +214,6 @@ class StatisticsService {
         currentQuestionID = record.questionId;
       }
     }
-    print(uniqueList);
 
     QuestionProvider questionProvider = QuestionProvider();
 

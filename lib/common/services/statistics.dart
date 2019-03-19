@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:cat/common/db/db.dart';
 
 enum WeekdayType { Before, After }
@@ -189,13 +190,15 @@ class StatisticsService {
 
   static getPraticeCount(String examID, WeekdayType type) {
     if (type == WeekdayType.Before) {
-      return StatisticsService.futurePracticeCount(examID);
+      return StatisticsService.todayPraticeCount(examID);
     }
 
     if (type == WeekdayType.After) {
-      return StatisticsService.todayPraticeCount(examID);
+      return StatisticsService.futurePracticeCount(examID);
     }
   }
+
+  static today(String examID) async {}
 
   static todayPraticeCount(String examID) async {
     RecordProvider recordProvider = RecordProvider();
@@ -213,7 +216,12 @@ class StatisticsService {
     }
     print(uniqueList);
 
-    return uniqueList.length.toString();
+    QuestionProvider questionProvider = QuestionProvider();
+
+    int questionCount = await questionProvider.getQuestionCount(examID);
+    int count = questionCount - uniqueList.length;
+
+    return count.toString();
   }
 
   static futurePracticeCount(String examID) async {

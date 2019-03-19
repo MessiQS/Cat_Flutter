@@ -288,4 +288,11 @@ class QuestionProvider extends BaseDBProvider {
     }
     return list;
   }
+
+  Future<int> getQuestionCount(String examID) async {
+    Database db = await getDataBase();
+    int count = Sqflite.firstIntValue(await db.rawQuery(
+        'SELECT COUNT(*) FROM "${tableName()}" WHERE examID = "$examID"'));
+    return count;
+  }
 }

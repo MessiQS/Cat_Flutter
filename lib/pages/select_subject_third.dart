@@ -3,7 +3,6 @@ import 'package:cat/cats/cats.dart';
 import 'package:cat/widgets/subject_list_item.dart';
 import 'package:cat/common//db/db.dart';
 import 'package:cat/models/question.dart';
-import 'package:cat/router/cat_route.dart';
 import 'package:cat/widgets/loading.dart';
 import 'package:cat/pages/statistics.dart';
 import 'package:cat/common/services/select_subject.dart';

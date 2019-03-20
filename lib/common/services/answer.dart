@@ -53,7 +53,10 @@ class AnswerService {
 
     /// 获取对应试卷的所有试题
     List<Question> list = await questionProvider.getQuestions(examID);
-    List<Record> recordList = await recordProvider.getRecords(examID);
+
+    List<Record> recordList =
+        await recordProvider.getRecordsOrderBy(examID, RC.columnQuestionId);
+
     List<int> recordQuestionIds = List<int>();
     for (Record record in recordList) {
       /// 如果记录中没有，添加
@@ -64,31 +67,82 @@ class AnswerService {
 
     /// 从未学习过的里面取值
     if (type == AnswerType.neverStudied) {
+      List<Question> filterList = List<Question>();
+
       for (Question question in list) {
-        /// 如果学过，就删除掉
-        if (recordQuestionIds.indexOf(question.id) != -1) {
-          list.remove(question);
+        if (recordQuestionIds.indexOf(question.id) == -1) {
+          filterList.add(question);
         }
+      }
+      if (filterList.isEmpty == false) {
+        Random random = new Random();
+        int number = random.nextInt(list.length - 1);
+        Question question = list[number];
+
+        return question;
       }
     }
 
     /// 从学习过的里面取值
     if (type == AnswerType.studied) {
+      /// 将数组归类
+      Record currentRecord = recordList.first;
+      List<List<Record>> sortList = List<List<Record>>();
+      List<Record> sortedList = List<Record>();
+      for (Record record in recordList) {
+        print('record $record');
+        if (currentRecord.questionId == record.questionId) {
+          print('currentRecord.questionId == record.questionId');
+          sortedList.add(record);
+        } else {
+          sortList.add(sortedList);
+          sortedList.clear();
+          currentRecord = record;
+        }
+      }
+      print("for end");
+      print('''
+-----------  sortList ---------
+$sortList
+''');
+
+      /// 答题的数组
+      List<int> unfinishedList = List<int>();
+
+      /// 查看每组是否满足条件
+      for (List<Record> list in sortList) {
+        int weighting = 7;
+        int weightingTotal = 0;
+        for (Record record in list) {
+          if (record.isCorrect) {
+            weightingTotal = weighting + weightingTotal;
+          } else {
+            weighting = weighting - 1;
+          }
+        }
+
+        /// 未满足的试题
+        if (weightingTotal < 7) {
+          unfinishedList.add(list.first.questionId);
+        }
+      }
+
+      print('''
+--------- unfinishedList ---------
+$unfinishedList
+''');
+
+      Random random = new Random();
+      int number = random.nextInt(unfinishedList.length - 1);
+      int questionID = unfinishedList[number];
+
       for (Question question in list) {
-        /// 如果没学过，就删除掉
-        if (recordQuestionIds.indexOf(question.id) == -1) {
-          list.remove(question);
+        if (question.id == questionID) {
+          return question;
         }
       }
     }
 
-    if (list.isEmpty == false) {
-      Random random = new Random();
-      int number = random.nextInt(list.length - 1);
-      Question question = list[number];
-
-      return question;
-    }
     return null;
   }
 
@@ -252,7 +306,7 @@ class AnswerService {
   }
 
   ///
-  /// 从网络端同步数据
+  /// 从���络端同步数据
   ///
   static saveRecordFromWeb(String examId, int questionId, String options,
       int createTime, bool isCorrect) async {

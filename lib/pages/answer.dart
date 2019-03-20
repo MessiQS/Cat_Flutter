@@ -27,7 +27,6 @@ class _AnswerState extends State<Answer> {
 
   /// 是否确定选择
   bool isSelectedDone = false;
-
   void initState() {
     super.initState();
     _loadQuestions =

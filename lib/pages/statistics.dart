@@ -4,8 +4,7 @@ import 'package:cat/cats/cats.dart';
 import 'package:cat/router/cat_route.dart';
 import 'package:cat/common/db/db.dart';
 import 'package:cat/pages/answer.dart';
-import 'package:cat/common/services/statistics.dart';
-import 'package:cat/common/services/login.dart';
+import 'package:cat/common/services/services.dart';
 
 enum ActionSheetType {
   notification,
@@ -326,11 +325,14 @@ class _ChartItemState extends State<ChartItem> {
         return;
       }
     }
-
+    var type = widget.type == WeekdayType.Before
+        ? AnswerType.neverStudied
+        : AnswerType.studied;
     Navigator.of(context, rootNavigator: true)
         .push(MaterialPageRoute(builder: (_) {
       return Answer(
         user: widget.user,
+        type: type,
       );
     }));
   }

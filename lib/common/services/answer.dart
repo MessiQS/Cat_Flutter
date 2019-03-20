@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'dart:async';
-import 'dart:convert' as JSON;
 
 import 'package:flutter/material.dart';
 import 'package:cat/models/image.dart';
@@ -48,15 +47,32 @@ class AnswerService {
   /// 通过id从数据库中获取随机试题
   ///
   static Future<Question> fetchData(examID, {AnswerType type}) async {
+    /// 从未学习过的里面取值
+    if (type == AnswerType.neverStudied) {
+      Question question = await fetchNeverStudiedData(examID);
+      return question;
+    }
+
+    /// 从学习过的里面取值
+    if (type == AnswerType.studied) {
+      Question question = await fetchHasBeenStudiedData(examID);
+      return question;
+    }
+
+    return null;
+  }
+
+  ///
+  /// 获取新题
+  ///
+  static Future<Question> fetchNeverStudiedData(examID) async {
     QuestionProvider questionProvider = new QuestionProvider();
     RecordProvider recordProvider = new RecordProvider();
 
     /// 获取对应试卷的所有试题
     List<Question> list = await questionProvider.getQuestions(examID);
-
     List<Record> recordList =
         await recordProvider.getRecordsOrderBy(examID, RC.columnQuestionId);
-
     List<int> recordQuestionIds = List<int>();
     for (Record record in recordList) {
       /// 如果记录中没有，添加
@@ -65,81 +81,94 @@ class AnswerService {
       }
     }
 
-    /// 从未学习过的里面取值
-    if (type == AnswerType.neverStudied) {
-      List<Question> filterList = List<Question>();
+    List<Question> filterList = List<Question>();
 
-      for (Question question in list) {
-        if (recordQuestionIds.indexOf(question.id) == -1) {
-          filterList.add(question);
-        }
-      }
-      if (filterList.isEmpty == false) {
-        Random random = new Random();
-        int number = random.nextInt(list.length - 1);
-        Question question = list[number];
-
-        return question;
+    for (Question question in list) {
+      if (recordQuestionIds.indexOf(question.id) == -1) {
+        filterList.add(question);
       }
     }
+    if (filterList.isEmpty == false) {
+      Random random = new Random();
+      int number = random.nextInt(list.length - 1);
+      Question question = list[number];
 
-    /// 从学习过的里面取值
-    if (type == AnswerType.studied) {
-      /// 将数组归类
-      Record currentRecord = recordList.first;
-      List<List<Record>> sortList = List<List<Record>>();
-      List<Record> sortedList = List<Record>();
-      for (Record record in recordList) {
-        print('record $record');
-        if (currentRecord.questionId == record.questionId) {
-          print('currentRecord.questionId == record.questionId');
-          sortedList.add(record);
-        } else {
-          sortList.add(sortedList);
-          sortedList.clear();
-          currentRecord = record;
-        }
+      return question;
+    }
+    return null;
+  }
+
+  ///
+  /// 已经学习过的，复习题
+  ///
+  static Future<Question> fetchHasBeenStudiedData(examID) async {
+    QuestionProvider questionProvider = new QuestionProvider();
+    RecordProvider recordProvider = new RecordProvider();
+
+    /// 获取对应试卷的所有试题
+    List<Question> list = await questionProvider.getQuestions(examID);
+    List<Record> recordList =
+        await recordProvider.getRecordsOrderBy(examID, RC.columnQuestionId);
+
+    /// 将数组归类
+    Record currentRecord = recordList.first;
+    List<List<Record>> sortList = List<List<Record>>();
+    List<Record> sortedList = List<Record>();
+print('''
+------------- recordList  ----------
+$recordList
+''');
+    /// 将答题记录合并
+    for (Record record in recordList) {
+      if (record.questionId != currentRecord.questionId) {
+        currentRecord = record;
+        sortList.add(sortedList);
+        sortedList = List<Record>();
       }
-      print("for end");
-      print('''
------------  sortList ---------
+
+      sortedList.add(record);
+    }
+    sortList.add(sortedList);
+
+    print('''
+--------- sortList ---------
 $sortList
 ''');
 
-      /// 答题的数组
-      List<int> unfinishedList = List<int>();
+    /// 答题的数组
+    List<int> unfinishedList = List<int>();
 
-      /// 查看每组是否满足条件
-      for (List<Record> list in sortList) {
-        int weighting = 7;
-        int weightingTotal = 0;
-        for (Record record in list) {
-          if (record.isCorrect) {
-            weightingTotal = weighting + weightingTotal;
-          } else {
-            weighting = weighting - 1;
-          }
-        }
-
-        /// 未满足的试题
-        if (weightingTotal < 7) {
-          unfinishedList.add(list.first.questionId);
+    /// 查看每组是否满足条件
+    for (List<Record> alist in sortList) {
+      int weighting = 7;
+      int weightingTotal = 0;
+      for (Record record in alist) {
+        if (record.isCorrect) {
+          weightingTotal = weighting + weightingTotal;
+        } else {
+          weighting = weighting - 1;
         }
       }
+      print("weightingTotal $weightingTotal");
 
-      print('''
+      /// 未满足的试题
+      if (weightingTotal < 7) {
+        unfinishedList.add(alist.first.questionId);
+      }
+    }
+
+    print('''
 --------- unfinishedList ---------
 $unfinishedList
 ''');
 
-      Random random = new Random();
-      int number = random.nextInt(unfinishedList.length - 1);
-      int questionID = unfinishedList[number];
+    Random random = new Random();
+    int number = random.nextInt(unfinishedList.length - 1);
+    int questionID = unfinishedList[number];
 
-      for (Question question in list) {
-        if (question.id == questionID) {
-          return question;
-        }
+    for (Question question in list) {
+      if (question.id == questionID) {
+        return question;
       }
     }
 
@@ -306,7 +335,7 @@ $unfinishedList
   }
 
   ///
-  /// 从���络端同步数据
+  /// 从���络��同步数据
   ///
   static saveRecordFromWeb(String examId, int questionId, String options,
       int createTime, bool isCorrect) async {

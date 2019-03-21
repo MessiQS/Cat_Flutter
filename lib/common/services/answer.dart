@@ -6,6 +6,7 @@ import 'package:cat/models/image.dart';
 import 'package:cat/common/db/db.dart';
 import 'package:cat/common/net/net.dart';
 import 'package:cat/common/config/config.dart';
+import 'package:cat/common/utils/random.dart';
 
 enum OptionsState {
   /// 未选择状态
@@ -114,10 +115,11 @@ class AnswerService {
     Record currentRecord = recordList.first;
     List<List<Record>> sortList = List<List<Record>>();
     List<Record> sortedList = List<Record>();
-print('''
+    print('''
 ------------- recordList  ----------
 $recordList
 ''');
+
     /// 将答题记录合并
     for (Record record in recordList) {
       if (record.questionId != currentRecord.questionId) {
@@ -130,11 +132,6 @@ $recordList
     }
     sortList.add(sortedList);
 
-    print('''
---------- sortList ---------
-$sortList
-''');
-
     /// 答题的数组
     List<int> unfinishedList = List<int>();
 
@@ -143,14 +140,12 @@ $sortList
       int weighting = 7;
       int weightingTotal = 0;
       for (Record record in alist) {
-        print(record.isCorrect);
         if (record.isCorrect) {
           weightingTotal = weighting + weightingTotal;
         } else {
           weighting = weighting - 1;
         }
       }
-      // print("weightingTotal $weightingTotal");
 
       /// 未满足的试题
       if (weightingTotal < 7) {
@@ -158,15 +153,11 @@ $sortList
       }
     }
 
-    print('''
---------- unfinishedList ---------
-$unfinishedList
-''');
-
-    Random random = new Random();
-    int number = random.nextInt(unfinishedList.length - 1);
+    int number = 0;
+    if (unfinishedList.length > 1) {
+      number = RandomUtil.next(0, unfinishedList.length - 1);
+    }
     int questionID = unfinishedList[number];
-
     for (Question question in list) {
       if (question.id == questionID) {
         return question;
@@ -308,7 +299,7 @@ $unfinishedList
   }
 
   ///
-  /// 保存答题记录到数据库
+  /// 保存��题记录到数据库
   ///
   static Future<Record> saveRecordToDB(
       Question question, List<String> options) async {
@@ -329,9 +320,7 @@ $unfinishedList
       RC.columnCreatedTime: DateTime.now().millisecondsSinceEpoch,
       RC.columnIsCorrect: isCorrect,
     };
-    print('map $map');
     Record record = Record.fromMap(map);
-    print('save to db \n$record');
     RecordProvider provider = RecordProvider();
     record = await provider.insert(record);
     return record;

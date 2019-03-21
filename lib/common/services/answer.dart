@@ -115,10 +115,6 @@ class AnswerService {
     Record currentRecord = recordList.first;
     List<List<Record>> sortList = List<List<Record>>();
     List<Record> sortedList = List<Record>();
-    print('''
-------------- recordList  ----------
-$recordList
-''');
 
     /// 将答题记录合并
     for (Record record in recordList) {
@@ -299,7 +295,7 @@ $recordList
   }
 
   ///
-  /// 保存��题记录到数据库
+  /// 保存答题记录到数据库
   ///
   static Future<Record> saveRecordToDB(
       Question question, List<String> options) async {
@@ -327,7 +323,7 @@ $recordList
   }
 
   ///
-  /// 从���络��同步数据
+  /// 从网络端同步数据
   ///
   static saveRecordFromWeb(String examId, int questionId, String options,
       int createTime, bool isCorrect) async {

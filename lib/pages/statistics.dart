@@ -353,7 +353,7 @@ class _ChartItemState extends State<ChartItem> {
                       widget.user.currentExamID, widget.type),
                   builder: (context, snapshot) {
                     if (snapshot.hasData == false) {
-                      return null;
+                      return Container();
                     }
 
                     if (widget.type == WeekdayType.Before) {

@@ -63,6 +63,20 @@ class _AnswerState extends State<Answer> {
     });
   }
 
+  showCongratsDialog() {
+    showGeneralDialog(
+      context: context,
+      pageBuilder: (BuildContext buildContext, Animation<double> animation,
+          Animation<double> secondaryAnimation) {
+        return Congrats();
+      },
+      barrierDismissible: true,
+      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+      barrierColor: Colors.black,
+      transitionDuration: const Duration(milliseconds: 200),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -236,7 +250,7 @@ class ContentParagraphs extends StatelessWidget {
 
     /// HTML 富文本，待定
     if (this.type == ParagraphsType.html) {}
-    return null;
+    return Container();
   }
 }
 
@@ -296,7 +310,7 @@ class _QuestionSolveAreaState extends State<QuestionSolveArea> {
   List<String> selectedOptions = List<String>();
 
   ///
-  /// 选择试����
+  /// 选择试题
   /// 区分 [多选] [单选] [模糊]
   ///
   selectOptionOnPressed(String option) {
@@ -321,15 +335,16 @@ class _QuestionSolveAreaState extends State<QuestionSolveArea> {
       return;
     }
 
-    /// 单���
+    /// 单选
     this.confirmSelection([option]);
   }
 
   ///
   /// 点击确认按钮
   ///
-  doneButtonOnPressed(List<String> options) {
-    this.confirmSelection(options);
+  doneButtonOnPressed() {
+    this.confirmSelection(selectedOptions);
+    selectedOptions.clear();
   }
 
   ///
@@ -409,6 +424,7 @@ class _QuestionSolveAreaState extends State<QuestionSolveArea> {
           AnswerSection(
             "选项",
             hasButton: hasButton,
+            onPressed: this.doneButtonOnPressed,
           ),
 
           /// 选项
@@ -497,7 +513,7 @@ class AnswerSection extends StatelessWidget {
           child: RaisedButton(
             padding: EdgeInsets.all(.0),
             color: Color(0xFF0082D5),
-            onPressed: this.onPressed,
+            onPressed: onPressed,
             child: Text(
               "确 定",
               style: TextStyle(

@@ -62,7 +62,7 @@ class Record {
     selectedOption = map[RC.columnSelectedOption] ?? "";
     examId = map[RC.columnExamID] ?? "";
     questionId = map[RC.columnQuestionId] ?? "";
-    isCorrect = map[RC.columnIsCorrect] == 0 ? false : true;
+    isCorrect = map[RC.columnIsCorrect] == 1 ? true : false;
   }
 
   @override

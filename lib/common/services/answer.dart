@@ -143,13 +143,14 @@ $sortList
       int weighting = 7;
       int weightingTotal = 0;
       for (Record record in alist) {
+        print(record.isCorrect);
         if (record.isCorrect) {
           weightingTotal = weighting + weightingTotal;
         } else {
           weighting = weighting - 1;
         }
       }
-      print("weightingTotal $weightingTotal");
+      // print("weightingTotal $weightingTotal");
 
       /// 未满足的试题
       if (weightingTotal < 7) {
@@ -328,7 +329,9 @@ $unfinishedList
       RC.columnCreatedTime: DateTime.now().millisecondsSinceEpoch,
       RC.columnIsCorrect: isCorrect,
     };
+    print('map $map');
     Record record = Record.fromMap(map);
+    print('save to db \n$record');
     RecordProvider provider = RecordProvider();
     record = await provider.insert(record);
     return record;

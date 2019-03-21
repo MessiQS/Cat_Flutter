@@ -343,6 +343,7 @@ class _QuestionSolveAreaState extends State<QuestionSolveArea> {
   /// 点击确认按钮
   ///
   doneButtonOnPressed() {
+    if (selectedOptions.isEmpty) return;
     this.confirmSelection(selectedOptions);
     selectedOptions.clear();
   }
@@ -594,7 +595,7 @@ class _AnswerOptionItemState extends State<AnswerOptionItem> {
   }
 
   ///
-  /// 选项文字图片部分
+  /// 选项中的图片部分
   ///
   Widget optionBuild(BuildContext context) {
     return Flexible(

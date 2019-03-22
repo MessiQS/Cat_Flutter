@@ -28,11 +28,6 @@ class _FeedbackPageState extends State<FeedbackPage> {
       ''');
     }
 
-    print('''
-    emailTEC:    ${emailTEC.text}
-    feedbackTEC: ${feedbackTEC.text}
-    ''');
-
     FeedBackService.sendFeedBack(emailTEC.text, feedbackTEC.text);
   }
 
@@ -48,11 +43,11 @@ class _FeedbackPageState extends State<FeedbackPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: GradientAppBar(title: Text("Send Feedback"), actions: <Widget>[
+      appBar: GradientAppBar(title: Text("问题反馈"), actions: <Widget>[
         new IconButton(
           icon: const Icon(Icons.send),
           onPressed: sendFeedbackOnPressed,
-          tooltip: 'send',
+          tooltip: '发送',
         ),
       ]),
       body: Form(
@@ -63,13 +58,13 @@ class _FeedbackPageState extends State<FeedbackPage> {
             TextFormField(
               controller: feedbackTEC,
               validator: (value) =>
-                  value.length < 10 ? 'Not a valid desc.' : null,
+                  value.length < 10 ? '至少十个字符长度的描述' : null,
               onSaved: (val) => _desc = val,
               decoration: const InputDecoration(
-                hintText: 'Tell us about content incorrect',
+                hintText: '反馈内容',
                 hintStyle: const TextStyle(
                     color: CatColors.textFieldPlaceHolderColor, fontSize: 14.0),
-                labelText: 'Describe Feedback',
+                labelText: '反馈信息',
                 labelStyle:
                     const TextStyle(color: CatColors.textFieldLabelColor),
                 focusedBorder: const UnderlineInputBorder(
@@ -91,10 +86,10 @@ class _FeedbackPageState extends State<FeedbackPage> {
             TextFormField(
               controller: emailTEC,
               validator: (value) =>
-                  isEmail(value) == false ? 'Not a valid email.' : null,
+                  isEmail(value) == false ? '不是一个有效的邮箱。' : null,
               onSaved: (val) => _email = val,
               decoration: const InputDecoration(
-                hintText: 'Your email address',
+                hintText: '邮箱地址',
                 hintStyle: const TextStyle(
                     color: CatColors.textFieldPlaceHolderColor, fontSize: 14.0),
                 labelText: 'E-mail',

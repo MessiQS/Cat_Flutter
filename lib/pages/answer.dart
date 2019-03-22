@@ -61,6 +61,12 @@ class _AnswerState extends State<Answer> {
     setState(() {
       isSelectedDone = true;
     });
+    AnswerService.fetchData(widget.user.currentExamID, type: widget.type)
+        .then((question) {
+      if (question == null) {
+        showCongratsDialog();
+      }
+    });
   }
 
   showCongratsDialog() {
@@ -68,13 +74,20 @@ class _AnswerState extends State<Answer> {
       context: context,
       pageBuilder: (BuildContext buildContext, Animation<double> animation,
           Animation<double> secondaryAnimation) {
-        return Congrats();
+        return Congrats(
+          goBack: congratsGoBackClick,
+        );
       },
       barrierDismissible: true,
       barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
       barrierColor: Colors.black,
       transitionDuration: const Duration(milliseconds: 200),
     );
+  }
+
+  congratsGoBackClick() {
+    Navigator.of(context).pop();
+    Navigator.of(context).pop();
   }
 
   @override

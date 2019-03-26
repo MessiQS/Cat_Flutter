@@ -25,6 +25,7 @@ class CatApp extends StatelessWidget {
   Widget build(BuildContext context) {
     this.context = context;
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         textSelectionColor: CatColors.globalTintColor,
         cursorColor: CatColors.globalTintColor,
